@@ -8,6 +8,16 @@ interface HeroSectionProps {
   endDate: string | null
 }
 
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+}
+
 export default function HeroSection({ campaignActive, endDate }: HeroSectionProps) {
   const scrollToGrid = () => {
     const el = document.getElementById('influencer-grid')
@@ -41,14 +51,34 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         </svg>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center text-center px-4 py-16 max-w-4xl mx-auto">
+      {/* Floating background circles */}
+      <motion.div
+        className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-white pointer-events-none"
+        style={{ opacity: 0.06 }}
+        animate={{ y: [0, -15, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-white pointer-events-none"
+        style={{ opacity: 0.04 }}
+        animate={{ y: [0, 15, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      />
+      <motion.div
+        className="absolute top-1/2 right-8 w-32 h-32 rounded-full bg-white pointer-events-none"
+        style={{ opacity: 0.05 }}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+      />
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 flex flex-col items-center text-center px-4 py-16 max-w-4xl mx-auto"
+      >
         {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
+        <motion.div variants={item} className="mb-8">
           <Image
             src="/weleda-logo-white.svg"
             alt="WELEDA"
@@ -60,12 +90,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         </motion.div>
 
         {/* Gold Badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6"
-        >
+        <motion.div variants={item} className="mb-6">
           <span
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
             style={{ background: 'rgba(212,168,83,0.15)', border: '1px solid #D4A853', color: '#D4A853' }}
@@ -78,9 +103,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
         {/* Main Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          variants={item}
           className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-3 leading-none"
         >
           WELEDA&apos;S
@@ -90,9 +113,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
         {/* Subline */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          variants={item}
           className="text-lg md:text-xl font-light italic mb-6"
           style={{ color: '#D4A853' }}
         >
@@ -101,9 +122,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
         {/* Body text */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          variants={item}
           className="text-white/80 text-base md:text-lg max-w-xl mb-3 leading-relaxed"
         >
           Vote for the next face of WELEDA! Cast your vote for your favourite creator.
@@ -111,30 +130,24 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
         {/* Campaign end date */}
         {endDate && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
-            className="text-white/50 text-sm mb-8"
-          >
+          <motion.p variants={item} className="text-white/50 text-sm mb-8">
             {campaignActive ? `Voting open until ${endDate}` : `Voting ended on ${endDate}`}
           </motion.p>
         )}
 
         {/* CTA Button */}
         <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          whileHover={{ scale: 1.05 }}
+          variants={item}
+          whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           onClick={scrollToGrid}
-          className="mt-4 w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase transition-all shadow-lg min-h-[52px]"
+          className="mt-4 w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase shadow-lg min-h-[52px]"
           style={{ background: '#D4A853', color: '#0b4535' }}
         >
           Vote Now →
         </motion.button>
-      </div>
+      </motion.div>
 
       {/* Wave divider */}
       <div className="absolute bottom-0 left-0 right-0">

@@ -2,6 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { Influencer, AdminVote } from '@/types'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select'
 
 interface Props {
   influencers: Influencer[]
@@ -182,21 +189,25 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
       {activeTab === 'individual' && (
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-            <select
+            <Select
               value={selectedInfluencerId}
-              onChange={(e) => {
-                setSelectedInfluencerId(e.target.value)
+              onValueChange={(v) => {
+                setSelectedInfluencerId(v)
                 setPage(1)
               }}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green"
             >
-              <option value="all">All Creators</option>
-              {influencers.map((inf) => (
-                <option key={inf.id} value={inf.id}>
-                  {inf.name} ({inf.vote_count})
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full sm:w-[220px] rounded-xl">
+                <SelectValue placeholder="All Creators" />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl">
+                <SelectItem value="all">All Creators</SelectItem>
+                {influencers.map((inf) => (
+                  <SelectItem key={inf.id} value={inf.id} textValue={inf.name}>
+                    {inf.name} {inf.handle}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             <div className="flex flex-wrap gap-2">
               {selectedInfluencerId !== 'all' && (

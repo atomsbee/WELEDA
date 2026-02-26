@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import HeroSection from '@/components/HeroSection'
 import SearchFilterBar, { type SortOption } from '@/components/SearchFilterBar'
 import InfluencerCard from '@/components/InfluencerCard'
@@ -27,6 +28,10 @@ export default function VotingPageClient({
   const [activeHashtags, setActiveHashtags] = useState<string[]>([])
   const [videoInfluencer, setVideoInfluencer] = useState<Influencer | null>(null)
   const [voteInfluencer, setVoteInfluencer] = useState<Influencer | null>(null)
+
+  // Scroll-triggered animation refs
+  const gridHeaderRef = useRef(null)
+  const isHeaderInView = useInView(gridHeaderRef, { once: true, margin: '-50px' })
 
   const handleFilterChange = useCallback(
     (newSearch: string, newSort: SortOption, newHashtags: string[]) => {
@@ -79,7 +84,6 @@ export default function VotingPageClient({
     setInfluencers((prev) =>
       prev.map((inf) => {
         if (inf.id !== influencerId) return inf
-        // Use server-returned count if available; fall back to optimistic +1
         return { ...inf, vote_count: newVoteCount ?? inf.vote_count + 1 }
       })
     )
@@ -96,8 +100,14 @@ export default function VotingPageClient({
         />
 
         <section className="max-w-7xl mx-auto px-4 py-8">
-          {/* Results count */}
-          <div className="flex items-center justify-between mb-6">
+          {/* Results count — scroll-triggered fade in */}
+          <motion.div
+            ref={gridHeaderRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="flex items-center justify-between mb-6"
+          >
             <h2 className="text-lg font-bold text-weleda-dark">
               {filteredInfluencers.length === influencers.length
                 ? `${influencers.length} Creators`
@@ -108,20 +118,30 @@ export default function VotingPageClient({
                 Voting Ended
               </span>
             )}
-          </div>
+          </motion.div>
 
-          {/* Grid */}
+          {/* Grid — staggered card entrance */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredInfluencers.length > 0 ? (
               filteredInfluencers.map((influencer, index) => (
-                <InfluencerCard
+                <motion.div
                   key={influencer.id}
-                  influencer={influencer}
-                  priority={index < 8}
-                  campaignActive={campaignActive}
-                  onVoteClick={(inf) => setVoteInfluencer(inf)}
-                  onVideoClick={(inf) => setVideoInfluencer(inf)}
-                />
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: Math.min(index * 0.05, 0.6),
+                    ease: 'easeOut',
+                  }}
+                >
+                  <InfluencerCard
+                    influencer={influencer}
+                    priority={index < 8}
+                    campaignActive={campaignActive}
+                    onVoteClick={(inf) => setVoteInfluencer(inf)}
+                    onVideoClick={(inf) => setVideoInfluencer(inf)}
+                  />
+                </motion.div>
               ))
             ) : (
               // Empty state

@@ -1,7 +1,15 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select'
 
 interface SearchFilterBarProps {
   allHashtags: string[]
@@ -39,9 +47,10 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
     notifyChange(value, sort, activeHashtags)
   }
 
-  const handleSort = (value: SortOption) => {
-    setSort(value)
-    notifyChange(search, value, activeHashtags)
+  const handleSort = (value: string) => {
+    const so = value as SortOption
+    setSort(so)
+    notifyChange(search, so, activeHashtags)
   }
 
   const toggleHashtag = (tag: string) => {
@@ -62,19 +71,11 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
   const hasActiveFilters =
     search !== '' || sort !== 'display_order' || activeHashtags.length > 0
 
-  // Determine which chips to show
-  const activeChip = activeHashtags[0] // single active chip for "always show" logic
-  const visibleChips = (() => {
-    if (chipsExpanded) return allHashtags
-    const defaultVisible = allHashtags.slice(0, VISIBLE_DEFAULT)
-    // Always include any active chip even if outside the default range
-    const extraActives = activeHashtags.filter(
-      (tag) => !defaultVisible.includes(tag)
-    )
-    return [...defaultVisible, ...extraActives]
-  })()
-
-  const hiddenCount = allHashtags.length - VISIBLE_DEFAULT
+  // Base chips (always shown) + any active chips that fall outside the base range
+  const baseChips = allHashtags.slice(0, VISIBLE_DEFAULT)
+  const extraActiveChips = activeHashtags.filter((tag) => !baseChips.includes(tag))
+  const hiddenChips = allHashtags.slice(VISIBLE_DEFAULT)
+  const hiddenCount = hiddenChips.length
 
   return (
     <div
@@ -110,16 +111,17 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
             />
           </div>
 
-          {/* Sort */}
-          <select
-            value={sort}
-            onChange={(e) => handleSort(e.target.value as SortOption)}
-            className="px-4 py-2.5 rounded-full border border-weleda-card-border text-sm font-medium focus:outline-none focus:border-weleda-green cursor-pointer bg-white min-h-[44px]"
-          >
-            <option value="display_order">Featured</option>
-            <option value="newest">Newest</option>
-            <option value="alphabetical">A–Z</option>
-          </select>
+          {/* Sort — shadcn-style Select */}
+          <Select value={sort} onValueChange={handleSort}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="display_order">Featured</SelectItem>
+              <SelectItem value="newest">Newest</SelectItem>
+              <SelectItem value="alphabetical">A–Z</SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* Reset */}
           {hasActiveFilters && (
@@ -135,7 +137,8 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
         {/* Hashtag chips */}
         {allHashtags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3 pb-1 items-center">
-            {visibleChips.map((tag) => {
+            {/* Base chips — always visible */}
+            {baseChips.map((tag) => {
               const isActive = activeHashtags.includes(tag)
               return (
                 <button
@@ -152,6 +155,45 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                 </button>
               )
             })}
+
+            {/* Extra active chips outside base range — always visible */}
+            {extraActiveChips.map((tag) => (
+              <button
+                key={`active-${tag}`}
+                onClick={() => toggleHashtag(tag)}
+                className="px-3 py-1 rounded-full text-xs font-medium min-h-[32px] bg-weleda-green text-white shadow-sm transition-all duration-200"
+              >
+                #{tag}
+              </button>
+            ))}
+
+            {/* Expanded hidden chips — animated */}
+            <AnimatePresence>
+              {chipsExpanded &&
+                hiddenChips
+                  .filter((tag) => !activeHashtags.includes(tag))
+                  .map((tag, i) => {
+                    const isActive = activeHashtags.includes(tag)
+                    return (
+                      <motion.button
+                        key={tag}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ delay: i * 0.03, duration: 0.15 }}
+                        onClick={() => toggleHashtag(tag)}
+                        className={cn(
+                          'px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 min-h-[32px]',
+                          isActive
+                            ? 'bg-weleda-green text-white shadow-sm'
+                            : 'bg-weleda-bg border border-weleda-card-border text-weleda-muted hover:border-weleda-green hover:text-weleda-green'
+                        )}
+                      >
+                        #{tag}
+                      </motion.button>
+                    )
+                  })}
+            </AnimatePresence>
 
             {/* Expand button */}
             {!chipsExpanded && hiddenCount > 0 && (

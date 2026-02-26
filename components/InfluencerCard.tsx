@@ -21,14 +21,15 @@ export default function InfluencerCard({
 }: InfluencerCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
-      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col border border-weleda-card-border"
+      whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col border border-weleda-card-border"
     >
       {/* Photo + Play Button */}
-      <div className="relative aspect-square overflow-hidden cursor-pointer group" onClick={() => onVideoClick(influencer)}>
+      <div
+        className="relative aspect-square overflow-hidden cursor-pointer group"
+        onClick={() => onVideoClick(influencer)}
+      >
         <Image
           src={influencer.photo_url}
           alt={influencer.name}
@@ -42,16 +43,24 @@ export default function InfluencerCard({
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Play button */}
+        {/* Play button with pulse ring */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 bg-black/70 group-hover:bg-weleda-green">
-            <svg
-              className="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 5v14l11-7z" />
-            </svg>
+          <div className="relative w-12 h-12 md:w-14 md:h-14">
+            {/* Pulse ring */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-white/20"
+              animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="w-full h-full rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 bg-black/70 group-hover:bg-weleda-green">
+              <svg
+                className="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -85,29 +94,36 @@ export default function InfluencerCard({
           </div>
         )}
 
-        {/* Vote counter */}
+        {/* Vote counter — animates when count changes */}
         <div className="flex items-center gap-1.5 text-sm">
           <svg className="w-4 h-4 flex-shrink-0" fill="#ef4444" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
-          <span className="font-bold text-weleda-dark">
+          <motion.span
+            key={influencer.vote_count}
+            initial={{ scale: 1.3, color: '#0b4535' }}
+            animate={{ scale: 1, color: 'inherit' }}
+            transition={{ duration: 0.3 }}
+            className="font-bold text-weleda-dark"
+          >
             {influencer.vote_count.toLocaleString('en-US')}
-          </span>
+          </motion.span>
           <span className="text-weleda-muted text-xs">votes</span>
         </div>
 
         {/* Vote button */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.96 }}
           onClick={() => campaignActive && onVoteClick(influencer)}
           disabled={!campaignActive}
           className={`mt-auto w-full py-2.5 rounded-full font-bold text-sm transition-all duration-200 ${
             campaignActive
-              ? 'bg-weleda-green text-white hover:bg-opacity-90 active:scale-95 shadow-sm hover:shadow-md'
+              ? 'bg-weleda-green text-white hover:bg-opacity-90 shadow-sm hover:shadow-md'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
           {campaignActive ? 'Vote Now' : 'Voting Ended'}
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   )
