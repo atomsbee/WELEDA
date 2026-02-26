@@ -1,0 +1,100 @@
+const DISPOSABLE_DOMAINS = [
+  'mailinator.com',
+  'guerrillamail.com',
+  'guerrillamail.net',
+  'guerrillamail.org',
+  'tempmail.com',
+  'temp-mail.org',
+  'throwam.com',
+  'throwaway.email',
+  'sharklasers.com',
+  'guerrillamailblock.com',
+  'grr.la',
+  'guerrillamail.info',
+  'spam4.me',
+  'trashmail.com',
+  'trashmail.me',
+  'trashmail.net',
+  'dispostable.com',
+  'yopmail.com',
+  'yopmail.fr',
+  'cool.fr.nf',
+  'jetable.fr.nf',
+  'nospam.ze.tc',
+  'nomail.xl.cx',
+  'mega.zik.dj',
+  'speed.1s.fr',
+  'courriel.fr.nf',
+  'moncourrier.fr.nf',
+  'monemail.fr.nf',
+  'monmail.fr.nf',
+  'maildrop.cc',
+  'mailnull.com',
+  'spamgourmet.com',
+  'spamgourmet.net',
+  'spamgourmet.org',
+  'spamfree24.org',
+  'spamfree24.de',
+  'spamfree24.eu',
+  'spamfree24.info',
+  'spamfree24.net',
+  'spamfree.eu',
+  'mailexpire.com',
+  'mailme.lv',
+  'mail-temp.com',
+  'getairmail.com',
+  'fakeinbox.com',
+  'noblepioneer.com',
+  'mailnew.com',
+  'mailscrap.com',
+  'mailseal.de',
+  'mailshell.com',
+  'mailsiphon.com',
+  'mailtemp.info',
+  'mailtome.de',
+  'mailtothis.com',
+  'mailzilla.com',
+  'filzmail.com',
+  'discard.email',
+  'discardmail.com',
+  'discardmail.de',
+  'spambog.com',
+  'spambog.de',
+  'spambog.ru',
+  'cuvox.de',
+  'dayrep.com',
+  'einrot.com',
+  'fleckens.hu',
+  'gustr.com',
+  'harakirimail.com',
+  'hartbot.de',
+  'inoutmail.de',
+  'inoutmail.eu',
+  'inoutmail.info',
+  'inoutmail.net',
+  'iroid.com',
+  'jetable.com',
+  'jetable.net',
+  'jetable.org',
+  'kasmail.com',
+  'kurzepost.de',
+  'leasedlinx.com',
+  'letthemeatspam.com',
+]
+
+/**
+ * Returns true if the email uses a known disposable domain.
+ */
+export function checkDisposableEmail(email: string): boolean {
+  const lower = email.toLowerCase().trim()
+  const atIndex = lower.lastIndexOf('@')
+  if (atIndex === -1) return false
+
+  const domain = lower.slice(atIndex + 1)
+  const localPart = lower.slice(0, atIndex)
+
+  // Block single-character local parts
+  if (localPart.length <= 1) return true
+
+  return DISPOSABLE_DOMAINS.includes(domain)
+}

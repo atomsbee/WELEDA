@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand fonts — served from /public/fonts/ (copied via `node scripts/setup.js`) */
+@font-face {
+  font-family: 'Sculpin';
+  src: url('/fonts/Sculpin-Light.woff2') format('woff2'),
+       url('/fonts/Sculpin-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Sculpin';
+  src: url('/fonts/Sculpin-Regular.woff2') format('woff2'),
+       url('/fonts/Sculpin-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Sculpin';
+  src: url('/fonts/Sculpin-Medium.woff2') format('woff2'),
+       url('/fonts/Sculpin-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Sculpin';
+  src: url('/fonts/Sculpin-Bold.woff2') format('woff2'),
+       url('/fonts/Sculpin-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeoSansWeleda';
+  src: url('/fonts/NeoSansWeleda-Regular.woff2') format('woff2'),
+       url('/fonts/NeoSansWeleda-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NeoSansWeleda';
+  src: url('/fonts/NeoSansWeleda-Medium.woff2') format('woff2'),
+       url('/fonts/NeoSansWeleda-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NeoSansWeleda';
+  src: url('/fonts/NeoSansWeleda-Bold.woff2') format('woff2'),
+       url('/fonts/NeoSansWeleda-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    /* WELEDA CSS vars */
+    --weleda-green: #0b4535;
+    --weleda-green-light: #52B788;
+    --weleda-gold: #D4A853;
+    --weleda-gold-light: #E8C97A;
+    --weleda-bg: #FAFAF8;
+    --weleda-card-border: #E8E8E4;
+
+    /* shadcn/ui CSS variables */
+    --background: 0 0% 98%;
+    --foreground: 222.2 47.4% 11.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --primary: 152 74% 13%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 152 74% 13%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-weleda-bg text-weleda-dark antialiased;
+    font-family: 'Sculpin', system-ui, sans-serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--weleda-green-light);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--weleda-green);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--weleda-green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--weleda-green-light);
+  color: white;
+}
