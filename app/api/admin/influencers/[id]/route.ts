@@ -4,7 +4,7 @@ import { uploadToStorage } from '@/lib/upload'
 import { verifyAdminAuth } from '@/lib/admin-auth'
 
 interface RouteParams {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function PUT(request: NextRequest, { params }: RouteParams): Promise<NextResponse> {
@@ -13,6 +13,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams): Promis
   }
 
   try {
+    const { id } = await params
     const formData = await request.formData()
     const supabase = createServiceClient()
 
@@ -56,7 +57,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams): Promis
     const { data, error } = await supabase
       .from('influencers')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
@@ -77,13 +78,14 @@ export async function PATCH(request: NextRequest, { params }: RouteParams): Prom
   }
 
   try {
+    const { id } = await params
     const body = (await request.json()) as Record<string, unknown>
     const supabase = createServiceClient()
 
     const { data, error } = await supabase
       .from('influencers')
       .update(body)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
@@ -104,8 +106,9 @@ export async function DELETE(request: NextRequest, { params }: RouteParams): Pro
   }
 
   try {
+    const { id } = await params
     const supabase = createServiceClient()
-    const { error } = await supabase.from('influencers').delete().eq('id', params.id)
+    const { error } = await supabase.from('influencers').delete().eq('id', id)
 
     if (error) {
       return NextResponse.json({ success: false, error: error.message })

@@ -52,7 +52,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ success: false, error: error.message })
     }
 
-    const votes = (data as VoteWithInfluencer[]).map((v) => ({
+    const votes = (data as unknown as VoteWithInfluencer[]).map((v) => ({
       id: v.id,
       voter_name: v.voter_name,
       email_masked: maskEmailHash(v.email_hash),

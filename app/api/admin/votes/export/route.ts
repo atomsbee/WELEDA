@@ -49,7 +49,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ success: false, error: error.message })
     }
 
-    const rows = data as VoteWithInfluencer[]
+    const rows = data as unknown as VoteWithInfluencer[]
     const today = new Date().toISOString().slice(0, 10)
     // Use influencer name in filename if filtering by one influencer
     let influencerSlug = 'all'

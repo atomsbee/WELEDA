@@ -37,7 +37,7 @@ async function getDashboardData() {
   return {
     influencers: (influencers ?? []) as Influencer[],
     totalVotes: totalVotes ?? 0,
-    recentVotes: (recentVotes ?? []) as VoteRow[],
+    recentVotes: (recentVotes ?? []) as unknown as VoteRow[],
   }
 }
 

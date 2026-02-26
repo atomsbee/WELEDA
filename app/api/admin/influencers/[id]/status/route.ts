@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
 
 interface RouteParams {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams): Promise<NextResponse> {
@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams): Prom
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const body = (await request.json()) as { is_active?: boolean }
 
     if (typeof body.is_active !== 'boolean') {
