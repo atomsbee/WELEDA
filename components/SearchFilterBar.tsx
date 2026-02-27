@@ -78,11 +78,16 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
   const hiddenCount = hiddenChips.length
 
   return (
-    <div
+    <motion.div
       id="filter-bar"
-      className={`sticky top-0 z-30 bg-white transition-shadow duration-300 ${
-        isSticky ? 'shadow-md border-b border-weleda-card-border' : 'border-b border-weleda-card-border'
-      }`}
+      className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-weleda-card-border"
+      initial={false}
+      animate={{
+        boxShadow: isSticky
+          ? '0 4px 20px rgba(0,0,0,0.08)'
+          : '0 0 0px rgba(0,0,0,0)',
+      }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto px-4 py-3">
         {/* Top row: search + sort */}
@@ -141,30 +146,32 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
             {baseChips.map((tag) => {
               const isActive = activeHashtags.includes(tag)
               return (
-                <button
+                <motion.button
+                  layout
                   key={tag}
                   onClick={() => toggleHashtag(tag)}
                   className={cn(
-                    'px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 min-h-[32px]',
+                    'px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 min-h-[32px]',
                     isActive
                       ? 'bg-weleda-green text-white shadow-sm'
                       : 'bg-weleda-bg border border-weleda-card-border text-weleda-muted hover:border-weleda-green hover:text-weleda-green'
                   )}
                 >
                   #{tag}
-                </button>
+                </motion.button>
               )
             })}
 
             {/* Extra active chips outside base range — always visible */}
             {extraActiveChips.map((tag) => (
-              <button
+              <motion.button
+                layout
                 key={`active-${tag}`}
                 onClick={() => toggleHashtag(tag)}
-                className="px-3 py-1 rounded-full text-xs font-medium min-h-[32px] bg-weleda-green text-white shadow-sm transition-all duration-200"
+                className="px-3 py-1 rounded-full text-xs font-medium min-h-[32px] bg-weleda-green text-white shadow-sm transition-colors duration-200"
               >
                 #{tag}
-              </button>
+              </motion.button>
             ))}
 
             {/* Expanded hidden chips — animated */}
@@ -217,6 +224,6 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }

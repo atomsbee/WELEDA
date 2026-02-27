@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import CookieBanner from '@/components/CookieBanner'
 import Footer from '@/components/Footer'
+import PageTransition from '@/components/PageTransition'
 
 export const metadata: Metadata = {
   title: "WELEDA Community Voting – Vote for the Next WELEDA Creator",
@@ -52,7 +53,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-weleda-bg font-sans antialiased">
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <CookieBanner />
       </body>

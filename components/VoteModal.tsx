@@ -92,10 +92,10 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
@@ -248,17 +248,37 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="text-center py-6 space-y-4"
                 >
-                  <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
-                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
-                    style={{ background: '#0b4535' }}
-                  >
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </motion.div>
+                  {/* Checkmark + confetti */}
+                  <div className="relative flex items-center justify-center h-20">
+                    {/* Confetti burst */}
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 rounded-full pointer-events-none"
+                        style={{ backgroundColor: i % 2 === 0 ? '#0b4535' : '#D4A853' }}
+                        initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+                        animate={{
+                          scale: [0, 1, 0],
+                          x: Math.cos((i / 12) * Math.PI * 2) * 60,
+                          y: Math.sin((i / 12) * Math.PI * 2) * 60,
+                          opacity: [1, 1, 0],
+                        }}
+                        transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+                      />
+                    ))}
+                    {/* Checkmark circle */}
+                    <motion.div
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
+                      className="w-16 h-16 rounded-full flex items-center justify-center"
+                      style={{ background: '#0b4535' }}
+                    >
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </motion.div>
+                  </div>
                   <div>
                     <h3 className="text-xl font-bold text-weleda-dark">Your vote has been counted!</h3>
                     <p className="text-weleda-muted text-sm mt-2">

@@ -126,12 +126,12 @@ export default function VotingPageClient({
               filteredInfluencers.map((influencer, index) => (
                 <motion.div
                   key={influencer.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  animate={isHeaderInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                   transition={{
-                    duration: 0.4,
-                    delay: Math.min(index * 0.05, 0.6),
-                    ease: 'easeOut',
+                    duration: 0.5,
+                    delay: Math.min(index * 0.07, 0.8),
+                    ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                 >
                   <InfluencerCard

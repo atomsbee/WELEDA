@@ -21,38 +21,61 @@ export default function InfluencerCard({
 }: InfluencerCardProps) {
   return (
     <motion.div
-      whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.98 }}
+      variants={{
+        rest: { y: 0, scale: 1 },
+        hover: { y: -8, scale: 1.02 },
+      }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col border border-weleda-card-border"
+      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-shadow duration-300 flex flex-col border border-weleda-card-border cursor-pointer"
     >
-      {/* Photo + Play Button */}
+      {/* Photo + play overlay */}
       <div
-        className="relative aspect-square overflow-hidden cursor-pointer group"
+        className="relative aspect-square overflow-hidden"
         onClick={() => onVideoClick(influencer)}
       >
-        <Image
-          src={influencer.photo_url}
-          alt={influencer.name}
-          fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          priority={priority}
-          loading={priority ? 'eager' : 'lazy'}
+        {/* Image — zooms on card hover */}
+        <motion.div
+          className="absolute inset-0"
+          variants={{ rest: { scale: 1 }, hover: { scale: 1.08 } }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <Image
+            src={influencer.photo_url}
+            alt={influencer.name}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover"
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+          />
+        </motion.div>
+
+        {/* Dark overlay — fades in on hover */}
+        <motion.div
+          className="absolute inset-0 bg-black/30"
+          variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
+          transition={{ duration: 0.2 }}
         />
 
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* Play button with pulse ring */}
+        {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="relative w-12 h-12 md:w-14 md:h-14">
             {/* Pulse ring */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-white/20"
+              className="absolute inset-0 rounded-full bg-white/20 pointer-events-none"
               animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ willChange: 'transform, opacity' }}
             />
-            <div className="w-full h-full rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 bg-black/70 group-hover:bg-weleda-green">
+            {/* Button circle — scales up on hover */}
+            <motion.div
+              className="w-full h-full rounded-full flex items-center justify-center shadow-lg bg-black/70"
+              variants={{ hover: { scale: 1.1, backgroundColor: 'rgba(82,183,136,1)' } }}
+              transition={{ duration: 0.2 }}
+            >
               <svg
                 className="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5"
                 fill="currentColor"
@@ -60,7 +83,7 @@ export default function InfluencerCard({
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -94,16 +117,16 @@ export default function InfluencerCard({
           </div>
         )}
 
-        {/* Vote counter — animates when count changes */}
+        {/* Vote counter — pops on count change */}
         <div className="flex items-center gap-1.5 text-sm">
           <svg className="w-4 h-4 flex-shrink-0" fill="#ef4444" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
           <motion.span
             key={influencer.vote_count}
-            initial={{ scale: 1.3, color: '#0b4535' }}
+            initial={{ scale: 1.4, color: '#0b4535' }}
             animate={{ scale: 1, color: 'inherit' }}
-            transition={{ duration: 0.3 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             className="font-bold text-weleda-dark"
           >
             {influencer.vote_count.toLocaleString('en-US')}
@@ -113,12 +136,12 @@ export default function InfluencerCard({
 
         {/* Vote button */}
         <motion.button
-          whileTap={{ scale: 0.96 }}
+          whileTap={{ scale: 0.97 }}
           onClick={() => campaignActive && onVoteClick(influencer)}
           disabled={!campaignActive}
           className={`mt-auto w-full py-2.5 rounded-full font-bold text-sm transition-all duration-200 ${
             campaignActive
-              ? 'bg-weleda-green text-white hover:bg-opacity-90 shadow-sm hover:shadow-md'
+              ? 'bg-weleda-green text-white hover:bg-[#0b4535] shadow-sm hover:shadow-md'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
@@ -129,16 +152,34 @@ export default function InfluencerCard({
   )
 }
 
-// Skeleton loading card
+// Skeleton loading card with shimmer
 export function InfluencerCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-weleda-card-border animate-pulse">
-      <div className="aspect-square bg-gray-200" />
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-weleda-card-border">
+      <div className="relative aspect-square overflow-hidden bg-gray-100">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"
+          animate={{ x: ['-100%', '100%'] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+        />
+      </div>
       <div className="p-4 space-y-3">
-        <div className="h-4 bg-gray-200 rounded w-3/4" />
-        <div className="h-3 bg-gray-200 rounded w-1/2" />
-        <div className="h-3 bg-gray-200 rounded w-1/3" />
-        <div className="h-10 bg-gray-200 rounded-full" />
+        {[['w-3/4', 'h-4'], ['w-1/2', 'h-3'], ['w-1/3', 'h-3']].map(([w, h], i) => (
+          <div key={i} className={`relative overflow-hidden ${h} ${w} bg-gray-100 rounded`}>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', delay: i * 0.1 }}
+            />
+          </div>
+        ))}
+        <div className="relative overflow-hidden h-10 bg-gray-100 rounded-full">
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', delay: 0.3 }}
+          />
+        </div>
       </div>
     </div>
   )
