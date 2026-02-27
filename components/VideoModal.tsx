@@ -12,7 +12,7 @@ interface VideoModalProps {
   campaignActive: boolean
 }
 
-function getEmbedUrl(url: string): { type: 'youtube' | 'video'; embedUrl: string } {
+function getEmbedUrl(url: string): { type: 'iframe' | 'video'; embedUrl: string } {
   // YouTube patterns
   const ytRegex =
     /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
@@ -20,8 +20,19 @@ function getEmbedUrl(url: string): { type: 'youtube' | 'video'; embedUrl: string
   if (ytMatch) {
     const videoId = ytMatch[1]
     return {
-      type: 'youtube',
+      type: 'iframe',
       embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`,
+    }
+  }
+
+  // Vimeo patterns
+  const vimeoRegex = /(?:vimeo\.com\/)(\d+)/
+  const vimeoMatch = url.match(vimeoRegex)
+  if (vimeoMatch) {
+    const videoId = vimeoMatch[1]
+    return {
+      type: 'iframe',
+      embedUrl: `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`,
     }
   }
 
@@ -119,7 +130,7 @@ export default function VideoModal({
 
           {/* Video */}
           <div className="relative" style={{ paddingBottom: '56.25%', height: 0 }}>
-            {type === 'youtube' ? (
+            {type === 'iframe' ? (
               <iframe
                 src={embedUrl}
                 className="absolute inset-0 w-full h-full"

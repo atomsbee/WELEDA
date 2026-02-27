@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
-import { uploadToStorage } from '@/lib/upload'
+import { uploadFile } from '@/lib/upload'
 import { verifyAdminAuth } from '@/lib/admin-auth'
 import type { ApiResponse } from '@/types'
 
@@ -34,11 +34,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const videoFile = formData.get('video') as File | null
 
     if (photoFile && photoFile.size > 0) {
-      photoUrl = await uploadToStorage(photoFile, 'influencer-photos')
+      photoUrl = (await uploadFile(photoFile, 'photo')).url
     }
 
     if (videoFile && videoFile.size > 0) {
-      videoUrl = await uploadToStorage(videoFile, 'influencer-videos')
+      videoUrl = (await uploadFile(videoFile, 'video')).url
     }
 
     if (!photoUrl || !videoUrl) {
