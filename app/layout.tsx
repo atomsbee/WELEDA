@@ -1,25 +1,23 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import CookieBanner from '@/components/CookieBanner'
-import Footer from '@/components/Footer'
-import PageTransition from '@/components/PageTransition'
-import AnimatedBackground from '@/components/AnimatedBackground'
-import BokehRings from '@/components/BokehRings'
-import BubbleCanvas from '@/components/BubbleCanvas'
-import PublicHeader from '@/components/PublicHeader'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import PublicShell from '@/components/PublicShell'
 
 export const metadata: Metadata = {
-  title: "WELEDA Community Voting – Vote for the Next WELEDA Creator",
+  title: 'WELEDA Summer Vote 2026 | Wähle dein Kampagnengesicht',
   description:
-    'Cast your vote for your favourite creator and decide who becomes the next face of WELEDA. Community Voting 2026.',
+    'Vote für deinen Favoriten! Die Community wählt 3 neue Gesichter der Weleda Fragrance Body & Hair Mist Campaign. Voting-Phase: 13.–17. März 2026.',
   keywords: [
-    'WELEDA',
-    'Influencer Voting',
-    'Community Vote',
-    'Natural Beauty',
-    'Creator',
+    'Weleda',
+    'Summer Campaign',
+    'Casting',
     'Vote',
+    'Fragrance',
+    'Body Mist',
+    'Hair Mist',
+    'Community Vote',
+    'Teneriffa',
+    '#weledacasting',
   ],
   icons: {
     icon: [
@@ -30,8 +28,8 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: "WELEDA's Next Creator – Community Voting",
-    description: 'Cast your vote for your favourite creator and help choose the next face of WELEDA.',
+    title: 'WELEDA Summer Vote 2026',
+    description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
     images: [
       {
         url: '/weleda-logo.svg',
@@ -40,13 +38,13 @@ export const metadata: Metadata = {
         alt: 'WELEDA Community Voting',
       },
     ],
-    locale: 'en_US',
+    locale: 'de_DE',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "WELEDA's Next Creator – Community Voting",
-    description: 'Cast your vote for your favourite creator and help choose the next face of WELEDA.',
+    title: 'WELEDA Summer Vote 2026',
+    description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
   },
   robots: {
     index: true,
@@ -59,23 +57,12 @@ export default function RootLayout({ children }: { children: import('react').Rea
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
-          {/* Immediate base — always visible, prevents flash */}
+          {/* Instant base gradient — eliminates flash on load */}
           <div
-            className="fixed inset-0 -z-20"
-            style={{ background: 'var(--bg-gradient)' }}
+            className="fixed inset-0 pointer-events-none"
+            style={{ zIndex: -30, background: 'var(--bg-gradient)' }}
           />
-          {/* z-20: slow color orbs */}
-          <AnimatedBackground />
-          {/* z-16: bokeh rings — CSS only, zero JS cost, dark mode only */}
-          <BokehRings />
-          {/* z-15: interactive soap bubbles — canvas, dark mode only */}
-          <BubbleCanvas />
-          <PublicHeader />
-          <main className="flex-1">
-            <PageTransition>{children}</PageTransition>
-          </main>
-          <Footer />
-          <CookieBanner />
+          <PublicShell>{children}</PublicShell>
         </ThemeProvider>
       </body>
     </html>

@@ -11,9 +11,9 @@ import type { Influencer } from '@/types'
 import { getCategoryConfig, CATEGORIES, CATEGORY_KEYS } from '@/lib/config/categories'
 
 const voteSchema = z.object({
-  name: z.string().min(2, 'At least 2 characters required').max(100, 'Maximum 100 characters'),
-  email: z.string().email('Invalid email address'),
-  gdprConsent: z.boolean().refine((v) => v === true, 'Please accept the privacy policy.'),
+  name: z.string().min(2, 'Mindestens 2 Zeichen erforderlich').max(100, 'Maximal 100 Zeichen'),
+  email: z.string().email('Ungültige E-Mail-Adresse'),
+  gdprConsent: z.boolean().refine((v) => v === true, 'Bitte stimme der Datenschutzerklärung zu.'),
   honeypot: z.string().optional(),
 })
 
@@ -152,7 +152,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
               </div>
               <div>
                 <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
-                  Vote for {influencer.name}
+                  Für {influencer.name} voten
                 </p>
                 {cat ? (
                   <span
@@ -178,7 +178,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                 background: 'var(--bg-chip)',
                 border: '1px solid var(--border-chip)',
               }}
-              aria-label="Close"
+              aria-label="Schließen"
             >
               <svg className="w-4 h-4" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -188,6 +188,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
 
           <div className="p-5 overflow-hidden">
             <AnimatePresence mode="wait">
+
               {/* FORM / LOADING */}
               {(modalState === 'form' || modalState === 'loading') && (
                 <motion.div
@@ -202,12 +203,12 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     {/* Name */}
                     <div>
                       <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-                        Your Name <span className="text-red-400">*</span>
+                        Dein Name <span className="text-red-400">*</span>
                       </label>
                       <input
                         {...register('name')}
                         type="text"
-                        placeholder="First and last name"
+                        placeholder="Vor- und Nachname"
                         disabled={modalState === 'loading'}
                         className="w-full px-4 py-3 text-sm focus:outline-none disabled:opacity-50 transition-all"
                         style={inputStyle}
@@ -228,7 +229,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     {/* Email */}
                     <div>
                       <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-                        Your Email Address <span className="text-red-400">*</span>
+                        Deine E-Mail-Adresse <span className="text-red-400">*</span>
                       </label>
                       <input
                         {...register('email')}
@@ -273,11 +274,11 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                           style={{ accentColor }}
                         />
                         <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                          I agree to the processing of my data in accordance with the{' '}
+                          Ich stimme der Verarbeitung meiner Daten gemäß der{' '}
                           <a href="/privacy" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
-                            Privacy Policy
-                          </a>
-                          .
+                            Datenschutzerklärung
+                          </a>{' '}
+                          zu.
                         </span>
                       </label>
                       {errors.gdprConsent && (
@@ -298,12 +299,21 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                           </svg>
-                          Submitting...
+                          Wird gesendet…
                         </>
                       ) : (
-                        'Submit Vote'
+                        'Jetzt abstimmen'
                       )}
                     </button>
+
+                    {/* Confirmation note */}
+                    <p className="text-center text-xs leading-relaxed" style={{ color: 'var(--text-faint)' }}>
+                      Mit deiner Stimmabgabe stimmst du unseren{' '}
+                      <a href="/terms" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
+                        Teilnahmebedingungen
+                      </a>{' '}
+                      zu. 1 Vote pro Kategorie.
+                    </p>
                   </form>
                 </motion.div>
               )}
@@ -350,24 +360,25 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Your vote has been counted!</h3>
-                    <p className="text-sm mt-2" style={{ color: 'var(--text-chip)' }}>
-                      Thank you {submittedName}, you voted for{' '}
-                      <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{influencer.name}</span>.
+                    <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                      Danke für deinen Vote! 💜
+                    </h3>
+                    <p className="text-sm mt-2 leading-relaxed" style={{ color: 'var(--text-chip)' }}>
+                      Du hast für{' '}
+                      <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{influencer.name}</span>{' '}
+                      in der Kategorie{' '}
+                      <span className="font-semibold" style={{ color: accentColor }}>{cat?.label ?? 'dieser Kategorie'}</span>{' '}
+                      abgestimmt. Du kannst noch in weiteren Kategorien abstimmen — entscheide weise!
                     </p>
                   </div>
 
-                  {/* Cross-category prompt */}
                   {otherCategories.length > 0 && (
                     <div
                       className="rounded-xl p-4 text-left"
-                      style={{
-                        background: 'var(--bg-chip)',
-                        border: '1px solid var(--border-chip)',
-                      }}
+                      style={{ background: 'var(--bg-chip)', border: '1px solid var(--border-chip)' }}
                     >
                       <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>
-                        You can still vote in other categories:
+                        Du kannst noch in anderen Kategorien abstimmen:
                       </p>
                       <div className="flex flex-col gap-2">
                         {otherCategories.map((oc) => (
@@ -380,10 +391,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                               color: 'var(--text-primary)',
                             }}
                           >
-                            <span
-                              className="w-2 h-2 rounded-full flex-shrink-0"
-                              style={{ background: oc.primary }}
-                            />
+                            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: oc.primary }} />
                             {oc.label}
                             <span className="ml-auto text-[10px]" style={{ color: 'var(--text-faint)' }}>{oc.hashtag}</span>
                           </div>
@@ -397,7 +405,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     className="w-full py-3 rounded-full font-bold text-sm hover:opacity-90 transition-opacity text-white"
                     style={btnStyle}
                   >
-                    Close
+                    Schließen
                   </button>
                 </motion.div>
               )}
@@ -420,30 +428,21 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     <span className="text-3xl">💚</span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Already voted in this category!</h3>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+                      Du hast in dieser Kategorie bereits abgestimmt.
+                    </h3>
                     <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
-                      You have already cast your vote for{' '}
-                      {cat ? (
-                        <span className="font-semibold" style={{ color: cat.secondary }}>
-                          {cat.label}
-                        </span>
-                      ) : (
-                        'this category'
-                      )}
-                      . Only one vote per category is allowed.
+                      Schau dir die anderen Kategorien an!
                     </p>
                   </div>
 
                   {otherCategories.length > 0 && (
                     <div
                       className="rounded-xl p-4 text-left"
-                      style={{
-                        background: 'var(--bg-chip)',
-                        border: '1px solid var(--border-chip)',
-                      }}
+                      style={{ background: 'var(--bg-chip)', border: '1px solid var(--border-chip)' }}
                     >
                       <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>
-                        You can still vote in:
+                        Du kannst noch in anderen Kategorien abstimmen:
                       </p>
                       <div className="flex flex-col gap-2">
                         {otherCategories.map((oc) => (
@@ -474,7 +473,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                       color: 'var(--text-secondary)',
                     }}
                   >
-                    Close
+                    Schließen
                   </button>
                 </motion.div>
               )}
@@ -499,15 +498,15 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Something went wrong.</h3>
-                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Please try again or reload the page.</p>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Etwas ist schiefgelaufen.</h3>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Bitte versuche es erneut oder lade die Seite neu.</p>
                   </div>
                   <button
                     onClick={() => setModalState('form')}
                     className="w-full py-3 rounded-full font-medium text-sm hover:opacity-90 transition-opacity text-white"
                     style={btnStyle}
                   >
-                    Try Again
+                    Nochmal versuchen
                   </button>
                 </motion.div>
               )}

@@ -343,9 +343,27 @@ iframe[src*='supabase'] {
   }
 }
 
-/* ── BOKEH RINGS ──────────────────────────────────────────────── */
+/* ── PETAL FALL ───────────────────────────────────────────────── */
+@keyframes petalFall {
+  0% {
+    transform: translateY(-50px) translateX(0px)
+               rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  6%  { opacity: 1; }
+  88% { opacity: 0.85; }
+  100% {
+    transform: translateY(108vh)
+               translateX(var(--petal-drift, 20px))
+               rotate(var(--petal-spin, 180deg))
+               scale(1.05);
+    opacity: 0;
+  }
+}
+
+/* ── BOKEH FLOAT ──────────────────────────────────────────────── */
 @keyframes bokehFloat {
-  0%   {
+  0% {
     transform: translateY(0) scale(0.85);
     opacity: 0;
   }
@@ -357,7 +375,40 @@ iframe[src*='supabase'] {
   }
 }
 
-/* Respect reduced motion */
+/* ── REDUCED MOTION — petal + bokeh ──────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .bokeh-el { animation: none !important; opacity: 0 !important; }
+  .petal-el,
+  .bokeh-el {
+    animation: none !important;
+    opacity:   0    !important;
+  }
+}
+
+/* ── AURORA CURTAIN ───────────────────────────────────────────── */
+@keyframes auroraWave1 {
+  0%   { transform: translateY(0%)   scaleX(1)    skewX(0deg);  opacity: 0.85; }
+  25%  { transform: translateY(-4%)  scaleX(1.06) skewX(1.5deg); opacity: 1;   }
+  50%  { transform: translateY(3%)   scaleX(0.96) skewX(-1deg); opacity: 0.9;  }
+  75%  { transform: translateY(-2%)  scaleX(1.03) skewX(0.8deg); opacity: 0.95;}
+  100% { transform: translateY(0%)   scaleX(1)    skewX(0deg);  opacity: 0.85; }
+}
+@keyframes auroraWave2 {
+  0%   { transform: translateY(0%)   scaleX(1)    skewX(0deg);   opacity: 0.80; }
+  30%  { transform: translateY(5%)   scaleX(1.08) skewX(-2deg);  opacity: 1;    }
+  60%  { transform: translateY(-3%)  scaleX(0.94) skewX(1.2deg); opacity: 0.88; }
+  85%  { transform: translateY(2%)   scaleX(1.04) skewX(-0.6deg);opacity: 0.92; }
+  100% { transform: translateY(0%)   scaleX(1)    skewX(0deg);   opacity: 0.80; }
+}
+@keyframes auroraWave3 {
+  0%   { transform: translateY(0%)   scaleX(1)    skewX(0deg);   opacity: 0.75; }
+  20%  { transform: translateY(-6%)  scaleX(1.05) skewX(1deg);   opacity: 0.95; }
+  45%  { transform: translateY(4%)   scaleX(0.97) skewX(-1.5deg);opacity: 0.82; }
+  70%  { transform: translateY(-2%)  scaleX(1.02) skewX(0.5deg); opacity: 0.90; }
+  100% { transform: translateY(0%)   scaleX(1)    skewX(0deg);   opacity: 0.75; }
+}
+@keyframes auroraShimmer {
+  0%   { transform: translateX(-10%) scaleY(1);   opacity: 0;    }
+  15%  { opacity: 1; }
+  50%  { transform: translateX(110%) scaleY(1.8); opacity: 0.7;  }
+  100% { transform: translateX(110%) scaleY(1);   opacity: 0;    }
 }

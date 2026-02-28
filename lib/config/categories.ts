@@ -100,9 +100,12 @@ export const PRODUCT_IMAGE =
   '/img/Vanilla_Cloud_ingredients_final_square.jpg'
 
 export const MARQUEE_ITEMS = [
-  '✦ Vote for your favourite creator',
-  '✦ 3 fragrance categories',
-  '✦ One vote per category',
+  '✦ Community Vote 13.–17.03.2026',
   '✦ Vanilla Cloud · Mystic Aura · Tropical Crush',
-  '✦ Campaign runs 13.03 – 17.03.2026',
+  '✦ 3 neue Kampagnengesichter gesucht',
+  '✦ Jetzt für deinen Fave voten',
+  '✦ Live-Casting auf Teneriffa 22.–25.03.',
+  '✦ #weledacasting #fragrancemists',
+  '✦ 1× täglich abstimmen',
+  '✦ Werde das Gesicht der WELEDA Fragrance Campaign',
 ]

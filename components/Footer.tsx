@@ -102,14 +102,14 @@ export default function Footer() {
         {/* Bottom: copyright + legal */}
         <div className="py-5 flex flex-col items-center gap-3">
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            © {year} WELEDA AG. All rights reserved.
+            © {year} WELEDA AG. Alle Rechte vorbehalten.
           </p>
           <nav className="flex items-center gap-4 text-xs">
-            <Link href="/privacy" className="footer-nav-link">Privacy Policy</Link>
+            <Link href="/privacy" className="footer-nav-link">Datenschutz</Link>
             <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
-            <Link href="/terms" className="footer-nav-link">Terms &amp; Conditions</Link>
+            <Link href="/terms" className="footer-nav-link">Teilnahmebedingungen</Link>
             <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
-            <Link href="/imprint" className="footer-nav-link">Imprint</Link>
+            <Link href="/imprint" className="footer-nav-link">Impressum</Link>
           </nav>
         </div>
 

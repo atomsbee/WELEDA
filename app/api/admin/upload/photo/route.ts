@@ -16,8 +16,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const result = await uploadFile(file, 'photo')
-    console.log(`[UPLOAD] Photo uploaded to: ${result.storage}`)
-
     return NextResponse.json({ success: true, url: result.url, storage: result.storage })
   } catch (err) {
     if (err instanceof UploadValidationError) {

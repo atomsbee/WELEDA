@@ -45,6 +45,19 @@ export default function TermsPage() {
           <p className="text-sm mb-2" style={{ color: 'var(--text-muted)' }}>
             WELEDA Summer &amp; Body/Hair Mist Campaign — Community Vote 2026
           </p>
+          {/* Campaign intro — official client text */}
+          <div className="mb-8 pb-8 space-y-4" style={{ borderBottom: '1px solid var(--border-nav)' }}>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              Bist du zwischen 18 und 35 Jahre alt? Dann werde Teil unserer „Weleda Summer Campaign"! Du hast die einmalige Chance eines von drei neuen Kampagnengesichtern für unsere neuen „Weleda Fragrance Body &amp; Hair Mist Campaign" zu werden.
+            </p>
+            <div>
+              <p className="text-sm font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Und so geht&apos;s:</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Bewirb dich mit einem Video auf TikTok oder Instagram (mind. 30 Sekunden, max. 5 Minuten). Zeig uns, warum genau DU eines der drei neuen Faces unserer WELEDA Fragrance Body &amp; Hair Mist Campaign werden solltest. Stell uns in deinem Video deine liebsten WELEDA Serum Booster Drops und/oder das UV-Fluid vor und erzähl, warum das dein Go-To-Produkt ist.
+              </p>
+            </div>
+          </div>
+
           <p className="text-sm mb-8 pb-8" style={{ color: 'var(--text-faint)', borderBottom: '1px solid var(--border-nav)' }}>
             Bitte lesen Sie diese Teilnahmebedingungen sorgfältig durch, bevor Sie an der WELEDA Community Abstimmung teilnehmen. Mit der Abgabe Ihrer Stimme akzeptieren Sie diese Bedingungen vollständig.
           </p>

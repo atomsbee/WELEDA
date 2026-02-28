@@ -12,15 +12,6 @@ const hasS3Config = !!(
   process.env.AWS_S3_BUCKET
 )
 
-if (process.env.NODE_ENV === 'development') {
-  console.log('[UPLOAD CONFIG]', {
-    storage: hasS3Config ? 'AWS S3' : 'Supabase',
-    bucket: hasS3Config
-      ? process.env.AWS_S3_BUCKET
-      : 'influencer-photos (Supabase)',
-    region: process.env.AWS_REGION ?? 'N/A',
-  })
-}
 
 // ── Lazy S3 client ────────────────────────────────────────────────────────────
 
@@ -147,7 +138,6 @@ async function s3Upload(file: File, type: 'photo' | 'video'): Promise<UploadResu
 
   await upload.done()
 
-  console.log(`[UPLOAD] ${type} uploaded to S3: ${key}`)
   return { url: `${publicUrl}/${key}`, storage: 's3' }
 }
 
@@ -173,7 +163,6 @@ async function supabaseUpload(file: File): Promise<UploadResult> {
 
   if (!urlData?.publicUrl) throw new Error('Failed to get public URL after upload')
 
-  console.log(`[UPLOAD] photo uploaded to Supabase: ${uniqueName}`)
   return { url: urlData.publicUrl, storage: 'supabase' }
 }
 

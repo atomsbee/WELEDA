@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
@@ -14,7 +15,7 @@ interface InfluencerCardProps {
   onVideoClick: (influencer: Influencer) => void
 }
 
-export default function InfluencerCard({
+function InfluencerCard({
   influencer,
   priority = false,
   campaignActive,
@@ -49,10 +50,6 @@ export default function InfluencerCard({
           : '0 4px 30px rgba(180,120,255,0.1)',
       }}
     >
-      {/* Category gradient top bar */}
-      {cat && (
-        <div className="h-[3px] w-full flex-shrink-0" style={{ background: cat.gradient }} />
-      )}
 
       {/* Photo + play overlay */}
       <div
@@ -205,6 +202,8 @@ export default function InfluencerCard({
     </motion.div>
   )
 }
+
+export default memo(InfluencerCard)
 
 // Skeleton loading card
 export function InfluencerCardSkeleton() {

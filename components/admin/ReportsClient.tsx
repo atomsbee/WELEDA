@@ -68,6 +68,68 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
     window.open(`/api/admin/votes/export?${params}`, '_blank')
   }
 
+  const downloadPDF = () => {
+    const today = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+
+    const tableRows = groupedSummary.flatMap((group) =>
+      group.items.map((inf, i) => {
+        const pct = group.categoryTotal > 0 ? ((inf.vote_count / group.categoryTotal) * 100).toFixed(1) : '0.0'
+        return `<tr>
+          <td>${i + 1}</td>
+          <td style="font-weight:500">${inf.name}</td>
+          <td style="color:#6b7280">${inf.handle}</td>
+          <td><span style="display:inline-block;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:700;background:${group.config.gradient};color:white">${group.config.label}</span></td>
+          <td style="text-align:right;font-weight:700;color:${group.config.primary}">${inf.vote_count.toLocaleString('de-DE')}</td>
+          <td style="text-align:right;color:#6b7280">${pct}%</td>
+        </tr>`
+      })
+    ).join('')
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WELEDA Community Vote — Ergebnisbericht</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #111827; padding: 40px; font-size: 13px; }
+    h1 { color: #0b4535; font-size: 20px; margin: 0 0 4px; }
+    .meta { color: #6b7280; font-size: 12px; margin-bottom: 28px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #0b4535; color: white; padding: 9px 12px; text-align: left; font-size: 12px; }
+    td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
+    .total-row td { font-weight: 700; background: #f3f4f6; border-top: 2px solid #d1d5db; }
+    @media print { body { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <h1>WELEDA Community Vote — Ergebnisbericht</h1>
+  <p class="meta">Stand: ${today} &nbsp;·&nbsp; Gesamt: ${totalVotes.toLocaleString('de-DE')} Votes</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Name</th><th>Handle</th><th>Kategorie</th>
+        <th style="text-align:right">Votes</th><th style="text-align:right">% Kat.</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows}
+      <tr class="total-row">
+        <td colspan="4">Gesamt</td>
+        <td style="text-align:right">${totalVotes.toLocaleString('de-DE')}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>`
+
+    const win = window.open('', '_blank')
+    if (!win) return
+    win.document.write(html)
+    win.document.close()
+    setTimeout(() => { win.print(); win.close() }, 500)
+  }
+
   const downloadSummaryCsv = () => {
     const today = new Date().toISOString().slice(0, 10)
     const header = 'rank,name,handle,category,vote_count\n'
@@ -121,15 +183,25 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
       {/* TAB 1: Summary */}
       {activeTab === 'summary' && (
         <div className="space-y-4">
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end gap-2 flex-wrap">
             <button
               onClick={downloadSummaryCsv}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
               </svg>
-              Download CSV
+              CSV exportieren
+            </button>
+            <button
+              onClick={downloadPDF}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-semibold transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              PDF herunterladen
             </button>
           </div>
 

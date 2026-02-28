@@ -6,7 +6,9 @@ import HeroSection from '@/components/HeroSection'
 import SearchFilterBar, { type SortOption } from '@/components/SearchFilterBar'
 import InfluencerCard from '@/components/InfluencerCard'
 import VideoModal from '@/components/VideoModal'
-import VoteModal from '@/components/VoteModal'
+import dynamic from 'next/dynamic'
+
+const VoteModal = dynamic(() => import('@/components/VoteModal'), { ssr: false })
 import type { Influencer } from '@/types'
 import { CATEGORIES, CATEGORY_KEYS, type CategoryKey } from '@/lib/config/categories'
 

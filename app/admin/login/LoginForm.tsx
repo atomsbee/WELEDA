@@ -86,7 +86,7 @@ export default function AdminLoginForm() {
                   autoComplete="username"
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
                   placeholder="admin"
                 />
               </div>
@@ -103,7 +103,7 @@ export default function AdminLoginForm() {
                   autoComplete="current-password"
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
                   placeholder="••••••••"
                 />
               </div>

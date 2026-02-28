@@ -259,7 +259,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
               <input
                 {...register('name')}
                 disabled={isBusy}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
                 placeholder="Influencer name"
               />
               {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
@@ -275,7 +275,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
                 <input
                   {...register('handle')}
                   disabled={isBusy}
-                  className="w-full pl-7 pr-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
+                  className="w-full pl-7 pr-3 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
                   placeholder="username"
                 />
               </div>
@@ -290,7 +290,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
               {...register('bio')}
               rows={3}
               disabled={isBusy}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green resize-none disabled:opacity-60"
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green resize-none disabled:opacity-60"
               placeholder="Short description..."
             />
           </div>
@@ -304,7 +304,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
             <input
               {...register('hashtags')}
               disabled={isBusy}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
               placeholder="#NaturalBeauty, #WELEDALove"
             />
           </div>
@@ -318,7 +318,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
                 type="number"
                 min={0}
                 disabled={isBusy}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60"
               />
             </div>
 

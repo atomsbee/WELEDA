@@ -33,7 +33,7 @@ export default function AnimatedBackground() {
       <div
         className="fixed inset-0 -z-20 pointer-events-none overflow-hidden"
         style={{
-          opacity: mounted ? (isInnerPage ? (isDark ? 0.4 : 0.5) : 1) : 0,
+          opacity: mounted ? (isInnerPage ? 0.25 : 0.55) : 0,
           transition: 'opacity 1.5s ease-in-out',
           willChange: 'opacity',
           transform: 'translateZ(0)',
@@ -77,10 +77,10 @@ export default function AnimatedBackground() {
               maxWidth: '600px',
               maxHeight: '600px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 40% 40%, rgba(140,60,255,0.85) 0%, rgba(100,20,200,0.4) 45%, transparent 70%)'
                 : 'radial-gradient(circle at 40% 40%, rgba(180,120,255,0.55) 0%, rgba(160,80,240,0.2) 45%, transparent 70%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift1 55s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -96,10 +96,10 @@ export default function AnimatedBackground() {
               height: '50vh',
               maxWidth: '550px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 60% 35%, rgba(255,50,180,0.80) 0%, rgba(200,20,120,0.35) 50%, transparent 72%)'
                 : 'radial-gradient(circle at 60% 35%, rgba(255,140,200,0.60) 0%, rgba(240,100,180,0.25) 50%, transparent 72%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift2 70s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -116,10 +116,10 @@ export default function AnimatedBackground() {
               maxWidth: '480px',
               maxHeight: '480px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 45% 55%, rgba(255,160,40,0.75) 0%, rgba(220,100,20,0.30) 50%, transparent 72%)'
                 : 'radial-gradient(circle at 45% 55%, rgba(255,200,100,0.55) 0%, rgba(240,160,40,0.22) 50%, transparent 72%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift3 65s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -136,10 +136,10 @@ export default function AnimatedBackground() {
               maxWidth: '520px',
               maxHeight: '520px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 55% 60%, rgba(20,220,160,0.65) 0%, rgba(10,160,120,0.28) 50%, transparent 72%)'
                 : 'radial-gradient(circle at 55% 60%, rgba(80,220,180,0.50) 0%, rgba(40,180,140,0.20) 50%, transparent 72%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift4 80s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -156,10 +156,10 @@ export default function AnimatedBackground() {
               maxWidth: '440px',
               maxHeight: '440px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 50% 50%, rgba(255,100,140,0.55) 0%, rgba(200,60,100,0.22) 50%, transparent 70%)'
                 : 'radial-gradient(circle at 50% 50%, rgba(255,160,180,0.45) 0%, rgba(240,120,150,0.18) 50%, transparent 70%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift5 90s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -176,10 +176,10 @@ export default function AnimatedBackground() {
               maxWidth: '380px',
               maxHeight: '380px',
               borderRadius: '50%',
-              background: isDark
+              background: mounted && isDark
                 ? 'radial-gradient(circle at 50% 50%, rgba(80,100,255,0.50) 0%, rgba(60,60,200,0.20) 50%, transparent 70%)'
                 : 'radial-gradient(circle at 50% 50%, rgba(140,160,255,0.45) 0%, rgba(100,100,240,0.18) 50%, transparent 70%)',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
+              mixBlendMode: mounted && isDark ? 'screen' : 'multiply',
               animation: 'orbDrift6 75s ease-in-out infinite',
               willChange: 'transform',
             }}
@@ -192,7 +192,7 @@ export default function AnimatedBackground() {
         <div
           className="fixed inset-0 -z-10 pointer-events-none"
           style={{
-            background: isDark
+            background: mounted && isDark
               ? 'rgba(6,0,12,0.60)'
               : 'rgba(255,250,255,0.45)',
           }}
