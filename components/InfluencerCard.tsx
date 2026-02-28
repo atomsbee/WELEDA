@@ -28,7 +28,7 @@ function InfluencerCard({
   const cat = getCategoryConfig(influencer.category)
 
   const btnGradient = cat?.gradient
-  const btnBg = cat?.primary ?? '#7C3AED'
+  const btnBg = cat?.primary ?? '#64748B'
 
   return (
     <motion.div
@@ -111,12 +111,12 @@ function InfluencerCard({
                 backdropFilter: 'blur(8px)',
                 border: isDark
                   ? '1px solid rgba(255,255,255,0.5)'
-                  : `1px solid ${cat?.primary ?? '#7C3AED'}40`,
+                  : `1px solid ${cat?.primary ?? '#64748B'}40`,
               }}
             >
               <svg
                 className="w-5 h-5 md:w-6 md:h-6 ml-0.5"
-                fill={isDark ? 'white' : (cat?.primary ?? '#7C3AED')}
+                fill={isDark ? 'white' : (cat?.primary ?? '#64748B')}
                 viewBox="0 0 24 24"
               >
                 <path d="M8 5v14l11-7z" />
@@ -170,7 +170,7 @@ function InfluencerCard({
           </svg>
           <motion.span
             key={influencer.vote_count}
-            initial={{ scale: 1.4, color: '#B478FF' }}
+            initial={{ scale: 1.4, color: 'var(--text-primary)' }}
             animate={{ scale: 1, color: 'var(--text-primary)' }}
             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             className="font-bold"

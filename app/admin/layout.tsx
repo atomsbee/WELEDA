@@ -43,7 +43,7 @@ function AdminSidebar() {
 
   return (
     <Sidebar
-      className="border-r border-white/10"
+      className="sidebar-admin border-r border-white/10"
       style={{ background: '#0b4535' }}
     >
       {/* Header: logo + title */}
@@ -128,7 +128,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen overflow-hidden bg-gray-100">
+      <div className="admin-area flex h-screen overflow-hidden bg-gray-100">
         <AdminSidebar />
         <SidebarInset className="overflow-y-auto">
           {/* Top bar with trigger */}

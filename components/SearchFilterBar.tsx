@@ -109,8 +109,8 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                 color: 'var(--text-primary)',
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'
-                e.currentTarget.style.boxShadow = '0 0 0 2px rgba(124,58,237,0.15)'
+                e.currentTarget.style.borderColor = 'rgba(11,69,53,0.5)'
+                e.currentTarget.style.boxShadow = '0 0 0 2px rgba(11,69,53,0.15)'
               }}
               onBlur={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-input)'
@@ -169,7 +169,7 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                   style={
                     isActive
                       ? {
-                        background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
+                        background: 'linear-gradient(135deg, #0b4535, #1a7a52)',
                         border: '1px solid transparent',
                         color: '#fff',
                       }
@@ -220,7 +220,7 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                         style={
                           isActive
                             ? {
-                              background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
+                              background: 'linear-gradient(135deg, #0b4535, #1a7a52)',
                               border: '1px solid transparent',
                               color: '#fff',
                             }

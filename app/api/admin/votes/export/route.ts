@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
+import { getCategoryConfig } from '@/lib/config/categories'
 
 interface VoteWithInfluencer {
   voter_name: string
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
     const filename = `weleda-votes-${influencerSlug}-${today}.csv`
 
-    const header = 'Voter Name,Voter ID (anonymised),Category,Influencer Name,Handle,Date,Time'
+    const header = 'Voter Name,Voter ID (anonymised),Creator,Handle,Category,Date,Time'
     const lines = rows.map((v) => {
       const votedAt = new Date(v.voted_at)
       const day = String(votedAt.getDate()).padStart(2, '0')
@@ -70,18 +71,20 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       const year = votedAt.getFullYear()
       const hours = String(votedAt.getHours()).padStart(2, '0')
       const minutes = String(votedAt.getMinutes()).padStart(2, '0')
+      const categoryLabel = getCategoryConfig(v.category)?.label ?? v.category ?? ''
       return [
         escapeCsv(v.voter_name),
         escapeCsv(maskEmailHash(v.email_hash)),
-        escapeCsv(v.category ?? ''),
         escapeCsv(v.influencers?.name ?? ''),
         escapeCsv(v.influencers?.handle ?? ''),
+        escapeCsv(categoryLabel),
         escapeCsv(`${day}.${month}.${year}`),
         escapeCsv(`${hours}:${minutes}`),
       ].join(',')
     })
 
-    const csv = [header, ...lines].join('\n')
+    // UTF-8 BOM ensures Excel opens the file with correct encoding
+    const csv = '\uFEFF' + [header, ...lines].join('\r\n')
 
     return new NextResponse(csv, {
       headers: {

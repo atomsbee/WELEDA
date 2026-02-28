@@ -205,6 +205,20 @@ html.light .text-white\/10 { color: rgba(26,10,46,0.12)   !important; }
 html.light .hover\:text-white:hover      { color: var(--text-primary)   !important; }
 html.light .hover\:text-white\/90:hover  { color: rgba(26,10,46,0.92)   !important; }
 
+/* ── Admin area: always light-style, not theme-responsive ── */
+/* Forces a dark base text so admin cards are readable in both light + dark modes.
+   Elements with explicit Tailwind text classes (text-gray-*) override this normally. */
+.admin-area { color: #111827; }
+
+/* Restore actual white for elements intentionally on dark/coloured backgrounds */
+html.light .admin-area .text-white                { color: #ffffff                !important; }
+html.light .admin-area .hover\:text-white:hover   { color: #ffffff                !important; }
+
+/* Sidebar-specific opacity variants (dark green bg needs true white at every opacity) */
+html.light .sidebar-admin .text-white\/60 { color: rgba(255,255,255,0.60)   !important; }
+html.light .sidebar-admin .text-white\/40 { color: rgba(255,255,255,0.40)   !important; }
+html.light .sidebar-admin .text-white\/10 { color: rgba(255,255,255,0.10)   !important; }
+
 /* ── Light mode: placeholder ──────────────────────────────────── */
 html.light ::placeholder { color: var(--text-faint); }
 

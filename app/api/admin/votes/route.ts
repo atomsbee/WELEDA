@@ -8,6 +8,7 @@ interface VoteWithInfluencer {
   email_hash: string
   voted_at: string
   influencer_id: string
+  category: string | null
   influencers: {
     name: string
     handle: string
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     let query = supabase
       .from('votes')
-      .select('id, voter_name, email_hash, voted_at, influencer_id, influencers(name, handle)', {
+      .select('id, voter_name, email_hash, voted_at, influencer_id, category, influencers(name, handle)', {
         count: 'exact',
       })
       .order('voted_at', { ascending: false })
@@ -59,6 +60,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       influencer_id: v.influencer_id,
       influencer_name: v.influencers?.name ?? '–',
       influencer_handle: v.influencers?.handle ?? '–',
+      category: v.category,
       voted_at: v.voted_at,
     }))
 

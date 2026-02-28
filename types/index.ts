@@ -43,6 +43,7 @@ export interface AdminVote {
   influencer_id: string
   influencer_name: string
   influencer_handle: string
+  category: string | null
   voted_at: string
 }
 

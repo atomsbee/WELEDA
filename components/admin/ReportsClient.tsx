@@ -356,6 +356,7 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
                         </span>
                       </th>
                       <th className="text-left px-4 py-3 font-semibold text-gray-600">Creator</th>
+                      <th className="text-left px-4 py-3 font-semibold text-gray-600">Category</th>
                       <th className="text-left px-4 py-3 font-semibold text-gray-600">Date</th>
                       <th className="text-left px-4 py-3 font-semibold text-gray-600">Time</th>
                     </tr>
@@ -363,13 +364,14 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
                   <tbody className="divide-y divide-gray-100">
                     {votes.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                        <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
                           No votes found.
                         </td>
                       </tr>
                     ) : (
                       votes.map((vote) => {
                         const d = new Date(vote.voted_at)
+                        const catConfig = getCategoryConfig(vote.category)
                         return (
                           <tr key={vote.id} className="hover:bg-gray-50">
                             <td className="px-4 py-3 font-medium text-gray-900">{vote.voter_name}</td>
@@ -379,6 +381,18 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
                                 {vote.influencer_name}
                               </span>{' '}
                               <span className="text-gray-400">{vote.influencer_handle}</span>
+                            </td>
+                            <td className="px-4 py-3">
+                              {catConfig ? (
+                                <span
+                                  className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap"
+                                  style={{ background: catConfig.badgeBg, color: catConfig.badgeText }}
+                                >
+                                  {catConfig.label}
+                                </span>
+                              ) : (
+                                <span className="text-gray-400 text-xs">—</span>
+                              )}
                             </td>
                             <td className="px-4 py-3 text-gray-500">
                               {d.toLocaleDateString('en-US')}
