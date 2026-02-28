@@ -1,31 +1,24 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
+import { useTheme } from 'next-themes'
+import { CATEGORIES, PRODUCT_IMAGE, MARQUEE_ITEMS, CATEGORY_KEYS } from '@/lib/config/categories'
 
 interface HeroSectionProps {
   campaignActive: boolean
   endDate: string | null
 }
 
-interface Particle {
-  id: number
-  x: number
-  y: number
-  size: number
-  duration: number
-  delay: number
-}
-
 const heroVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
-      duration: 0.6,
+      delay: i * 0.12,
+      duration: 0.55,
       ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
     },
   }),
@@ -33,273 +26,375 @@ const heroVariants = {
 
 export default function HeroSection({ campaignActive, endDate }: HeroSectionProps) {
   const shouldReduceMotion = useReducedMotion()
-  const [particles, setParticles] = useState<Particle[]>([])
+  const { resolvedTheme } = useTheme()
+  const isLight = resolvedTheme === 'light'
 
-  const scrollToGrid = () => {
+  const scrollToGrid = useCallback(() => {
     document.getElementById('influencer-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
-  useEffect(() => {
-    if (shouldReduceMotion) return
-    const isMobile = window.innerWidth < 768
-    const count = isMobile ? 8 : 20
-    setParticles(
-      Array.from({ length: count }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 6 + 4,
-        duration: Math.random() * 10 + 8,
-        delay: Math.random() * 5,
-      }))
-    )
-  }, [shouldReduceMotion])
+  }, [])
 
   return (
-    <section
-      className="relative min-h-[60vh] flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0b4535 0%, #0d5240 50%, #0b4535 100%)' }}
-    >
-      {/* Subtle texture overlay */}
-      <div
-        className="absolute inset-0 opacity-5 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/G%3E%3C/svg%3E")`,
-        }}
-      />
+    <>
+      {/* ── HERO ───────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-24">
 
-      {/* Decorative leaf elements */}
-      <div className="absolute top-0 left-0 w-48 h-48 opacity-10 pointer-events-none">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 0 C50 20 100 80 200 200 L0 200 Z" fill="#52B788" />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 opacity-10 pointer-events-none">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M200 200 C150 180 100 120 0 0 L200 0 Z" fill="#52B788" />
-        </svg>
-      </div>
-
-      {/* Gradient orbs — skip if reduced motion */}
-      {!shouldReduceMotion && (
-        <>
-          <motion.div
-            className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#52B788]/20 blur-3xl pointer-events-none"
-            style={{ willChange: 'transform' }}
-            animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[#0b4535]/30 blur-3xl pointer-events-none"
-            style={{ willChange: 'transform' }}
-            animate={{ x: [0, -20, 0], y: [0, 20, 0], scale: [1, 1.15, 1] }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          />
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-[#D4A853]/10 blur-3xl pointer-events-none"
-            style={{ willChange: 'transform' }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          />
-        </>
-      )}
-
-      {/* Floating particles — client-side only, skip if reduced motion */}
-      {!shouldReduceMotion && particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-white/10 pointer-events-none"
+        {/* Hero ambient glow — static soft violet behind headline text */}
+        <div
+          className="absolute pointer-events-none"
           style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            willChange: 'transform, opacity',
-          }}
-          animate={{ y: [0, -80, 0], opacity: [0, 0.6, 0] }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'easeInOut',
+            top: '50%',
+            left: '35%',
+            transform: 'translate(-50%, -50%)',
+            width: '600px',
+            height: '400px',
+            background: 'radial-gradient(ellipse at center, rgba(140,80,220,0.12) 0%, transparent 70%)',
+            filter: 'blur(40px)',
           }}
         />
-      ))}
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 py-16 max-w-4xl mx-auto">
+        {/* Content */}
+        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 max-w-6xl mx-auto w-full">
 
-        {/* Logo */}
-        <motion.div
-          custom={0}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-8"
-        >
-          <Image
-            src="/weleda-logo-white.svg"
-            alt="WELEDA"
-            width={180}
-            height={50}
-            priority
-            className="w-36 md:w-48"
-          />
-        </motion.div>
+          {/* Text block */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 max-w-xl">
 
-        {/* Animated badge */}
-        <motion.div
-          custom={1}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-6"
-        >
-          <motion.div
-            className="relative overflow-hidden inline-flex items-center gap-2 px-4 py-2 rounded-full"
-            style={{
-              background: 'rgba(212,168,83,0.15)',
-              border: '1px solid rgba(212,168,83,0.4)',
-              color: '#D4A853',
-            }}
-            animate={shouldReduceMotion ? {} : {
-              boxShadow: [
-                '0 0 0px rgba(212,168,83,0)',
-                '0 0 20px rgba(212,168,83,0.3)',
-                '0 0 0px rgba(212,168,83,0)',
-              ],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            {/* Shimmer sweep */}
-            {!shouldReduceMotion && (
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none"
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1, ease: 'linear' }}
-              />
+            {/* Shimmer campaign badge */}
+            <motion.div custom={1} variants={heroVariants} initial="hidden" animate="visible" className="mb-5">
+              <motion.span
+                animate={shouldReduceMotion ? {} : { opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
+                style={{
+                  background: isLight ? 'rgba(212,168,83,0.12)' : 'rgba(212,168,83,0.15)',
+                  border: `1px solid ${isLight ? 'rgba(146,100,10,0.35)' : 'rgba(212,168,83,0.4)'}`,
+                  color: isLight ? '#7A4F00' : '#cb5f17',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: isLight ? '#7A4F00' : '#E8C97A' }} />
+                Community Vote · 13.03 – 17.03.2026
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: isLight ? '#7A4F00' : '#E8C97A' }} />
+              </motion.span>
+            </motion.div>
+
+            {/* Gradient headline */}
+            <motion.h1
+              custom={2}
+              variants={heroVariants}
+              initial="hidden"
+              animate="visible"
+              className="font-black leading-none mb-3"
+              style={{ fontSize: 'clamp(2.6rem, 7vw, 5rem)', letterSpacing: '-0.02em' }}
+            >
+              <span style={{ color: 'var(--text-primary)' }}>WELEDA&apos;S</span>
+              <br />
+              <span
+                style={{
+                  display: 'inline-block',
+                  background: 'linear-gradient(135deg, #FFB6E8 0%, #B478FF 35%, #FFD700 65%, #FF6EB4 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                SUMMER VOTE
+              </span>
+            </motion.h1>
+
+            {/* Category subline */}
+            <motion.p
+              custom={3}
+              variants={heroVariants}
+              initial="hidden"
+              animate="visible"
+              className="text-sm md:text-base font-medium mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 justify-center lg:justify-start"
+            >
+              <span style={{ color: CATEGORIES['vanilla-cloud'].secondary }}>Vanilla Cloud</span>
+              <span style={{ color: 'var(--text-faint)' }}>·</span>
+              <span style={{ color: CATEGORIES['mystic-aura'].secondary }}>Mystic Aura</span>
+              <span style={{ color: 'var(--text-faint)' }}>·</span>
+              <span style={{ color: CATEGORIES['tropical-crush'].secondary }}>Tropical Crush</span>
+            </motion.p>
+
+            {/* Body */}
+            <motion.p
+              custom={4}
+              variants={heroVariants}
+              initial="hidden"
+              animate="visible"
+              className="text-base leading-relaxed mb-2 max-w-md"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Vote for your favourite creator in each fragrance category. One vote per category — up to 3 total!
+            </motion.p>
+
+            {endDate && (
+              <motion.p custom={5} variants={heroVariants} initial="hidden" animate="visible" className="text-sm mb-8" style={{ color: 'var(--text-faint)' }}>
+                {campaignActive ? `Voting open until ${endDate}` : `Voting ended on ${endDate}`}
+              </motion.p>
             )}
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A853] inline-block relative flex-shrink-0" />
-            <span className="relative text-xs font-bold tracking-widest uppercase">
-              Community Vote · 30 Creators · Your Vote Counts!
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A853] inline-block relative flex-shrink-0" />
-          </motion.div>
-        </motion.div>
 
-        {/* Main headline */}
-        <motion.h1
-          custom={2}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-3 leading-none"
-        >
-          WELEDA&apos;S
-          <br />
-          <span className="text-weleda-gold">NEXT TOPMODEL</span>
-        </motion.h1>
+            {/* CTA button */}
+            <motion.div custom={6} variants={heroVariants} initial="hidden" animate="visible">
+              <div className="relative inline-flex">
+                <motion.button
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={scrollToGrid}
+                  className="relative px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase text-white"
+                  style={{
+                    background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 33%, #FF6EB4 66%, #B478FF 100%)',
+                  }}
+                >
+                  <span className="flex items-center gap-2">
+                    Vote Now
+                    <span>→</span>
+                  </span>
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
 
-        {/* Subline */}
-        <motion.p
-          custom={3}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-lg md:text-xl font-light italic mb-6"
-          style={{ color: '#D4A853' }}
-        >
-          Community Voting
-        </motion.p>
-
-        {/* Body text */}
-        <motion.p
-          custom={4}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-white/80 text-base md:text-lg max-w-xl mb-3 leading-relaxed"
-        >
-          Vote for the next face of WELEDA! Cast your vote for your favourite creator.
-        </motion.p>
-
-        {/* End date */}
-        {endDate && (
-          <motion.p
+          {/* Floating product image */}
+          <motion.div
             custom={5}
             variants={heroVariants}
             initial="hidden"
             animate="visible"
-            className="text-white/50 text-sm mb-8"
-          >
-            {campaignActive ? `Voting open until ${endDate}` : `Voting ended on ${endDate}`}
-          </motion.p>
-        )}
-
-        {/* CTA button */}
-        <motion.div
-          custom={6}
-          variants={heroVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.button
-            whileHover="hover"
-            whileTap={{ scale: 0.97 }}
-            onClick={scrollToGrid}
-            className="relative overflow-hidden mt-4 w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase shadow-lg min-h-[52px]"
-            style={{ background: '#D4A853', color: '#0b4535' }}
+            className="relative flex-shrink-0 hidden lg:block"
           >
             <motion.div
-              className="absolute inset-0 bg-white/20 pointer-events-none"
-              initial={{ x: '-100%' }}
-              variants={{ hover: { x: '0%' } }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative flex items-center justify-center gap-2">
-              Vote Now
-              <motion.span
-                variants={{ hover: { x: 4 } }}
-                transition={{ duration: 0.2 }}
-              >
-                →
-              </motion.span>
-            </span>
-          </motion.button>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      {!shouldReduceMotion && (
-        <motion.div
-          className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 0.8 }}
-        >
-          <motion.div
-            className="flex flex-col items-center gap-2"
-            animate={{ y: [0, 4, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 2.5 }}
-          >
-            <span className="uppercase text-xs tracking-widest">Scroll</span>
-            <div className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center p-1">
-              <motion.div
-                className="w-1 h-2 rounded-full bg-white/60"
-                animate={{ y: [0, 10, 0], opacity: [1, 0, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 2.5 }}
+              animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative w-[28rem] h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-3xl overflow-hidden"
+              style={{
+                background: 'var(--bg-card)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid var(--border-card)',
+                boxShadow: '0 0 60px rgba(180,120,255,0.3), 0 0 120px rgba(212,168,83,0.15)',
+              }}
+            >
+              <Image
+                src={PRODUCT_IMAGE}
+                alt="WELEDA Summer Collection"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1280px) 672px, 544px"
+                priority
               />
-            </div>
+            </motion.div>
+            {/* Ambient glow */}
+            <div
+              className="absolute -inset-8 rounded-3xl pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, rgba(180,120,255,0.25) 0%, rgba(212,168,83,0.1) 50%, transparent 70%)',
+              }}
+            />
           </motion.div>
-        </motion.div>
-      )}
+        </div>
 
-      {/* Wave divider */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 60 L0 30 Q360 0 720 30 Q1080 60 1440 30 L1440 60 Z" fill="#FAFAF8" />
-        </svg>
+        {/* Scroll indicator */}
+        {!shouldReduceMotion && (
+          <motion.div
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2 }}
+            style={{ color: 'var(--text-faint)' }}
+          >
+            <motion.div
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex flex-col items-center gap-2"
+            >
+              <span className="text-[10px] uppercase tracking-widest">Scroll</span>
+              <div
+                className="w-5 h-8 rounded-full flex items-start justify-center p-1"
+                style={{ border: '1px solid var(--border-chip)' }}
+              >
+                <motion.div
+                  className="w-1 h-2 rounded-full"
+                  style={{ background: 'var(--text-chip)' }}
+                  animate={{ y: [0, 10, 0], opacity: [1, 0, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </section>
+
+      {/* ── MARQUEE TICKER ────────────────────────────────────────────── */}
+      <div
+        className="overflow-hidden py-3"
+        style={{
+          background: 'var(--bg-card-inner)',
+          backdropFilter: 'blur(8px)',
+          borderTop: '1px solid var(--border-nav)',
+          borderBottom: '1px solid var(--border-nav)',
+        }}
+      >
+        <motion.div
+          className="flex whitespace-nowrap"
+          animate={shouldReduceMotion ? {} : { x: ['0%', '-50%'] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
+        >
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-4 px-4">
+              <span className="text-xs font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--text-chip)' }}>
+                {item}
+              </span>
+              <span
+                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                style={{
+                  background: i % 3 === 0 ? '#B478FF' : i % 3 === 1 ? '#E8C97A' : '#52B788',
+                }}
+              />
+            </span>
+          ))}
+        </motion.div>
       </div>
-    </section>
+
+      {/* ── CATEGORY MODEL CARDS ─────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-4 py-16">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center text-2xl md:text-3xl font-black mb-2 text-white"
+        >
+          Choose Your Fragrance World
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-center text-sm mb-10 text-white/60"
+        >
+          One vote per category — discover all three and vote for your favourites.
+        </motion.p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {CATEGORY_KEYS.map((key, i) => {
+            const cat = CATEGORIES[key]
+            return (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
+                className="relative rounded-2xl overflow-hidden cursor-pointer group"
+                onClick={scrollToGrid}
+                style={{
+                  background: 'var(--bg-card)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid var(--border-card)',
+                  boxShadow: `0 0 40px ${cat.glow}`,
+                  transition: 'box-shadow 0.3s, transform 0.3s',
+                }}
+              >
+                {/* Model image */}
+                <div className="relative aspect-[3/4] w-full">
+                  <Image
+                    src={cat.modelImage}
+                    alt={cat.label}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 90vw, 30vw"
+                  />
+                  {/* Gradient overlay */}
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.88) 100%)' }}
+                  />
+                  {/* Iridescent hover overlay */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+                    style={{ background: cat.gradient, mixBlendMode: 'screen' }}
+                  />
+                </div>
+
+                {/* Label */}
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-2"
+                    style={{ background: cat.gradient, color: 'white' }}
+                  >
+                    {cat.hashtag}
+                  </div>
+                  <p
+                    className="font-black text-xl leading-tight"
+                    style={{ color: 'white', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
+                  >
+                    {cat.label}
+                  </p>
+                  <p
+                    className="text-xs mt-0.5"
+                    style={{ color: 'rgba(255,255,255,0.70)', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
+                  >
+                    {cat.tagline}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* ── VOTING RULES ─────────────────────────────────────────────── */}
+      <section
+        className="py-14"
+        style={{
+          background: 'var(--bg-card-inner)',
+          backdropFilter: 'blur(12px)',
+          borderTop: '1px solid var(--border-nav)',
+          borderBottom: '1px solid var(--border-nav)',
+        }}
+      >
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.h3
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center font-black text-xl mb-10 text-[#1a0a2e] dark:text-white"
+          >
+            How Voting Works
+          </motion.h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+            {[
+              { step: '01', title: 'Pick a Category', desc: 'Browse creators in Vanilla Cloud, Mystic Aura, or Tropical Crush.' },
+              { step: '02', title: 'Cast Your Vote', desc: 'Enter your name and email. One vote per fragrance category.' },
+              { step: '03', title: 'Up to 3 Votes', desc: 'You can vote once per category — three categories, three chances!' },
+            ].map((r, i) => (
+              <motion.div
+                key={r.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="flex flex-col items-center gap-3"
+              >
+                <span
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-black text-base text-white"
+                  style={{
+                    background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 100%)',
+                    boxShadow: '0 0 24px rgba(180,120,255,0.45)',
+                  }}
+                >
+                  {r.step}
+                </span>
+                <p className="font-bold text-[#1a0a2e] dark:text-white">{r.title}</p>
+                <p className="text-sm leading-relaxed text-[#1a0a2e]/60 dark:text-white/50">{r.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   )
 }

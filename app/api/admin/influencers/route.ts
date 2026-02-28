@@ -18,6 +18,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const hashtagsRaw = String(formData.get('hashtags') ?? '').trim()
     const displayOrder = parseInt(String(formData.get('display_order') ?? '0'), 10)
     const isActive = String(formData.get('is_active')) === 'true'
+    const categoryRaw = String(formData.get('category') ?? '').trim()
+    const category = ['vanilla-cloud', 'mystic-aura', 'tropical-crush'].includes(categoryRaw)
+      ? categoryRaw
+      : null
 
     if (!name || !handle) {
       return NextResponse.json({ success: false, error: 'missing_required_fields' })
@@ -57,6 +61,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         hashtags,
         display_order: isNaN(displayOrder) ? 0 : displayOrder,
         is_active: isActive,
+        category,
       })
       .select()
       .single()

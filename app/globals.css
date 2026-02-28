@@ -35,7 +35,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'NeoSansWeleda';
   src: url('/fonts/NeoSansWeleda-Regular.woff2') format('woff2'),
@@ -71,26 +70,36 @@
     --weleda-bg: #FAFAF8;
     --weleda-card-border: #E8E8E4;
 
+    /* Animated gradient bg */
+    --color-bg:       #0a0010;
+    --first-color:    180, 120, 255;
+    --second-color:   255, 100, 180;
+    --third-color:    255, 180, 80;
+    --fourth-color:   80, 220, 180;
+    --fifth-color:    255, 120, 140;
+    --blending-value: hard-light;
+    --size:           80vmax;
+
     /* shadcn/ui CSS variables */
-    --background: 0 0% 98%;
-    --foreground: 222.2 47.4% 11.2%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
     --primary: 152 74% 13%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --secondary: 270 50% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 270 20% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 270 50% 20%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 152 74% 13%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 270 70% 60%;
     --radius: 0.75rem;
   }
 
@@ -103,35 +112,252 @@
   }
 
   body {
-    @apply bg-weleda-bg text-weleda-dark antialiased;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.3s ease;
+    @apply antialiased;
     font-family: 'Sculpin', system-ui, sans-serif;
   }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--weleda-green-light);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--weleda-green);
+/* ── Theme tokens (dark default · light override) ───────────── */
+:root,
+html.dark {
+  --bg-page: #0a0010;
+  --bg-gradient: linear-gradient(135deg, #08000f 0%, #0f0018 45%, #080510 100%);
+  --bg-card: rgba(255,255,255,0.07);
+  --bg-card-inner: rgba(0,0,0,0.18);
+  --bg-nav: rgba(10,0,16,0.60);
+  --bg-filter: rgba(10,0,16,0.65);
+  --bg-footer: rgba(0,0,0,0.45);
+  --bg-modal: rgba(15,0,25,0.92);
+  --bg-modal-overlay: rgba(0,0,0,0.85);
+  --bg-input: rgba(255,255,255,0.08);
+  --bg-chip: rgba(255,255,255,0.07);
+  --bg-cookie: rgba(10,0,20,0.85);
+  --bg-inner-scrim: rgba(6,0,12,0.60);
+  --border-card: rgba(255,255,255,0.12);
+  --border-nav: rgba(255,255,255,0.08);
+  --border-modal: rgba(255,255,255,0.12);
+  --border-input: rgba(255,255,255,0.15);
+  --border-chip: rgba(255,255,255,0.12);
+  --border-footer: rgba(255,255,255,0.08);
+  --border-cookie: rgba(255,255,255,0.10);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.65);
+  --text-muted: rgba(255,255,255,0.40);
+  --text-faint: rgba(255,255,255,0.30);
+  --text-chip: rgba(255,255,255,0.55);
 }
 
-/* Focus styles */
+html.light {
+  color-scheme: light;
+  /* Cream/blush/mint base — elegant, feminine, beauty-brand */
+  --bg-page: #fdf6ff;
+  --bg-gradient: linear-gradient(135deg, #fdf6ff 0%, #fff5f8 45%, #f5fff8 100%);
+  /* Glass cards: white with subtle violet tint — visible against cream */
+  --bg-card: rgba(255,255,255,0.65);
+  --bg-card-inner: rgba(140,80,220,0.04);
+  /* Nav / filter: semi-transparent white */
+  --bg-nav: rgba(255,255,255,0.72);
+  --bg-filter: rgba(255,252,255,0.78);
+  --bg-footer: rgba(255,255,255,0.68);
+  /* Modal: near-opaque white */
+  --bg-modal: rgba(255,253,255,0.97);
+  --bg-modal-overlay: rgba(90,60,130,0.45);
+  /* Inputs / chips */
+  --bg-input: rgba(255,255,255,0.88);
+  --bg-chip: rgba(140,80,220,0.08);
+  --bg-cookie: rgba(255,255,255,0.95);
+  /* Inner page reading scrim — handled inline in AnimatedBackground */
+  --bg-inner-scrim: rgba(255,250,255,0.45);
+  /* Borders: violet-tinted */
+  --border-card: rgba(140,80,220,0.18);
+  --border-nav: rgba(140,80,220,0.12);
+  --border-modal: rgba(140,80,220,0.18);
+  --border-input: rgba(140,80,220,0.22);
+  --border-chip: rgba(140,80,220,0.15);
+  --border-footer: rgba(140,80,220,0.10);
+  --border-cookie: rgba(140,80,220,0.12);
+  /* Text: deep purple-black — premium, not flat black */
+  --text-primary: #1a0a2e;
+  --text-secondary: rgba(26,10,46,0.72);
+  --text-muted: rgba(26,10,46,0.50);
+  --text-faint: rgba(26,10,46,0.34);
+  --text-chip: rgba(26,10,46,0.58);
+}
+
+/* ── Light mode: Tailwind text-white overrides ────────────────── */
+html.light .text-white     { color: var(--text-primary)   !important; }
+html.light .text-white\/75 { color: var(--text-secondary) !important; }
+html.light .text-white\/70 { color: var(--text-secondary) !important; }
+html.light .text-white\/65 { color: var(--text-secondary) !important; }
+html.light .text-white\/60 { color: var(--text-secondary) !important; }
+html.light .text-white\/55 { color: var(--text-chip)      !important; }
+html.light .text-white\/50 { color: var(--text-muted)     !important; }
+html.light .text-white\/45 { color: var(--text-muted)     !important; }
+html.light .text-white\/40 { color: var(--text-muted)     !important; }
+html.light .text-white\/35 { color: var(--text-faint)     !important; }
+html.light .text-white\/30 { color: var(--text-faint)     !important; }
+html.light .text-white\/25 { color: rgba(26,10,46,0.28)   !important; }
+html.light .text-white\/20 { color: rgba(26,10,46,0.22)   !important; }
+html.light .text-white\/10 { color: rgba(26,10,46,0.12)   !important; }
+html.light .hover\:text-white:hover      { color: var(--text-primary)   !important; }
+html.light .hover\:text-white\/90:hover  { color: rgba(26,10,46,0.92)   !important; }
+
+/* ── Light mode: placeholder ──────────────────────────────────── */
+html.light ::placeholder { color: var(--text-faint); }
+
+/* ── Light mode: WELEDA logo inversion ───────────────────────── */
+html.light .weleda-logo { filter: invert(1); }
+
+/* ── Footer nav links ─────────────────────────────────────────── */
+.footer-nav-link {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+.footer-nav-link:hover { color: var(--text-primary); }
+
+/* ── Animated gradient orb keyframes (transform-only, px — no layout) ── */
+
+/* Orb 1 — Deep Violet — TOP LEFT */
+@keyframes orbDrift1 {
+  0%   { transform: translate3d(0px,   0px,  0) scale(1);    }
+  20%  { transform: translate3d(40px,  60px, 0) scale(1.04); }
+  45%  { transform: translate3d(70px,  20px, 0) scale(0.97); }
+  65%  { transform: translate3d(30px,  80px, 0) scale(1.03); }
+  80%  { transform: translate3d(55px,  40px, 0) scale(0.98); }
+  100% { transform: translate3d(0px,   0px,  0) scale(1);    }
+}
+
+/* Orb 2 — Hot Magenta — TOP RIGHT */
+@keyframes orbDrift2 {
+  0%   { transform: translate3d(0px,   0px,  0) scale(1);    }
+  25%  { transform: translate3d(-50px, 70px, 0) scale(1.06); }
+  50%  { transform: translate3d(-80px, 30px, 0) scale(0.95); }
+  70%  { transform: translate3d(-40px, 90px, 0) scale(1.02); }
+  90%  { transform: translate3d(-60px, 50px, 0) scale(0.98); }
+  100% { transform: translate3d(0px,   0px,  0) scale(1);    }
+}
+
+/* Orb 3 — Warm Amber/Gold — BOTTOM LEFT */
+@keyframes orbDrift3 {
+  0%   { transform: translate3d(0px,  0px,   0) scale(1);    }
+  15%  { transform: translate3d(60px, -50px, 0) scale(1.05); }
+  40%  { transform: translate3d(90px, -20px, 0) scale(0.96); }
+  60%  { transform: translate3d(45px, -70px, 0) scale(1.04); }
+  85%  { transform: translate3d(70px, -35px, 0) scale(0.99); }
+  100% { transform: translate3d(0px,  0px,   0) scale(1);    }
+}
+
+/* Orb 4 — Teal/Emerald — BOTTOM RIGHT */
+@keyframes orbDrift4 {
+  0%   { transform: translate3d(0px,   0px,   0) scale(1);    }
+  30%  { transform: translate3d(-70px, -60px, 0) scale(1.07); }
+  55%  { transform: translate3d(-40px, -90px, 0) scale(0.94); }
+  75%  { transform: translate3d(-80px, -30px, 0) scale(1.03); }
+  95%  { transform: translate3d(-55px, -65px, 0) scale(0.97); }
+  100% { transform: translate3d(0px,   0px,   0) scale(1);    }
+}
+
+/* Orb 5 — Soft Rose — CENTER RIGHT */
+@keyframes orbDrift5 {
+  0%   { transform: translate3d(0px,   0px,  0) scale(1);    }
+  20%  { transform: translate3d(-45px, -40px,0) scale(1.05); }
+  50%  { transform: translate3d(-80px, 20px, 0) scale(0.96); }
+  70%  { transform: translate3d(-30px, -60px,0) scale(1.02); }
+  90%  { transform: translate3d(-60px, 10px, 0) scale(0.99); }
+  100% { transform: translate3d(0px,   0px,  0) scale(1);    }
+}
+
+/* Orb 6 — Cool Indigo — CENTER LEFT */
+@keyframes orbDrift6 {
+  0%   { transform: translate3d(0px,  0px,  0) scale(1);    }
+  25%  { transform: translate3d(50px, -30px,0) scale(1.06); }
+  50%  { transform: translate3d(30px, 50px, 0) scale(0.95); }
+  75%  { transform: translate3d(60px, 20px, 0) scale(1.03); }
+  100% { transform: translate3d(0px,  0px,  0) scale(1);    }
+}
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+::-webkit-scrollbar-thumb {
+  background: rgba(180,120,255,0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(180,120,255,0.8); }
+html.light ::-webkit-scrollbar-track { background: rgba(140,80,220,0.06); }
+html.light ::-webkit-scrollbar-thumb { background: rgba(140,80,220,0.35); }
+html.light ::-webkit-scrollbar-thumb:hover { background: rgba(140,80,220,0.55); }
+
+/* ── Focus styles ─────────────────────────────────────────────── */
 *:focus-visible {
-  outline: 2px solid var(--weleda-green);
+  outline: 2px solid rgba(180,120,255,0.8);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* Selection */
+/* ── Selection ────────────────────────────────────────────────── */
 ::selection {
-  background-color: var(--weleda-green-light);
+  background-color: rgba(180,120,255,0.4);
   color: white;
+}
+html.light ::selection {
+  background-color: rgba(140,80,220,0.25);
+  color: #1a0a2e;
+}
+
+/* ── Hide Supabase auth widget + floating badge on public pages ─ */
+[data-supabase-auth-ui-root],
+.supabase-auth-ui_ui-container,
+[id^='supabase-auth'],
+/* Supabase floating "N" badge */
+[data-netlify],
+.__supabase_sb_widget,
+[id='supabase-logo'],
+a[href*='supabase.com/dashboard'],
+div[class*='SupabaseWidget'],
+div[class*='supabase-widget'],
+iframe[src*='supabase'] {
+  display: none !important;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── BOKEH RINGS ──────────────────────────────────────────────── */
+@keyframes bokehFloat {
+  0%   {
+    transform: translateY(0) scale(0.85);
+    opacity: 0;
+  }
+  6%   { opacity: 1; }
+  88%  { opacity: 0.7; }
+  100% {
+    transform: translateY(-110vh) scale(1.08);
+    opacity: 0;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bokeh-el { animation: none !important; opacity: 0 !important; }
 }

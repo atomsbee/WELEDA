@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import type { Influencer } from '@/types'
 import InfluencerForm from './InfluencerForm'
 import { Switch } from '@/components/ui/switch'
+import { getCategoryConfig } from '@/lib/config/categories'
 
 interface Props {
   initialInfluencers: Influencer[]
@@ -130,6 +131,9 @@ export default function InfluencerManagementClient({ initialInfluencers }: Props
                 <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden sm:table-cell">
                   Handle
                 </th>
+                <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden md:table-cell">
+                  Category
+                </th>
                 <th className="text-right px-4 py-3 font-semibold text-gray-600">
                   Votes
                 </th>
@@ -144,12 +148,14 @@ export default function InfluencerManagementClient({ initialInfluencers }: Props
             <tbody className="divide-y divide-gray-100">
               {influencers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                  <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
                     No influencers found. Check your Supabase service role key.
                   </td>
                 </tr>
               ) : (
-                influencers.map((inf) => (
+                influencers.map((inf) => {
+                  const cat = getCategoryConfig(inf.category)
+                  return (
                   <tr key={inf.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3">
                       <div className="relative w-9 h-9 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
@@ -165,6 +171,18 @@ export default function InfluencerManagementClient({ initialInfluencers }: Props
                     <td className="px-4 py-3 font-medium text-gray-900">{inf.name}</td>
                     <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">
                       {inf.handle}
+                    </td>
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      {cat ? (
+                        <span
+                          className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
+                          style={{ background: cat.badgeBg, color: cat.badgeText }}
+                        >
+                          {cat.label}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-right font-bold" style={{ color: '#0b4535' }}>
                       {inf.vote_count.toLocaleString('en-US')}
@@ -231,7 +249,7 @@ export default function InfluencerManagementClient({ initialInfluencers }: Props
                       </div>
                     </td>
                   </tr>
-                ))
+                )})
               )}
             </tbody>
           </table>

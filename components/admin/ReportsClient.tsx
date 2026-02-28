@@ -9,6 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select'
+import { CATEGORIES, CATEGORY_KEYS, getCategoryConfig } from '@/lib/config/categories'
 
 interface Props {
   influencers: Influencer[]
@@ -69,9 +70,9 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
 
   const downloadSummaryCsv = () => {
     const today = new Date().toISOString().slice(0, 10)
-    const header = 'rank,name,handle,vote_count\n'
+    const header = 'rank,name,handle,category,vote_count\n'
     const rows = influencers
-      .map((inf, i) => `${i + 1},"${inf.name}","${inf.handle}",${inf.vote_count}`)
+      .map((inf, i) => `${i + 1},"${inf.name}","${inf.handle}","${inf.category ?? ''}",${inf.vote_count}`)
       .join('\n')
     const csv = header + rows
     const blob = new Blob([csv], { type: 'text/csv' })
@@ -84,6 +85,16 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
   }
 
   const maxVotes = influencers[0]?.vote_count ?? 1
+
+  // Group influencers by category for summary view
+  const groupedSummary = CATEGORY_KEYS.map((key) => ({
+    key,
+    config: CATEGORIES[key],
+    items: influencers.filter((inf) => inf.category === key),
+    categoryTotal: influencers
+      .filter((inf) => inf.category === key)
+      .reduce((s, inf) => s + inf.vote_count, 0),
+  }))
 
   return (
     <div className="space-y-4">
@@ -122,64 +133,90 @@ export default function ReportsClient({ influencers, totalVotes }: Props) {
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600 w-12">Rank</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600">Name</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600">Handle</th>
-                  <th className="text-right px-4 py-3 font-semibold text-gray-600">Votes</th>
-                  <th className="text-right px-4 py-3 font-semibold text-gray-600">% Total</th>
-                  <th className="px-4 py-3 w-36"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {influencers.map((inf, i) => {
-                  const pct = totalVotes > 0 ? ((inf.vote_count / totalVotes) * 100).toFixed(1) : '0.0'
-                  return (
-                    <tr key={inf.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3">
-                        <span
-                          className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                          style={{ background: i < 3 ? '#D4A853' : '#6B7280' }}
-                        >
-                          {i + 1}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 font-medium text-gray-900">{inf.name}</td>
-                      <td className="px-4 py-3 text-gray-500">{inf.handle}</td>
-                      <td className="px-4 py-3 text-right font-bold" style={{ color: '#0b4535' }}>
-                        {inf.vote_count.toLocaleString('en-US')}
-                      </td>
-                      <td className="px-4 py-3 text-right text-gray-500">{pct}%</td>
-                      <td className="px-4 py-3">
-                        <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                          <div
-                            className="h-full rounded-full transition-all duration-500"
-                            style={{
-                              width: `${(inf.vote_count / maxVotes) * 100}%`,
-                              background: i === 0 ? '#D4A853' : '#52B788',
-                            }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-                <tr className="bg-gray-50 font-bold">
-                  <td className="px-4 py-3 text-gray-500" colSpan={3}>
-                    Total
-                  </td>
-                  <td className="px-4 py-3 text-right" style={{ color: '#0b4535' }}>
-                    {totalVotes.toLocaleString('en-US')}
-                  </td>
-                  <td className="px-4 py-3 text-right text-gray-500">100%</td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
+          <div className="space-y-6">
+            {groupedSummary.map((group) => (
+              <div key={group.key} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                {/* Category header */}
+                <div
+                  className="px-4 py-3 flex items-center justify-between"
+                  style={{ background: group.config.gradientSubtle, borderBottom: `2px solid ${group.config.border}` }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="px-2.5 py-0.5 rounded-full text-xs font-bold"
+                      style={{ background: group.config.badgeBg, color: group.config.badgeText }}
+                    >
+                      {group.config.label}
+                    </span>
+                    <span className="text-xs text-gray-500">{group.config.hashtag}</span>
+                  </div>
+                  <span className="text-sm font-bold" style={{ color: group.config.primary }}>
+                    {group.categoryTotal.toLocaleString('en-US')} votes
+                  </span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                      <tr>
+                        <th className="text-left px-4 py-2.5 font-semibold text-gray-600 w-12">Rank</th>
+                        <th className="text-left px-4 py-2.5 font-semibold text-gray-600">Name</th>
+                        <th className="text-left px-4 py-2.5 font-semibold text-gray-600">Handle</th>
+                        <th className="text-right px-4 py-2.5 font-semibold text-gray-600">Votes</th>
+                        <th className="text-right px-4 py-2.5 font-semibold text-gray-600">% Cat.</th>
+                        <th className="px-4 py-2.5 w-36"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {group.items.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="px-4 py-6 text-center text-gray-400 text-xs">
+                            No creators in this category.
+                          </td>
+                        </tr>
+                      ) : (
+                        group.items.map((inf, i) => {
+                          const pct = group.categoryTotal > 0 ? ((inf.vote_count / group.categoryTotal) * 100).toFixed(1) : '0.0'
+                          const localMax = group.items[0]?.vote_count ?? 1
+                          return (
+                            <tr key={inf.id} className="hover:bg-gray-50">
+                              <td className="px-4 py-2.5">
+                                <span
+                                  className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                                  style={{ background: i < 3 ? group.config.primary : '#9CA3AF' }}
+                                >
+                                  {i + 1}
+                                </span>
+                              </td>
+                              <td className="px-4 py-2.5 font-medium text-gray-900">{inf.name}</td>
+                              <td className="px-4 py-2.5 text-gray-500">{inf.handle}</td>
+                              <td className="px-4 py-2.5 text-right font-bold" style={{ color: group.config.primary }}>
+                                {inf.vote_count.toLocaleString('en-US')}
+                              </td>
+                              <td className="px-4 py-2.5 text-right text-gray-500">{pct}%</td>
+                              <td className="px-4 py-2.5">
+                                <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                                  <div
+                                    className="h-full rounded-full transition-all duration-500"
+                                    style={{
+                                      width: `${(inf.vote_count / localMax) * 100}%`,
+                                      background: group.config.gradient,
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+            {/* Grand total */}
+            <div className="bg-gray-50 rounded-xl px-4 py-3 flex items-center justify-between text-sm font-semibold text-gray-700 border border-gray-200">
+              <span>Grand Total</span>
+              <span style={{ color: '#0b4535' }}>{totalVotes.toLocaleString('en-US')} votes</span>
             </div>
           </div>
         </div>

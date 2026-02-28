@@ -23,6 +23,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams): Promis
     const hashtagsRaw = String(formData.get('hashtags') ?? '').trim()
     const displayOrder = parseInt(String(formData.get('display_order') ?? '0'), 10)
     const isActive = String(formData.get('is_active')) === 'true'
+    const categoryRaw = String(formData.get('category') ?? '').trim()
+    const category = ['vanilla-cloud', 'mystic-aura', 'tropical-crush'].includes(categoryRaw)
+      ? categoryRaw
+      : null
 
     const hashtags = hashtagsRaw
       ? hashtagsRaw.split(',').map((t) => t.trim()).filter(Boolean)
@@ -49,6 +53,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams): Promis
       hashtags,
       display_order: isNaN(displayOrder) ? 0 : displayOrder,
       is_active: isActive,
+      category,
     }
 
     if (photoUrl) updateData.photo_url = photoUrl

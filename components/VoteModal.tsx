@@ -6,7 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 import type { Influencer } from '@/types'
+import { getCategoryConfig, CATEGORIES, CATEGORY_KEYS } from '@/lib/config/categories'
 
 const voteSchema = z.object({
   name: z.string().min(2, 'At least 2 characters required').max(100, 'Maximum 100 characters'),
@@ -34,6 +36,14 @@ const slideVariants = {
 export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteModalProps) {
   const [modalState, setModalState] = useState<ModalState>('form')
   const [submittedName, setSubmittedName] = useState('')
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  const cat = getCategoryConfig(influencer?.category ?? null)
+
+  const otherCategories = CATEGORY_KEYS
+    .filter((k) => k !== influencer?.category)
+    .map((k) => CATEGORIES[k])
 
   const {
     register,
@@ -45,6 +55,18 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
   })
 
   if (!influencer) return null
+
+  const accentColor = cat?.primary ?? '#7C3AED'
+  const btnStyle = cat
+    ? { background: cat.gradient, color: '#fff' }
+    : { background: 'linear-gradient(135deg, #7C3AED, #B478FF)', color: '#fff' }
+
+  const inputStyle = {
+    background: 'var(--bg-input)',
+    border: '1px solid var(--border-input)',
+    color: 'var(--text-primary)',
+    borderRadius: '0.75rem',
+  }
 
   const onSubmit = async (data: VoteFormFields) => {
     setModalState('loading')
@@ -58,6 +80,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
           name: data.name,
           email: data.email,
           influencerId: influencer.id,
+          category: influencer.category,
           honeypot: data.honeypot ?? '',
         }),
       })
@@ -88,21 +111,37 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4"
-        style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}
+        style={{ background: 'var(--bg-modal-overlay)', backdropFilter: 'blur(12px)' }}
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.92, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          exit={{ opacity: 0, scale: 0.92, y: 20 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
+          className="w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
+          style={{
+            background: 'var(--bg-modal)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid var(--border-modal)',
+            boxShadow: isDark
+              ? '0 25px 80px rgba(0,0,0,0.7), 0 0 40px rgba(180,120,255,0.1)'
+              : '0 25px 80px rgba(90,60,130,0.18), 0 0 40px rgba(140,80,220,0.08)',
+          }}
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Category accent bar */}
+          {cat && (
+            <div className="h-1.5 w-full" style={{ background: cat.gradient }} />
+          )}
+
           {/* Header */}
-          <div className="flex items-center justify-between p-5 border-b border-weleda-card-border">
+          <div
+            className="flex items-center justify-between p-5"
+            style={{ borderBottom: '1px solid var(--border-nav)' }}
+          >
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid var(--border-input)' }}>
                 <Image
                   src={influencer.photo_url}
                   alt={influencer.name}
@@ -112,20 +151,36 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                 />
               </div>
               <div>
-                <p className="font-bold text-sm text-weleda-dark">
+                <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
                   Vote for {influencer.name}
                 </p>
-                <p className="text-xs" style={{ color: '#52B788' }}>
-                  {influencer.handle}
-                </p>
+                {cat ? (
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    style={isDark
+                      ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff' }
+                      : { background: 'var(--bg-chip)', border: '1px solid var(--border-chip)', color: 'var(--text-chip)' }
+                    }
+                  >
+                    {cat.hashtag}
+                  </span>
+                ) : (
+                  <p className="text-xs" style={{ color: accentColor }}>
+                    {influencer.handle}
+                  </p>
+                )}
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center transition-all"
+              style={{
+                background: 'var(--bg-chip)',
+                border: '1px solid var(--border-chip)',
+              }}
               aria-label="Close"
             >
-              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -133,7 +188,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
 
           <div className="p-5 overflow-hidden">
             <AnimatePresence mode="wait">
-              {/* FORM / LOADING STATE */}
+              {/* FORM / LOADING */}
               {(modalState === 'form' || modalState === 'loading') && (
                 <motion.div
                   key="form"
@@ -146,39 +201,57 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* Name */}
                     <div>
-                      <label className="block text-sm font-medium text-weleda-dark mb-1.5">
-                        Your Name <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
+                        Your Name <span className="text-red-400">*</span>
                       </label>
                       <input
                         {...register('name')}
                         type="text"
                         placeholder="First and last name"
                         disabled={modalState === 'loading'}
-                        className="w-full px-4 py-3 rounded-xl border border-weleda-card-border text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
+                        className="w-full px-4 py-3 text-sm focus:outline-none disabled:opacity-50 transition-all"
+                        style={inputStyle}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = accentColor
+                          e.currentTarget.style.boxShadow = `0 0 0 2px ${accentColor}25`
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--border-input)'
+                          e.currentTarget.style.boxShadow = 'none'
+                        }}
                       />
                       {errors.name && (
-                        <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+                        <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
                       )}
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label className="block text-sm font-medium text-weleda-dark mb-1.5">
-                        Your Email Address <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
+                        Your Email Address <span className="text-red-400">*</span>
                       </label>
                       <input
                         {...register('email')}
                         type="email"
                         placeholder="name@example.com"
                         disabled={modalState === 'loading'}
-                        className="w-full px-4 py-3 rounded-xl border border-weleda-card-border text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 transition-colors"
+                        className="w-full px-4 py-3 text-sm focus:outline-none disabled:opacity-50 transition-all"
+                        style={inputStyle}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = accentColor
+                          e.currentTarget.style.boxShadow = `0 0 0 2px ${accentColor}25`
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--border-input)'
+                          e.currentTarget.style.boxShadow = 'none'
+                        }}
                       />
                       {errors.email && (
-                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                        <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
                       )}
                     </div>
 
-                    {/* Honeypot — visually hidden */}
+                    {/* Honeypot */}
                     <div style={{ display: 'none' }} aria-hidden="true">
                       <input
                         {...register('honeypot')}
@@ -196,22 +269,19 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                           {...register('gdprConsent')}
                           type="checkbox"
                           disabled={modalState === 'loading'}
-                          className="mt-0.5 w-4 h-4 accent-weleda-green flex-shrink-0"
+                          className="mt-0.5 w-4 h-4 flex-shrink-0"
+                          style={{ accentColor }}
                         />
-                        <span className="text-xs text-weleda-muted leading-relaxed">
+                        <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                           I agree to the processing of my data in accordance with the{' '}
-                          <a
-                            href="/privacy"
-                            target="_blank"
-                            className="text-weleda-green underline hover:no-underline"
-                          >
+                          <a href="/privacy" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
                             Privacy Policy
                           </a>
                           .
                         </span>
                       </label>
                       {errors.gdprConsent && (
-                        <p className="text-red-500 text-xs mt-1">{errors.gdprConsent.message}</p>
+                        <p className="text-red-400 text-xs mt-1">{errors.gdprConsent.message}</p>
                       )}
                     </div>
 
@@ -219,7 +289,8 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     <button
                       type="submit"
                       disabled={modalState === 'loading' || !isValid}
-                      className="w-full py-3.5 rounded-full bg-weleda-green text-white font-bold text-sm tracking-wide transition-all disabled:opacity-60 disabled:cursor-not-allowed hover:bg-opacity-90 flex items-center justify-center gap-2"
+                      className="w-full py-3.5 rounded-full font-bold text-sm tracking-wide transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-white"
+                      style={btnStyle}
                     >
                       {modalState === 'loading' ? (
                         <>
@@ -237,7 +308,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                 </motion.div>
               )}
 
-              {/* SUCCESS STATE */}
+              {/* SUCCESS */}
               {modalState === 'success' && (
                 <motion.div
                   key="success"
@@ -248,14 +319,13 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="text-center py-6 space-y-4"
                 >
-                  {/* Checkmark + confetti */}
+                  {/* Confetti + checkmark */}
                   <div className="relative flex items-center justify-center h-20">
-                    {/* Confetti burst */}
                     {Array.from({ length: 12 }).map((_, i) => (
                       <motion.div
                         key={i}
                         className="absolute w-2 h-2 rounded-full pointer-events-none"
-                        style={{ backgroundColor: i % 2 === 0 ? '#0b4535' : '#D4A853' }}
+                        style={{ backgroundColor: i % 2 === 0 ? accentColor : '#E8C97A' }}
                         initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
                         animate={{
                           scale: [0, 1, 0],
@@ -266,36 +336,73 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                         transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
                       />
                     ))}
-                    {/* Checkmark circle */}
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
                       className="w-16 h-16 rounded-full flex items-center justify-center"
-                      style={{ background: '#0b4535' }}
+                      style={{ background: cat?.gradient ?? 'linear-gradient(135deg, #7C3AED, #B478FF)' }}
                     >
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
                     </motion.div>
                   </div>
+
                   <div>
-                    <h3 className="text-xl font-bold text-weleda-dark">Your vote has been counted!</h3>
-                    <p className="text-weleda-muted text-sm mt-2">
+                    <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Your vote has been counted!</h3>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-chip)' }}>
                       Thank you {submittedName}, you voted for{' '}
-                      <span className="font-semibold text-weleda-green">{influencer.name}</span>.
+                      <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{influencer.name}</span>.
                     </p>
                   </div>
+
+                  {/* Cross-category prompt */}
+                  {otherCategories.length > 0 && (
+                    <div
+                      className="rounded-xl p-4 text-left"
+                      style={{
+                        background: 'var(--bg-chip)',
+                        border: '1px solid var(--border-chip)',
+                      }}
+                    >
+                      <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>
+                        You can still vote in other categories:
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {otherCategories.map((oc) => (
+                          <div
+                            key={oc.key}
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold"
+                            style={{
+                              background: 'var(--bg-input)',
+                              border: '1px solid var(--border-input)',
+                              color: 'var(--text-primary)',
+                            }}
+                          >
+                            <span
+                              className="w-2 h-2 rounded-full flex-shrink-0"
+                              style={{ background: oc.primary }}
+                            />
+                            {oc.label}
+                            <span className="ml-auto text-[10px]" style={{ color: 'var(--text-faint)' }}>{oc.hashtag}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={onClose}
-                    className="w-full py-3 rounded-full bg-weleda-green text-white font-bold text-sm hover:bg-opacity-90 transition-colors"
+                    className="w-full py-3 rounded-full font-bold text-sm hover:opacity-90 transition-opacity text-white"
+                    style={btnStyle}
                   >
                     Close
                   </button>
                 </motion.div>
               )}
 
-              {/* ALREADY VOTED STATE */}
+              {/* ALREADY VOTED */}
               {modalState === 'already_voted' && (
                 <motion.div
                   key="already_voted"
@@ -306,25 +413,73 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="text-center py-6 space-y-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
+                    style={{ background: 'var(--bg-chip)', border: '1px solid var(--border-chip)' }}
+                  >
                     <span className="text-3xl">💚</span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-weleda-dark">You have already voted!</h3>
-                    <p className="text-weleda-muted text-sm mt-2">
-                      You have already voted for this creator. Only one vote per creator is allowed.
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Already voted in this category!</h3>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
+                      You have already cast your vote for{' '}
+                      {cat ? (
+                        <span className="font-semibold" style={{ color: cat.secondary }}>
+                          {cat.label}
+                        </span>
+                      ) : (
+                        'this category'
+                      )}
+                      . Only one vote per category is allowed.
                     </p>
                   </div>
+
+                  {otherCategories.length > 0 && (
+                    <div
+                      className="rounded-xl p-4 text-left"
+                      style={{
+                        background: 'var(--bg-chip)',
+                        border: '1px solid var(--border-chip)',
+                      }}
+                    >
+                      <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>
+                        You can still vote in:
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {otherCategories.map((oc) => (
+                          <div
+                            key={oc.key}
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold"
+                            style={{
+                              background: 'var(--bg-input)',
+                              border: '1px solid var(--border-input)',
+                              color: 'var(--text-primary)',
+                            }}
+                          >
+                            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: oc.primary }} />
+                            {oc.label}
+                            <span className="ml-auto text-[10px]" style={{ color: 'var(--text-faint)' }}>{oc.hashtag}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={onClose}
-                    className="w-full py-3 rounded-full border border-weleda-card-border text-weleda-dark font-medium text-sm hover:bg-gray-50 transition-colors"
+                    className="w-full py-3 rounded-full font-medium text-sm transition-all"
+                    style={{
+                      background: 'var(--bg-chip)',
+                      border: '1px solid var(--border-chip)',
+                      color: 'var(--text-secondary)',
+                    }}
                   >
                     Close
                   </button>
                 </motion.div>
               )}
 
-              {/* ERROR STATE */}
+              {/* ERROR */}
               {modalState === 'error' && (
                 <motion.div
                   key="error"
@@ -335,20 +490,22 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="text-center py-6 space-y-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto">
-                    <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
+                    style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)' }}
+                  >
+                    <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-weleda-dark">Something went wrong.</h3>
-                    <p className="text-weleda-muted text-sm mt-2">
-                      Please try again or reload the page.
-                    </p>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Something went wrong.</h3>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Please try again or reload the page.</p>
                   </div>
                   <button
                     onClick={() => setModalState('form')}
-                    className="w-full py-3 rounded-full bg-weleda-green text-white font-medium text-sm hover:bg-opacity-90 transition-colors"
+                    className="w-full py-3 rounded-full font-medium text-sm hover:opacity-90 transition-opacity text-white"
+                    style={btnStyle}
                   >
                     Try Again
                   </button>

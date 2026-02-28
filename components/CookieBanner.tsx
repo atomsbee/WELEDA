@@ -34,24 +34,37 @@ export default function CookieBanner() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t-2 border-weleda-green bg-white shadow-lg">
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50"
+      style={{
+        background: 'var(--bg-cookie)',
+        backdropFilter: 'blur(16px)',
+        borderTop: '1px solid var(--border-cookie)',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <p className="text-sm text-weleda-dark leading-relaxed flex-1">
+        <p className="text-sm leading-relaxed flex-1" style={{ color: 'var(--text-secondary)' }}>
           This website uses cookies for anonymous analytics.{' '}
-          <a href="/privacy" className="text-weleda-green underline hover:no-underline">
+          <a href="/privacy" className="text-[#B478FF] underline hover:no-underline">
             Learn more
           </a>
         </p>
         <div className="flex gap-3 flex-shrink-0">
           <button
             onClick={handleReject}
-            className="px-5 py-2.5 rounded-full border border-weleda-card-border text-weleda-muted text-sm font-medium hover:border-weleda-green hover:text-weleda-green transition-colors"
+            className="px-5 py-2.5 rounded-full text-sm font-medium transition-all"
+            style={{
+              background: 'var(--bg-chip)',
+              border: '1px solid var(--border-chip)',
+              color: 'var(--text-muted)',
+            }}
           >
             Decline
           </button>
           <button
             onClick={handleAccept}
-            className="px-5 py-2.5 rounded-full bg-weleda-green text-white text-sm font-bold hover:bg-opacity-90 transition-colors"
+            className="px-5 py-2.5 rounded-full text-white text-sm font-bold transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #7C3AED, #B478FF)' }}
           >
             Accept
           </button>

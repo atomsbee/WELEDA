@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { Influencer } from '@/types'
+import { CATEGORIES, CATEGORY_KEYS } from '@/lib/config/categories'
 
 const influencerSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
@@ -13,6 +14,7 @@ const influencerSchema = z.object({
   hashtags: z.string().optional(),
   display_order: z.number().int().min(0).default(0),
   is_active: z.boolean().default(true),
+  category: z.enum(['vanilla-cloud', 'mystic-aura', 'tropical-crush']).nullable().optional(),
 })
 
 type FormFields = z.infer<typeof influencerSchema>
@@ -110,6 +112,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
       hashtags: (influencer?.hashtags ?? []).join(', '),
       display_order: influencer?.display_order ?? 0,
       is_active: influencer?.is_active ?? true,
+      category: influencer?.category ?? null,
     },
   })
 
@@ -186,6 +189,7 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
       formData.append('is_active', String(data.is_active))
       formData.append('photo_url', photoUrl)
       formData.append('video_url', videoUrl)
+      formData.append('category', data.category ?? '')
       // No file blobs — already uploaded above
 
       const endpoint = isEdit ? `/api/admin/influencers/${influencer.id}` : '/api/admin/influencers'
@@ -326,6 +330,26 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
                 <span className="text-sm text-gray-600">Active / visible</span>
               </label>
             </div>
+          </div>
+
+          {/* Category select */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Fragrance Category <span className="text-red-500">*</span>
+            </label>
+            <select
+              {...register('category')}
+              disabled={isBusy}
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green disabled:opacity-60 bg-white"
+            >
+              <option value="">Select category…</option>
+              {CATEGORY_KEYS.map((key) => (
+                <option key={key} value={key}>
+                  {CATEGORIES[key].label} ({CATEGORIES[key].hashtag})
+                </option>
+              ))}
+            </select>
+            {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>}
           </div>
 
           {/* Photo Upload */}

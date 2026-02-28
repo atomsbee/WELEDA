@@ -1,3 +1,5 @@
+export type CategoryKey = 'vanilla-cloud' | 'mystic-aura' | 'tropical-crush'
+
 export interface Influencer {
   id: string
   name: string
@@ -10,11 +12,13 @@ export interface Influencer {
   is_active: boolean
   display_order: number
   created_at: string
+  category: CategoryKey | null
 }
 
 export interface Vote {
   id: string
   influencer_id: string
+  category: CategoryKey | null
   voter_name: string
   email_hash: string
   ip_hash: string
@@ -25,6 +29,7 @@ export interface VoteFormData {
   name: string
   email: string
   influencerId: string
+  category: CategoryKey | null
   honeypot?: string
   recaptchaToken?: string
   gdprConsent: boolean

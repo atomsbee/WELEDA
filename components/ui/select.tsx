@@ -77,9 +77,11 @@ export function Select({
 
 export function SelectTrigger({
   className,
+  style,
   children,
 }: {
   className?: string
+  style?: React.CSSProperties
   children: React.ReactNode
 }) {
   const { open, setOpen } = useSelectCtx()
@@ -88,18 +90,27 @@ export function SelectTrigger({
       type="button"
       onClick={() => setOpen((o) => !o)}
       className={cn(
-        'flex items-center justify-between gap-2 rounded-full border border-gray-200 bg-white',
-        'px-4 py-2.5 text-sm font-medium text-gray-700 min-h-[44px] cursor-pointer',
-        'focus:outline-none focus:ring-2 focus:ring-[#0b4535]/20 focus:border-[#0b4535] transition-all',
+        'flex items-center justify-between gap-2 rounded-full',
+        'px-4 py-2.5 text-sm font-medium min-h-[44px] cursor-pointer',
+        'focus:outline-none transition-all duration-200',
         className
       )}
+      style={{
+        background: 'rgba(255,255,255,0.08)',
+        border: '1px solid rgba(255,255,255,0.15)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        color: 'rgba(255,255,255,0.85)',
+        ...style,
+      }}
     >
       <span className="flex-1 text-left truncate">{children}</span>
       <ChevronDown
         className={cn(
-          'h-4 w-4 text-gray-400 flex-shrink-0 transition-transform duration-200',
+          'h-4 w-4 flex-shrink-0 transition-transform duration-200',
           open && 'rotate-180'
         )}
+        style={{ color: 'rgba(255,255,255,0.5)' }}
       />
     </button>
   )
@@ -127,9 +138,16 @@ export function SelectContent({
     <div
       className={cn(
         'absolute left-0 top-[calc(100%+4px)] z-50 min-w-full max-h-60 overflow-y-auto',
-        'rounded-xl border border-gray-200 bg-white shadow-lg py-1',
+        'rounded-xl py-1',
         className
       )}
+      style={{
+        background: 'rgba(15,0,25,0.92)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255,255,255,0.12)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+      }}
     >
       {children}
     </div>
@@ -164,16 +182,25 @@ export function SelectItem({
       onClick={() => onSelect(value)}
       className={cn(
         'flex items-center w-full px-4 py-2.5 text-sm text-left transition-colors cursor-pointer',
-        isSelected
-          ? 'text-[#0b4535] font-medium bg-[#0b4535]/5'
-          : 'text-gray-700 hover:bg-gray-50',
         className
       )}
+      style={{
+        color: isSelected ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.7)',
+        fontWeight: isSelected ? 600 : 400,
+        background: isSelected ? 'rgba(180,120,255,0.15)' : 'transparent',
+      }}
+      onMouseEnter={(e) => {
+        if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
+      }}
+      onMouseLeave={(e) => {
+        if (!isSelected) e.currentTarget.style.background = 'transparent'
+      }}
     >
       <span className="flex-1">{children}</span>
       {isSelected && (
         <svg
-          className="w-4 h-4 text-[#0b4535] flex-shrink-0 ml-2"
+          className="w-4 h-4 flex-shrink-0 ml-2"
+          style={{ color: 'rgba(180,120,255,0.9)' }}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

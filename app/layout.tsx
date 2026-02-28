@@ -3,6 +3,11 @@ import './globals.css'
 import CookieBanner from '@/components/CookieBanner'
 import Footer from '@/components/Footer'
 import PageTransition from '@/components/PageTransition'
+import AnimatedBackground from '@/components/AnimatedBackground'
+import BokehRings from '@/components/BokehRings'
+import BubbleCanvas from '@/components/BubbleCanvas'
+import PublicHeader from '@/components/PublicHeader'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 export const metadata: Metadata = {
   title: "WELEDA Community Voting – Vote for the Next WELEDA Creator",
@@ -49,15 +54,29 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: import('react').ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-weleda-bg font-sans antialiased">
-        <main className="flex-1">
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
-        <CookieBanner />
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col antialiased">
+        <ThemeProvider>
+          {/* Immediate base — always visible, prevents flash */}
+          <div
+            className="fixed inset-0 -z-20"
+            style={{ background: 'var(--bg-gradient)' }}
+          />
+          {/* z-20: slow color orbs */}
+          <AnimatedBackground />
+          {/* z-16: bokeh rings — CSS only, zero JS cost, dark mode only */}
+          <BokehRings />
+          {/* z-15: interactive soap bubbles — canvas, dark mode only */}
+          <BubbleCanvas />
+          <PublicHeader />
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
+          <CookieBanner />
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -6,6 +6,7 @@ interface VoteWithInfluencer {
   voter_name: string
   email_hash: string
   voted_at: string
+  category: string | null
   influencers: {
     name: string
     handle: string
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     let query = supabase
       .from('votes')
-      .select('voter_name, email_hash, voted_at, influencers(name, handle)')
+      .select('voter_name, email_hash, voted_at, category, influencers(name, handle)')
       .order('voted_at', { ascending: false })
 
     if (influencerId) {
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
     const filename = `weleda-votes-${influencerSlug}-${today}.csv`
 
-    const header = 'Voter Name,Voter ID (anonymised),Influencer Name,Handle,Date,Time'
+    const header = 'Voter Name,Voter ID (anonymised),Category,Influencer Name,Handle,Date,Time'
     const lines = rows.map((v) => {
       const votedAt = new Date(v.voted_at)
       const day = String(votedAt.getDate()).padStart(2, '0')
@@ -72,6 +73,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return [
         escapeCsv(v.voter_name),
         escapeCsv(maskEmailHash(v.email_hash)),
+        escapeCsv(v.category ?? ''),
         escapeCsv(v.influencers?.name ?? ''),
         escapeCsv(v.influencers?.handle ?? ''),
         escapeCsv(`${day}.${month}.${year}`),

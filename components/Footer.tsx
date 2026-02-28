@@ -53,7 +53,13 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer style={{ background: '#0b4535' }}>
+    <footer
+      style={{
+        background: 'var(--bg-footer)',
+        backdropFilter: 'blur(16px)',
+        borderTop: '1px solid var(--border-footer)',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
 
         {/* Top row: logo left, social icons right */}
@@ -64,7 +70,7 @@ export default function Footer() {
               alt="WELEDA"
               width={120}
               height={40}
-              className="h-8 w-auto"
+              className="h-8 w-auto weleda-logo"
             />
           </Link>
 
@@ -76,9 +82,13 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="group w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.08] hover:bg-white/20 border border-white/10 hover:border-white/30 transition-all duration-200"
+                className="group w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
+                style={{
+                  background: 'var(--bg-chip)',
+                  border: '1px solid var(--border-chip)',
+                }}
               >
-                <span className="text-white/60 group-hover:text-white transition-colors duration-200">
+                <span style={{ color: 'var(--text-chip)' }} className="group-hover:opacity-100 opacity-70 transition-opacity duration-200">
                   {s.icon}
                 </span>
               </a>
@@ -87,19 +97,19 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-white/10" />
+        <div style={{ borderTop: '1px solid var(--border-footer)' }} />
 
-        {/* Bottom: copyright + legal — centered */}
-        <div className="py-5 flex flex-col items-center gap-2">
-          <p className="text-xs text-white/30">© {year} WELEDA AG. All rights reserved.</p>
+        {/* Bottom: copyright + legal */}
+        <div className="py-5 flex flex-col items-center gap-3">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            © {year} WELEDA AG. All rights reserved.
+          </p>
           <nav className="flex items-center gap-4 text-xs">
-            <Link href="/privacy" className="text-white/60 hover:text-white transition-colors duration-200">
-              Privacy Policy
-            </Link>
-            <span className="text-white/20" aria-hidden="true">|</span>
-            <Link href="/imprint" className="text-white/60 hover:text-white transition-colors duration-200">
-              Imprint
-            </Link>
+            <Link href="/privacy" className="footer-nav-link">Privacy Policy</Link>
+            <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
+            <Link href="/terms" className="footer-nav-link">Terms &amp; Conditions</Link>
+            <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
+            <Link href="/imprint" className="footer-nav-link">Imprint</Link>
           </nav>
         </div>
 

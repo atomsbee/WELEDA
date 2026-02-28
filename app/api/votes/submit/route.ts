@@ -12,6 +12,7 @@ const voteBodySchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
   influencerId: z.string().uuid(),
+  category: z.enum(['vanilla-cloud', 'mystic-aura', 'tropical-crush']).nullable().optional(),
   honeypot: z.string().optional().default(''),
   recaptchaToken: z.string().optional(),
 })
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return ok({ success: false, error: 'invalid_input' })
     }
 
-    const { name, email, influencerId, recaptchaToken } = parsed.data
+    const { name, email, influencerId, category, recaptchaToken } = parsed.data
 
     // 3. IP extraction with dev fallback
     const ip = getClientIp(request)
@@ -98,13 +99,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const supabase = createServiceClient()
 
-    // 8. Duplicate vote check
-    const { data: existingVote, error: checkError } = await supabase
-      .from('votes')
-      .select('id')
-      .eq('influencer_id', influencerId)
-      .eq('email_hash', emailHash)
-      .maybeSingle()
+    // 8. Duplicate vote check (per category per email, or per influencer if no category)
+    let checkQuery = supabase.from('votes').select('id').eq('email_hash', emailHash)
+    if (category) {
+      checkQuery = checkQuery.eq('category', category)
+    } else {
+      checkQuery = checkQuery.eq('influencer_id', influencerId)
+    }
+    const { data: existingVote, error: checkError } = await checkQuery.maybeSingle()
 
     if (checkError) {
       console.error('[VOTE ERROR] DB check error:', checkError.message)
@@ -119,6 +121,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // 9. Insert vote
     const { error: insertError } = await supabase.from('votes').insert({
       influencer_id: influencerId,
+      category: category ?? null,
       voter_name: name,
       email_hash: emailHash,
       ip_hash: ipHash,

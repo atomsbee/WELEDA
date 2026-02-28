@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import {
@@ -24,21 +24,10 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortOption>('display_order')
   const [activeHashtags, setActiveHashtags] = useState<string[]>([])
-  const [isSticky, setIsSticky] = useState(false)
   const [chipsExpanded, setChipsExpanded] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 400)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const notifyChange = useCallback(
-    (s: string, so: SortOption, h: string[]) => {
-      onFilterChange(s, so, h)
-    },
+    (s: string, so: SortOption, h: string[]) => onFilterChange(s, so, h),
     [onFilterChange]
   )
 
@@ -68,10 +57,8 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
     notifyChange('', 'display_order', [])
   }
 
-  const hasActiveFilters =
-    search !== '' || sort !== 'display_order' || activeHashtags.length > 0
+  const hasActiveFilters = search !== '' || sort !== 'display_order' || activeHashtags.length > 0
 
-  // Base chips (always shown) + any active chips that fall outside the base range
   const baseChips = allHashtags.slice(0, VISIBLE_DEFAULT)
   const extraActiveChips = activeHashtags.filter((tag) => !baseChips.includes(tag))
   const hiddenChips = allHashtags.slice(VISIBLE_DEFAULT)
@@ -80,14 +67,14 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
   return (
     <motion.div
       id="filter-bar"
-      className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-weleda-card-border"
+      className="sticky top-0 z-30"
       initial={false}
-      animate={{
-        boxShadow: isSticky
-          ? '0 4px 20px rgba(0,0,0,0.08)'
-          : '0 0 0px rgba(0,0,0,0)',
-      }}
       transition={{ duration: 0.3 }}
+      style={{
+        background: 'var(--bg-filter)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid var(--border-nav)',
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 py-3">
         {/* Top row: search + sort */}
@@ -95,7 +82,8 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
           {/* Search */}
           <div className="relative flex-1">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-weleda-muted"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+              style={{ color: 'var(--text-faint)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -112,13 +100,35 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Search creators..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-full border border-weleda-card-border text-sm focus:outline-none focus:border-weleda-green focus:ring-1 focus:ring-weleda-green transition-colors min-h-[44px]"
+              className="w-full pl-9 pr-4 py-2.5 rounded-full text-sm focus:outline-none transition-all min-h-[44px]"
+              style={{
+                background: 'var(--bg-input)',
+                border: '1px solid var(--border-input)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                color: 'var(--text-primary)',
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'
+                e.currentTarget.style.boxShadow = '0 0 0 2px rgba(124,58,237,0.15)'
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-input)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
             />
           </div>
 
-          {/* Sort — shadcn-style Select */}
+          {/* Sort */}
           <Select value={sort} onValueChange={handleSort}>
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger
+              className="w-[160px] border-none focus:ring-0 focus:ring-offset-0"
+              style={{
+                background: 'var(--bg-chip)',
+                border: '1px solid var(--border-chip)',
+                color: 'var(--text-primary)',
+              }}
+            >
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -132,7 +142,12 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
           {hasActiveFilters && (
             <button
               onClick={resetFilters}
-              className="px-4 py-2.5 rounded-full border border-red-200 text-red-500 text-sm font-medium hover:bg-red-50 transition-colors whitespace-nowrap min-h-[44px]"
+              className="px-4 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap min-h-[44px]"
+              style={{
+                background: 'rgba(239,68,68,0.12)',
+                border: '1px solid rgba(239,68,68,0.3)',
+                color: 'rgba(252,165,165,0.9)',
+              }}
             >
               Reset Filters
             </button>
@@ -142,7 +157,7 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
         {/* Hashtag chips */}
         {allHashtags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3 pb-1 items-center">
-            {/* Base chips — always visible */}
+            {/* Base chips */}
             {baseChips.map((tag) => {
               const isActive = activeHashtags.includes(tag)
               return (
@@ -150,31 +165,43 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                   layout
                   key={tag}
                   onClick={() => toggleHashtag(tag)}
-                  className={cn(
-                    'px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 min-h-[32px]',
+                  className={cn('px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 min-h-[32px]')}
+                  style={
                     isActive
-                      ? 'bg-weleda-green text-white shadow-sm'
-                      : 'bg-weleda-bg border border-weleda-card-border text-weleda-muted hover:border-weleda-green hover:text-weleda-green'
-                  )}
+                      ? {
+                        background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
+                        border: '1px solid transparent',
+                        color: '#fff',
+                      }
+                      : {
+                        background: 'var(--bg-chip)',
+                        border: '1px solid var(--border-chip)',
+                        color: 'var(--text-chip)',
+                      }
+                  }
                 >
                   #{tag}
                 </motion.button>
               )
             })}
 
-            {/* Extra active chips outside base range — always visible */}
+            {/* Extra active chips outside base range */}
             {extraActiveChips.map((tag) => (
               <motion.button
                 layout
                 key={`active-${tag}`}
                 onClick={() => toggleHashtag(tag)}
-                className="px-3 py-1 rounded-full text-xs font-medium min-h-[32px] bg-weleda-green text-white shadow-sm transition-colors duration-200"
+                className="px-3 py-1 rounded-full text-xs font-medium min-h-[32px] text-white"
+                style={{
+                  background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
+                  border: '1px solid transparent',
+                }}
               >
                 #{tag}
               </motion.button>
             ))}
 
-            {/* Expanded hidden chips — animated */}
+            {/* Expanded hidden chips */}
             <AnimatePresence>
               {chipsExpanded &&
                 hiddenChips
@@ -189,12 +216,20 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
                         exit={{ opacity: 0, scale: 0.8 }}
                         transition={{ delay: i * 0.03, duration: 0.15 }}
                         onClick={() => toggleHashtag(tag)}
-                        className={cn(
-                          'px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 min-h-[32px]',
+                        className="px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 min-h-[32px]"
+                        style={
                           isActive
-                            ? 'bg-weleda-green text-white shadow-sm'
-                            : 'bg-weleda-bg border border-weleda-card-border text-weleda-muted hover:border-weleda-green hover:text-weleda-green'
-                        )}
+                            ? {
+                              background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
+                              border: '1px solid transparent',
+                              color: '#fff',
+                            }
+                            : {
+                              background: 'var(--bg-chip)',
+                              border: '1px solid var(--border-chip)',
+                              color: 'var(--text-chip)',
+                            }
+                        }
                       >
                         #{tag}
                       </motion.button>
@@ -206,7 +241,12 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
             {!chipsExpanded && hiddenCount > 0 && (
               <button
                 onClick={() => setChipsExpanded(true)}
-                className="px-3 py-1 rounded-full text-xs font-medium border border-dashed border-gray-300 text-gray-500 hover:border-weleda-green hover:text-weleda-green transition-colors min-h-[32px]"
+                className="px-3 py-1 rounded-full text-xs font-medium transition-all min-h-[32px]"
+                style={{
+                  background: 'transparent',
+                  border: '1px dashed var(--border-chip)',
+                  color: 'var(--text-faint)',
+                }}
               >
                 + {hiddenCount} more
               </button>
@@ -216,7 +256,8 @@ export default function SearchFilterBar({ allHashtags, onFilterChange }: SearchF
             {chipsExpanded && (
               <button
                 onClick={() => setChipsExpanded(false)}
-                className="px-3 py-1 text-xs text-gray-500 hover:text-gray-900 transition-colors min-h-[32px]"
+                className="px-3 py-1 text-xs transition-colors min-h-[32px]"
+                style={{ color: 'var(--text-faint)' }}
               >
                 Show less
               </button>
