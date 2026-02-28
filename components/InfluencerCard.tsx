@@ -139,7 +139,7 @@ function InfluencerCard({
           >
             {influencer.name}
           </button>
-          <p className="text-xs md:text-sm font-medium" style={{ color: cat?.secondary ?? '#A78BFA' }}>
+          <p className="text-xs md:text-sm font-medium" style={{ color: cat?.primary ?? '#A78BFA' }}>
             {influencer.handle}
           </p>
         </div>

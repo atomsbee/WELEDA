@@ -3,7 +3,6 @@
 import { useCallback } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
-import { useTheme } from 'next-themes'
 import { CATEGORIES, PRODUCT_IMAGE, MARQUEE_ITEMS, CATEGORY_KEYS } from '@/lib/config/categories'
 
 interface HeroSectionProps {
@@ -27,39 +26,55 @@ const heroVariants = {
   }),
 }
 
-const CASTING_RULES = [
+const STEPS = [
   {
-    icon: '📱',
-    title: 'Bewerbe dich',
-    desc: 'Poste dein Video auf TikTok oder Instagram (mind. 30 Sek.\u00a0\u00b7 max. 5 Min.) Markiere @weleda und nutze #weledacasting\u00a0#fragrancemists',
+    chip: '02.03.–12.03',
+    chipColor: '#F59E0B',
+    title: 'Bewerbungsphase',
+    body: 'Poste dein Video auf TikTok oder Instagram (mind. 30\u00a0Sek., max. 5\u00a0Min.).',
+    tags: ['#weledacasting', '#fragrancemists'],
+    highlight: false,
   },
   {
-    icon: '🗳',
-    title: 'Community votet',
-    desc: '13.03.\u201317.03.: Die Community stimmt 1\u00d7 t\u00e4glich f\u00fcr ihre Favorites ab. Du darfst ordentlich Werbung f\u00fcr dich machen!',
+    chip: 'TOP 10',
+    chipColor: '#8B5CF6',
+    title: 'Vorauswahl',
+    body: 'Wir w\u00e4hlen 10 Creator nach Kreativit\u00e4t, Vibe, Brand Fit & Authentizit\u00e4t.',
+    tags: ['DM-Benachrichtigung'],
+    highlight: false,
   },
   {
-    icon: '🏆',
-    title: '2 Tickets fürs Finale',
-    desc: '1\u00d7 Wildcard von WELEDA\n1\u00d7 Community-Gewinner:in\nLive-Casting auf Teneriffa, 22.\u201325.03.2026',
+    chip: '13.03–17.03',
+    chipColor: '#EC4899',
+    title: 'Voting-Phase',
+    body: '1\u00d7 t\u00e4glich abstimmen, 5 Tage lang. Mach ordentlich Werbung f\u00fcr dich!',
+    tags: ['1\u00d7 t\u00e4glich', '5 Tage'],
+    highlight: false,
   },
-]
-
-interface EditorialStep {
-  num: number
-  date: string
-  label: string
-  color: string
-  isGolden?: boolean
-}
-
-const EDITORIAL_STEPS: EditorialStep[] = [
-  { num: 1, date: '02.03.\u00a0\u2013\u00a012.03.', label: 'BEWERBUNGSPHASE',     color: '#F59E0B' },
-  { num: 2, date: 'TOP 10',                      label: 'VORAUSWAHL',           color: '#8B5CF6' },
-  { num: 3, date: '13.03.\u00a0\u2013\u00a017.03.', label: 'VOTING-PHASE',        color: '#EC4899' },
-  { num: 4, date: '2 TICKETS',                   label: 'FINALE-TICKETS',       color: '#10B981' },
-  { num: 5, date: '22.03.\u00a0\u2013\u00a025.03.', label: 'LIVE-CASTING TENERIFFA', color: '#F59E0B', isGolden: true },
-  { num: 6, date: 'TOP 3',                       label: 'KAMPAGNENPRODUKTION',  color: '#8B5CF6' },
+  {
+    chip: '2 TICKETS',
+    chipColor: '#10B981',
+    title: 'Finale-Tickets',
+    body: '1\u00d7 Wildcard von WELEDA \u00b7 1\u00d7 Community-Gewinner:in. Best\u00e4tigung in 24h.',
+    tags: ['Wildcard', 'Community Vote'],
+    highlight: false,
+  },
+  {
+    chip: '22.03–25.03',
+    chipColor: '#F59E0B',
+    title: 'Teneriffa \uD83C\uDF34',
+    body: 'Live-Casting. WELEDA \u00fcbernimmt Reise, Unterkunft & Verpflegung.',
+    tags: ['\u2708\uFE0F All inclusive'],
+    highlight: true,
+  },
+  {
+    chip: 'TOP 3',
+    chipColor: '#8B5CF6',
+    title: 'Kampagnen-Shooting',
+    body: 'Foto + Video f\u00fcr die WELEDA Fragrance Body & Hair Mist Campaign.',
+    tags: ['\uD83D\uDCF8 Foto', '\uD83C\uDFAC Video'],
+    highlight: false,
+  },
 ]
 
 const REQUIREMENTS_LEFT = [
@@ -72,138 +87,44 @@ const REQUIREMENTS_LEFT = [
   'Vom 22.\u201326.03. verf\u00fcgbar sein',
 ]
 
-const REQUIREMENTS_RIGHT = [
-  { emoji: '🌟', text: 'Chance auf eines von 3 Kampagnen-Faces' },
-  { emoji: '✈️', text: 'Reise nach Teneriffa (all inclusive)' },
-  { emoji: '📸', text: 'Kampagnen-Shooting (Foto + Video)' },
-  { emoji: '💜', text: 'Feature auf WELEDA Social Media' },
-  { emoji: '📜', text: 'Nutzungsrechte & faire Bedingungen' },
+const BENEFITS = [
+  {
+    icon: '🌟',
+    title: 'Kampagnen-Face',
+    sub: 'Eines von 3 neuen Gesichtern der WELEDA Campaign',
+    color: '#F59E0B',
+  },
+  {
+    icon: '✈️',
+    title: 'Teneriffa \u2014 all inclusive',
+    sub: 'Reise, Unterkunft & Verpflegung \u2014 alles von WELEDA',
+    color: '#10B981',
+  },
+  {
+    icon: '📸',
+    title: 'Kampagnen-Shooting',
+    sub: 'Professionelles Foto + Video f\u00fcr die Fragrance Campaign',
+    color: '#EC4899',
+  },
+  {
+    icon: '💜',
+    title: 'WELEDA Social Feature',
+    sub: 'Feature auf den offiziellen WELEDA Kan\u00e4len',
+    color: '#8B5CF6',
+  },
+  {
+    icon: '📜',
+    title: 'Faire Bedingungen',
+    sub: 'Nutzungsrechte & transparente Konditionen',
+    color: '#60A5FA',
+  },
 ]
 
-const CHIP_STYLE = {
-  background: 'var(--bg-chip)',
-  border: '1px solid var(--border-chip)',
-  color: 'var(--text-chip)',
-}
-
-function renderStepContent(step: EditorialStep) {
-  switch (step.num) {
-    case 1:
-      return (
-        <>
-          <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Poste dein Video. Alle g&uuml;ltigen Videos kommen ins Rennen.
-          </p>
-          <div className="flex flex-wrap gap-2 mb-2">
-            <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #010101, #69C9D0)' }}>TikTok</span>
-            <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #833AB4, #FD1D1D, #F56040)' }}>Instagram</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {['mind. 30 Sek.', 'max. 5 Min.', '#weledacasting', '#fragrancemists'].map((t) => (
-              <span key={t} className="px-2.5 py-0.5 rounded-full text-[11px] font-medium" style={CHIP_STYLE}>{t}</span>
-            ))}
-          </div>
-          <p className="text-xs mt-2" style={{ color: 'var(--text-faint)' }}>Deadline: 12.03. 24:00 Uhr</p>
-        </>
-      )
-    case 2:
-      return (
-        <>
-          <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Wir w&auml;hlen 10 Creator aus. Benachrichtigung per DM.
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {['Kreativit\u00e4t', 'Vibe', 'Brand Fit', 'Authentizit\u00e4t'].map((c) => (
-              <div key={c} className="px-3 py-2 rounded-xl text-xs font-bold text-center"
-                style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', color: '#8B5CF6' }}>
-                {c}
-              </div>
-            ))}
-          </div>
-        </>
-      )
-    case 3:
-      return (
-        <>
-          <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Die Community votet t&auml;glich f&uuml;r ihre Faves.
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl p-3 text-center" style={{ background: 'rgba(236,72,153,0.10)', border: '1px solid rgba(236,72,153,0.20)' }}>
-              <p className="text-2xl font-black" style={{ color: '#EC4899' }}>1&times;</p>
-              <p className="text-xs text-[#1a0a2e]/60 dark:text-white/50">t&auml;glich voten</p>
-            </div>
-            <div className="rounded-xl p-3 text-center" style={{ background: 'rgba(236,72,153,0.10)', border: '1px solid rgba(236,72,153,0.20)' }}>
-              <p className="text-2xl font-black" style={{ color: '#EC4899' }}>5</p>
-              <p className="text-xs text-[#1a0a2e]/60 dark:text-white/50">Tage Voting</p>
-            </div>
-          </div>
-          <p className="text-xs mt-2" style={{ color: 'var(--text-faint)' }}>Mach ordentlich Werbung f&uuml;r dich!</p>
-        </>
-      )
-    case 4:
-      return (
-        <>
-          <div className="space-y-2">
-            {[
-              { emoji: '⭐', title: 'Wildcard', sub: 'Kuratiert von WELEDA' },
-              { emoji: '🗳', title: 'Community-Ticket', sub: 'Das Community-Voting entscheidet' },
-            ].map((item) => (
-              <div key={item.title} className="flex items-center gap-3 rounded-xl p-3"
-                style={{ background: 'rgba(16,185,129,0.10)', border: '1px solid rgba(16,185,129,0.20)' }}>
-                <span className="text-xl flex-shrink-0">{item.emoji}</span>
-                <div>
-                  <p className="text-xs font-bold" style={{ color: '#10B981' }}>{item.title}</p>
-                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{item.sub}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs mt-2" style={{ color: 'var(--text-faint)' }}>Best&auml;tigung innerhalb 24h erforderlich.</p>
-        </>
-      )
-    case 5:
-      return (
-        <>
-          <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Challenges, Content, Vibes auf Teneriffa. Du postest Reels/Posts auf deinem Kanal.
-          </p>
-          <div className="rounded-xl p-3" style={{ background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.25)' }}>
-            <p className="text-xs font-bold mb-2" style={{ color: '#F59E0B' }}>WELEDA &uuml;bernimmt</p>
-            <div className="flex flex-wrap gap-2">
-              {['\u2708\ufe0f Reise', '\u{1F3E8} Unterkunft', '\u{1F37D}\ufe0f Verpflegung'].map((item) => (
-                <span key={item} className="px-2.5 py-1 rounded-full text-[11px] font-semibold text-white"
-                  style={{ background: 'rgba(245,158,11,0.65)' }}>{item}</span>
-              ))}
-            </div>
-          </div>
-        </>
-      )
-    case 6:
-      return (
-        <>
-          <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Direkt nach dem Finale: Shooting f&uuml;r die Weleda Fragrance Body &amp; Hair Mist Campaign. Let&apos;s make it official.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <span className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
-              style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}>📸 Foto-Shooting</span>
-            <span className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
-              style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}>🎬 Video-Shooting</span>
-          </div>
-        </>
-      )
-    default:
-      return null
-  }
-}
 
 export default function HeroSection({ campaignActive, endDate }: HeroSectionProps) {
   void campaignActive
   void endDate
   const shouldReduceMotion = useReducedMotion()
-  const { resolvedTheme } = useTheme()
-  const isLight = resolvedTheme === 'light'
 
   const scrollToGrid = useCallback(() => {
     document.getElementById('influencer-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -238,15 +159,15 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
                 style={{
-                  background: isLight ? 'rgba(212,168,83,0.12)' : 'rgba(212,168,83,0.15)',
-                  border: `1px solid ${isLight ? 'rgba(146,100,10,0.35)' : 'rgba(212,168,83,0.4)'}`,
-                  color: isLight ? '#7A4F00' : '#cb5f17',
+                  background: 'var(--campaign-badge-bg)',
+                  border: '1px solid var(--campaign-badge-border)',
+                  color: 'var(--campaign-badge-text)',
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: isLight ? '#7A4F00' : '#E8C97A' }} />
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--campaign-badge-dot)' }} />
                 ✦ COMMUNITY VOTE · 13–17.03.2026 ✦
-                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: isLight ? '#7A4F00' : '#E8C97A' }} />
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--campaign-badge-dot)' }} />
               </motion.span>
             </motion.div>
 
@@ -292,13 +213,13 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               variants={heroVariants}
               initial="hidden"
               animate="visible"
-              className="text-sm md:text-base font-medium mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 justify-center lg:justify-start"
+              className="text-sm md:text-base font-bold mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 justify-center lg:justify-start"
             >
-              <span style={{ color: CATEGORIES['vanilla-cloud'].secondary }}>Vanilla Cloud</span>
+              <span style={{ color: CATEGORIES['vanilla-cloud'].primary }}>Vanilla Cloud</span>
               <span style={{ color: 'var(--text-faint)' }}>·</span>
-              <span style={{ color: CATEGORIES['mystic-aura'].secondary }}>Mystic Aura</span>
+              <span style={{ color: CATEGORIES['mystic-aura'].primary }}>Mystic Aura</span>
               <span style={{ color: 'var(--text-faint)' }}>·</span>
-              <span style={{ color: CATEGORIES['tropical-crush'].secondary }}>Tropical Crush</span>
+              <span style={{ color: CATEGORIES['tropical-crush'].primary }}>Tropical Crush</span>
             </motion.p>
 
             {/* Subhead */}
@@ -538,289 +459,334 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         </div>
       </section>
 
-      {/* ── SO FUNKTIONIERT'S ─────────────────────────────────────────── */}
-      <section
-        className="py-14"
-        style={{
-          background: 'var(--bg-card-inner)',
-          backdropFilter: 'blur(12px)',
-          borderTop: '1px solid var(--border-nav)',
-          borderBottom: '1px solid var(--border-nav)',
-        }}
-      >
-        <div className="max-w-4xl mx-auto px-4">
+      {/* ── CASTING TIMELINE — compact horizontal stepper ─────────── */}
+      <section className="py-20 px-2 md:px-4 overflow-hidden">
+
+        {/* Section header */}
+        <div className="text-center mb-12">
+          <p
+            className="text-xs font-bold tracking-[0.25em] uppercase mb-3"
+            style={{ color: 'var(--text-faint)' }}
+          >
+            Deine Reise
+          </p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.4 }}
+            className="text-3xl md:text-5xl font-black"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            So l&auml;uft das Casting ab
+          </motion.h2>
+          <p className="text-base mt-3" style={{ color: 'var(--text-muted)' }}>
+            Von der Bewerbung bis zum Shooting &mdash; alle Schritte auf einen Blick.
+          </p>
+        </div>
+
+        {/* Desktop / Tablet: always 6 cols, horizontal scroll on narrow md */}
+        <div className="hidden md:block">
+          <div className="overflow-x-auto scrollbar-hide pb-4">
+            <div className="relative min-w-[820px] max-w-[1380px] mx-auto px-4 md:px-10">
+              {/* Gradient connecting line through badge centers */}
+              <div
+                className="absolute top-6 left-[4%] right-[4%] h-[2px] pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, #F59E0B 0%, #8B5CF6 20%, #EC4899 40%, #10B981 60%, #F59E0B 80%, #8B5CF6 100%)',
+                  opacity: 0.45,
+                }}
+              />
+
+              <div className="grid grid-cols-6 gap-2 xl:gap-3 pt-6">
+                {STEPS.map((step, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                  >
+                    {/* pt-6 on grid creates clearance for badge above card */}
+                    <div className="relative h-full">
+
+                      {/* Number badge — overlaps top edge of card */}
+                      <div
+                        className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black"
+                        style={{
+                          background: step.chipColor,
+                          boxShadow: `0 0 0 3px var(--badge-ring-color), 0 4px 12px ${step.chipColor}55`,
+                        }}
+                      >
+                        {i + 1}
+                      </div>
+
+                      {/* Card — pt-7 leaves room for badge */}
+                      <div
+                        className="rounded-2xl pt-7 px-4 pb-4 h-full flex flex-col"
+                        style={{
+                          background: step.highlight ? 'rgba(245,158,11,0.09)' : 'var(--step-card-bg)',
+                          border: step.highlight
+                            ? '1px solid rgba(245,158,11,0.50)'
+                            : `1px solid ${step.chipColor}28`,
+                          backdropFilter: 'blur(12px)',
+                          boxShadow: step.highlight ? '0 0 30px rgba(245,158,11,0.12)' : undefined,
+                        }}
+                      >
+                        {/* Top content: chip + title + body */}
+                        <div className="flex-1">
+                          <span
+                            className="inline-block text-[10px] font-black tracking-wider px-2 py-0.5 rounded-full mb-2"
+                            style={{
+                              background: `${step.chipColor}20`,
+                              color: step.chipColor,
+                              border: `1px solid ${step.chipColor}50`,
+                            }}
+                          >
+                            {step.chip}
+                          </span>
+                          <p
+                            className="font-bold text-sm leading-tight mb-1.5"
+                            style={{ color: step.highlight ? '#F59E0B' : 'var(--text-primary)' }}
+                          >
+                            {step.title}
+                          </p>
+                          <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                            {step.body}
+                          </p>
+                        </div>
+
+                        {/* Tags — pinned to bottom */}
+                        <div className="flex flex-wrap gap-1 mt-3">
+                          {step.tags.map((tag, j) => (
+                            <span
+                              key={j}
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                              style={{
+                                background: `${step.chipColor}15`,
+                                color: step.chipColor,
+                                border: `1px solid ${step.chipColor}40`,
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile: compact vertical list */}
+        <div className="md:hidden max-w-lg mx-auto">
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="flex gap-4 pb-6 relative"
+            >
+              {/* Dot + vertical line */}
+              <div className="flex flex-col items-center flex-shrink-0">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black shadow-md z-10"
+                  style={{ background: step.chipColor }}
+                >
+                  {i + 1}
+                </div>
+                {i < STEPS.length - 1 && (
+                  <div
+                    className="w-px flex-1 mt-2"
+                    style={{ background: `${step.chipColor}30`, minHeight: '32px' }}
+                  />
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 pb-2">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span
+                    className="text-[10px] font-black tracking-wider px-2 py-0.5 rounded-full"
+                    style={{
+                      background: `${step.chipColor}20`,
+                      color: step.chipColor,
+                      border: `1px solid ${step.chipColor}50`,
+                    }}
+                  >
+                    {step.chip}
+                  </span>
+                  <p
+                    className="font-bold text-sm"
+                    style={{ color: step.highlight ? '#F59E0B' : 'var(--text-primary)' }}
+                  >
+                    {step.title}
+                  </p>
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {step.body}
+                </p>
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {step.tags.map((tag, j) => (
+                    <span
+                      key={j}
+                      className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                      style={{
+                        background: `${step.chipColor}15`,
+                        color: step.chipColor,
+                        border: `1px solid ${step.chipColor}40`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* "Was du wissen musst" — two distinct emotional cards */}
+        <div className="max-w-5xl mx-auto mt-20">
+          <p
+            className="text-center text-xs font-black tracking-[0.25em] uppercase mb-3"
+            style={{ color: 'var(--text-faint)' }}
+          >
+            Auf einen Blick
+          </p>
           <motion.h3
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.4 }}
-            className="text-center font-black text-xl mb-10 text-[#1a0a2e] dark:text-white"
-          >
-            So funktioniert&apos;s
-          </motion.h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-            {CASTING_RULES.map((r, i) => (
-              <motion.div
-                key={r.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="flex flex-col items-center gap-3"
-              >
-                <span
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
-                  style={{
-                    background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 100%)',
-                    boxShadow: '0 0 24px rgba(180,120,255,0.45)',
-                  }}
-                >
-                  {r.icon}
-                </span>
-                <p className="font-bold text-[#1a0a2e] dark:text-white">{r.title}</p>
-                <p className="text-sm leading-relaxed whitespace-pre-line text-[#1a0a2e]/60 dark:text-white/50">{r.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CASTING TIMELINE — editorial alternating layout ──────────── */}
-      <section className="max-w-5xl mx-auto px-4 py-16 md:py-24">
-        <motion.h3
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="text-center font-black text-2xl mb-2 text-[#1a0a2e] dark:text-white"
-        >
-          So l&auml;uft das Casting ab
-        </motion.h3>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-sm mb-14 text-[#1a0a2e]/50 dark:text-white/40"
-        >
-          Von der Bewerbung bis zum Shooting — alle Schritte auf einen Blick.
-        </motion.p>
-
-        <div className="relative">
-          {/* Vertical connecting gradient line — desktop only */}
-          <div
-            className="hidden md:block absolute left-1/2 -translate-x-px top-8 bottom-8 w-px pointer-events-none"
-            style={{
-              background: 'linear-gradient(180deg, transparent 0%, rgba(245,158,11,0.5) 10%, rgba(139,92,246,0.45) 28%, rgba(236,72,153,0.45) 46%, rgba(16,185,129,0.45) 64%, rgba(245,158,11,0.5) 82%, rgba(139,92,246,0.45) 95%, transparent 100%)',
-            }}
-          />
-
-          <div className="space-y-6 md:space-y-0">
-            {EDITORIAL_STEPS.map((step, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <motion.div
-                  key={step.num}
-                  initial={{ opacity: 0, x: isLeft ? -24 : 24, y: 10 }}
-                  whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true, margin: '-30px' }}
-                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="relative md:grid md:grid-cols-[1fr_80px_1fr] md:items-center md:mb-10"
-                >
-                  {/* ── Desktop: left slot ── */}
-                  <div className="hidden md:block">
-                    {isLeft && (
-                      <div className="pr-7">
-                        <div
-                          className="relative rounded-2xl p-5 overflow-hidden"
-                          style={{
-                            background: 'var(--bg-card)',
-                            backdropFilter: 'blur(16px)',
-                            border: `1px solid ${step.color}28`,
-                            boxShadow: step.isGolden
-                              ? `0 0 32px rgba(245,158,11,0.18), 0 4px 20px rgba(245,158,11,0.10)`
-                              : `0 4px 20px ${step.color}12`,
-                          }}
-                        >
-                          {/* Watermark number */}
-                          <span
-                            className="absolute bottom-0 right-0 font-black leading-none select-none pointer-events-none"
-                            style={{ fontSize: '7rem', color: step.color, opacity: 0.06 }}
-                          >
-                            {step.num}
-                          </span>
-                          <span
-                            className="inline-block px-3 py-1 rounded-full text-[11px] font-bold text-white mb-3"
-                            style={{ background: step.color }}
-                          >
-                            {step.date}
-                          </span>
-                          <h4 className="font-black text-sm tracking-wide mb-3 text-[#1a0a2e] dark:text-white uppercase">
-                            {step.label}
-                          </h4>
-                          {renderStepContent(step)}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* ── Desktop: center dot ── */}
-                  <div className="hidden md:flex justify-center items-center">
-                    <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-sm z-10 flex-shrink-0"
-                      style={{
-                        background: step.color,
-                        boxShadow: `0 0 18px ${step.color}65`,
-                      }}
-                    >
-                      {step.num}
-                    </div>
-                  </div>
-
-                  {/* ── Desktop: right slot ── */}
-                  <div className="hidden md:block">
-                    {!isLeft && (
-                      <div className="pl-7">
-                        <div
-                          className="relative rounded-2xl p-5 overflow-hidden"
-                          style={{
-                            background: 'var(--bg-card)',
-                            backdropFilter: 'blur(16px)',
-                            border: `1px solid ${step.color}28`,
-                            boxShadow: `0 4px 20px ${step.color}12`,
-                          }}
-                        >
-                          {/* Watermark number */}
-                          <span
-                            className="absolute bottom-0 left-0 font-black leading-none select-none pointer-events-none"
-                            style={{ fontSize: '7rem', color: step.color, opacity: 0.06 }}
-                          >
-                            {step.num}
-                          </span>
-                          <span
-                            className="inline-block px-3 py-1 rounded-full text-[11px] font-bold text-white mb-3"
-                            style={{ background: step.color }}
-                          >
-                            {step.date}
-                          </span>
-                          <h4 className="font-black text-sm tracking-wide mb-3 text-[#1a0a2e] dark:text-white uppercase">
-                            {step.label}
-                          </h4>
-                          {renderStepContent(step)}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* ── Mobile: dot + card ── */}
-                  <div className="md:hidden flex gap-3 items-start">
-                    <div className="flex flex-col items-center flex-shrink-0">
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-xs flex-shrink-0"
-                        style={{ background: step.color, boxShadow: `0 0 12px ${step.color}55` }}
-                      >
-                        {step.num}
-                      </div>
-                      {i < EDITORIAL_STEPS.length - 1 && (
-                        <div
-                          className="w-px mt-2"
-                          style={{ background: `${step.color}35`, height: '100%', minHeight: '24px' }}
-                        />
-                      )}
-                    </div>
-                    <div
-                      className="flex-1 relative rounded-2xl p-4 overflow-hidden mb-1"
-                      style={{
-                        background: 'var(--bg-card)',
-                        backdropFilter: 'blur(16px)',
-                        border: `1px solid ${step.color}28`,
-                        boxShadow: step.isGolden
-                          ? `0 0 20px rgba(245,158,11,0.15)`
-                          : `0 4px 14px ${step.color}10`,
-                      }}
-                    >
-                      <span
-                        className="absolute bottom-0 right-0 font-black leading-none select-none pointer-events-none"
-                        style={{ fontSize: '5rem', color: step.color, opacity: 0.05 }}
-                      >
-                        {step.num}
-                      </span>
-                      <span
-                        className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white mb-2"
-                        style={{ background: step.color }}
-                      >
-                        {step.date}
-                      </span>
-                      <h4 className="font-black text-xs tracking-wide mb-2 text-[#1a0a2e] dark:text-white uppercase">
-                        {step.label}
-                      </h4>
-                      {renderStepContent(step)}
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WAS DU WISSEN MUSST ───────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="rounded-2xl p-6 md:p-8"
-          style={{
-            background: 'rgba(139,92,246,0.08)',
-            border: '1px solid rgba(139,92,246,0.25)',
-            backdropFilter: 'blur(16px)',
-          }}
-        >
-          <h3
-            className="text-xl font-black mb-6 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+            className="text-center text-3xl font-black mb-10"
+            style={{ color: 'var(--text-primary)' }}
           >
             Was du wissen musst
-          </h3>
+          </motion.h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Left: Mitmachen */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-3 text-[#1a0a2e]/60 dark:text-white/50">
-                Mitmachen
-              </p>
-              <ul className="space-y-2">
-                {REQUIREMENTS_LEFT.map((req) => (
-                  <li key={req} className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <span className="font-bold mt-0.5 flex-shrink-0" style={{ color: '#8B5CF6' }}>✓</span>
-                    {req}
+          <div className="grid md:grid-cols-2 gap-5">
+
+            {/* LEFT CARD — clean checklist */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl p-7"
+              style={{
+                background: 'var(--wissen-left-bg)',
+                border: '1px solid var(--wissen-left-border)',
+                backdropFilter: 'blur(20px)',
+              }}
+            >
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                  style={{ background: 'rgba(139,92,246,0.15)' }}
+                >
+                  📋
+                </div>
+                <div>
+                  <p className="text-[10px] font-black tracking-[0.2em] uppercase" style={{ color: '#8B5CF6' }}>
+                    Voraussetzungen
+                  </p>
+                  <p className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Mitmachen</p>
+                </div>
+              </div>
+
+              {/* Checklist */}
+              <ul className="space-y-3">
+                {REQUIREMENTS_LEFT.map((req, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <div
+                      className="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                      style={{
+                        background: 'rgba(16,185,129,0.15)',
+                        border: '1px solid rgba(16,185,129,0.35)',
+                      }}
+                    >
+                      <svg className="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="1.5,5 4,7.5 8.5,2" />
+                      </svg>
+                    </div>
+                    <span className="text-sm leading-snug" style={{ color: 'var(--text-secondary)' }}>{req}</span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
-            {/* Right: Das bekommst du */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-3 text-[#1a0a2e]/60 dark:text-white/50">
-                Das bekommst du
-              </p>
-              <ul className="space-y-2">
-                {REQUIREMENTS_RIGHT.map((item) => (
-                  <li key={item.text} className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <span className="flex-shrink-0">{item.emoji}</span>
-                    {item.text}
-                  </li>
+            {/* RIGHT CARD — premium benefits */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="rounded-3xl p-7 relative overflow-hidden"
+              style={{
+                background: 'var(--wissen-right-bg)',
+                border: '1px solid rgba(139,92,246,0.25)',
+                backdropFilter: 'blur(20px)',
+              }}
+            >
+              {/* Decorative glow blob */}
+              <div
+                className="absolute -top-10 -right-10 w-40 h-40 rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, var(--glow-blob-color) 0%, transparent 70%)',
+                  filter: 'blur(30px)',
+                }}
+              />
+
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-6 relative z-10">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                  style={{ background: 'rgba(245,158,11,0.15)' }}
+                >
+                  🎁
+                </div>
+                <div>
+                  <p className="text-[10px] font-black tracking-[0.2em] uppercase" style={{ color: '#EC4899' }}>
+                    Deine Belohnung
+                  </p>
+                  <p className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Das bekommst du</p>
+                </div>
+              </div>
+
+              {/* Benefit mini-cards */}
+              <div className="space-y-2.5 relative z-10">
+                {BENEFITS.map((benefit, bi) => (
+                  <div
+                    key={bi}
+                    className="flex items-start gap-3 rounded-2xl p-3"
+                    style={{
+                      background: `${benefit.color}09`,
+                      border: `1px solid ${benefit.color}25`,
+                    }}
+                  >
+                    <span className="text-xl flex-shrink-0 leading-none mt-0.5">{benefit.icon}</span>
+                    <div>
+                      <p className="font-semibold text-sm leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        {benefit.title}
+                      </p>
+                      <p className="text-xs mt-0.5 leading-snug" style={{ color: 'var(--text-secondary)' }}>
+                        {benefit.sub}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </motion.div>
+
           </div>
-        </motion.div>
+        </div>
       </section>
     </>
   )

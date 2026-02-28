@@ -26,7 +26,7 @@ export default function PublicHeader() {
         {/* Logo */}
         <Link href="/" aria-label="WELEDA home" className="flex-shrink-0">
           <Image
-            src="/weleda-logo-white.svg"
+            src="/img/weleda-logo-white.svg"
             alt="WELEDA"
             width={100}
             height={32}

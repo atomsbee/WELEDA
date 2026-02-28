@@ -1,16 +1,24 @@
 'use client'
 
 import { useState, useMemo, useCallback, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import HeroSection from '@/components/HeroSection'
-import SearchFilterBar, { type SortOption } from '@/components/SearchFilterBar'
 import InfluencerCard from '@/components/InfluencerCard'
 import VideoModal from '@/components/VideoModal'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select'
 import dynamic from 'next/dynamic'
 
 const VoteModal = dynamic(() => import('@/components/VoteModal'), { ssr: false })
 import type { Influencer } from '@/types'
 import { CATEGORIES, CATEGORY_KEYS, type CategoryKey } from '@/lib/config/categories'
+
+type SortOption = 'display_order' | 'votes' | 'newest' | 'alphabetical'
 
 interface VotingPageClientProps {
   initialInfluencers: Influencer[]
@@ -33,17 +41,7 @@ export default function VotingPageClient({
   const [videoInfluencer, setVideoInfluencer] = useState<Influencer | null>(null)
   const [voteInfluencer, setVoteInfluencer] = useState<Influencer | null>(null)
 
-  const gridHeaderRef = useRef(null)
-  const isHeaderInView = useInView(gridHeaderRef, { once: true, margin: '-50px' })
-
-  const handleFilterChange = useCallback(
-    (newSearch: string, newSort: SortOption, newHashtags: string[]) => {
-      setSearch(newSearch)
-      setSort(newSort)
-      setActiveHashtags(newHashtags)
-    },
-    []
-  )
+  const gridRef = useRef<HTMLDivElement>(null)
 
   const filteredInfluencers = useMemo(() => {
     let result = [...influencers]
@@ -71,6 +69,9 @@ export default function VotingPageClient({
     switch (sort) {
       case 'display_order':
         result.sort((a, b) => a.display_order - b.display_order)
+        break
+      case 'votes':
+        result.sort((a, b) => b.vote_count - a.vote_count)
         break
       case 'newest':
         result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
@@ -109,81 +110,171 @@ export default function VotingPageClient({
       <HeroSection campaignActive={campaignActive} endDate={endDate} />
 
       <div id="influencer-grid" className="">
-        <SearchFilterBar
-          allHashtags={allHashtags}
-          onFilterChange={handleFilterChange}
-        />
 
-        <section className="max-w-7xl mx-auto px-4 pt-16 md:pt-20 pb-24 md:pb-32">
-          {/* Category filter strip */}
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <button
-              onClick={() => setActiveCategory('all')}
-              className="px-4 py-2 rounded-full text-sm font-bold transition-all duration-200"
-              style={
-                activeCategory === 'all'
-                  ? {
-                    background: 'linear-gradient(135deg, #7C3AED, #B478FF)',
-                    border: '1px solid transparent',
-                    boxShadow: '0 4px 14px rgba(180,120,255,0.35)',
-                    color: '#fff',
-                  }
-                  : {
-                    background: 'var(--bg-chip)',
-                    border: '1px solid var(--border-chip)',
-                    color: 'var(--text-chip)',
-                  }
-              }
-            >
-              All Categories
-            </button>
-            {CATEGORY_KEYS.map((key) => {
-              const cat = CATEGORIES[key]
-              const isActive = activeCategory === key
-              return (
-                <button
-                  key={key}
-                  onClick={() => setActiveCategory(key)}
-                  className="px-4 py-2 rounded-full text-sm font-bold transition-all duration-200"
-                  style={{
-                    background: isActive ? cat.gradient : 'var(--bg-chip)',
-                    border: isActive ? '1px solid transparent' : `1px solid var(--border-chip)`,
-                    color: isActive ? '#fff' : 'var(--text-chip)',
-                    boxShadow: isActive ? `0 4px 14px ${cat.glow}` : undefined,
-                  }}
+        {/* ── COMPACT STICKY FILTER BAR ──────────────────────────────── */}
+        <div
+          className="sticky top-[60px] md:top-[72px] z-30 border-b"
+          style={{
+            background: 'var(--bg-filter)',
+            backdropFilter: 'blur(16px)',
+            borderColor: 'var(--border-nav)',
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-4 py-2.5">
+            <div className="flex items-center gap-2">
+
+              {/* Category pills — scrollable horizontal strip */}
+              <div className="flex-1 overflow-x-auto scrollbar-hide">
+                <div className="flex items-center gap-1.5 min-w-max">
+                  <button
+                    onClick={() => setActiveCategory('all')}
+                    className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200"
+                    style={{
+                      background: activeCategory === 'all'
+                        ? 'linear-gradient(135deg, rgba(139,92,246,0.85), rgba(236,72,153,0.75))'
+                        : 'var(--bg-chip)',
+                      color: activeCategory === 'all' ? '#fff' : 'var(--text-chip)',
+                      border: activeCategory === 'all'
+                        ? '1px solid transparent'
+                        : '1px solid var(--border-chip)',
+                    }}
+                  >
+                    ✨ Alle
+                  </button>
+                  {CATEGORY_KEYS.map((key) => {
+                    const cat = CATEGORIES[key]
+                    const isActive = activeCategory === key
+                    return (
+                      <button
+                        key={key}
+                        onClick={() => setActiveCategory(key)}
+                        className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200"
+                        style={{
+                          background: isActive ? cat.primary : 'var(--bg-chip)',
+                          color: isActive ? '#fff' : 'var(--text-chip)',
+                          border: isActive
+                            ? `1px solid ${cat.primary}`
+                            : '1px solid var(--border-chip)',
+                        }}
+                      >
+                        {cat.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Search */}
+              <div className="relative flex-shrink-0 w-36 md:w-52">
+                <svg
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 >
-                  {cat.label}
-                </button>
-              )
-            })}
-          </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Suchen..."
+                  className="w-full pl-8 pr-3 py-1.5 rounded-xl text-sm outline-none"
+                  style={{
+                    background: 'var(--bg-input)',
+                    border: '1px solid var(--border-input)',
+                    color: 'var(--text-primary)',
+                  }}
+                />
+              </div>
 
-          {/* Results header */}
-          <motion.div
-            ref={gridHeaderRef}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="flex items-center justify-between mb-10 md:mb-12"
-          >
-            <h2 className="text-lg font-bold text-[#1a0a2e] dark:text-white">
-              {filteredInfluencers.length === influencers.length
-                ? `${influencers.length} Creators`
-                : `${filteredInfluencers.length} of ${influencers.length} Creators`}
-            </h2>
-            {!campaignActive && (
-              <span
-                className="px-3 py-1 rounded-full text-xs font-medium"
+              {/* Divider */}
+              <div className="w-px h-5 flex-shrink-0" style={{ background: 'var(--border-nav)' }} />
+
+              {/* Sort */}
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value as SortOption)}
+                className="flex-shrink-0 px-2 py-1.5 rounded-xl text-xs font-medium outline-none cursor-pointer"
                 style={{
-                  background: 'var(--bg-chip)',
-                  border: '1px solid var(--border-chip)',
-                  color: 'var(--text-muted)',
+                  background: 'var(--bg-input)',
+                  border: '1px solid var(--border-input)',
+                  color: 'var(--text-primary)',
                 }}
               >
-                Voting Ended
-              </span>
-            )}
-          </motion.div>
+                <option value="display_order">Featured</option>
+                <option value="votes">Meiste Votes</option>
+                <option value="newest">Neueste</option>
+                <option value="alphabetical">A–Z</option>
+              </select>
+            </div>
+
+            {/* Results count */}
+            {/* <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+              <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                {filteredInfluencers.length}
+              </span>{' '}Creator
+              {!campaignActive && <span className="ml-1.5">· Voting Ended</span>}
+            </p> */}
+          </div>
+        </div>
+
+        {/* ── HASHTAG PILLS STRIP ───────────────────────────────────── */}
+        {allHashtags.length > 0 && (
+          <div
+            className="border-b px-4 py-2"
+            style={{
+              background: 'var(--bg-filter)',
+              backdropFilter: 'blur(12px)',
+              borderColor: 'var(--border-nav)',
+            }}
+          >
+            <div className="max-w-6xl mx-auto flex items-center gap-1.5 flex-wrap">
+              {activeHashtags.length > 0 && (
+                <button
+                  onClick={() => setActiveHashtags([])}
+                  className="text-xs px-2.5 py-1 rounded-full font-semibold transition-all duration-200 flex-shrink-0"
+                  style={{
+                    background: 'rgba(239,68,68,0.12)',
+                    border: '1px solid rgba(239,68,68,0.30)',
+                    color: '#ef4444',
+                  }}
+                >
+                  ✕ Reset
+                </button>
+              )}
+              {allHashtags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => {
+                    const next = activeHashtags.includes(tag)
+                      ? activeHashtags.filter((h) => h !== tag)
+                      : [...activeHashtags, tag]
+                    setActiveHashtags(next)
+                  }}
+                  className="text-xs px-2.5 py-1 rounded-full font-medium transition-all duration-200"
+                  style={{
+                    background: activeHashtags.includes(tag)
+                      ? 'rgba(139,92,246,0.15)'
+                      : 'var(--bg-chip)',
+                    border: activeHashtags.includes(tag)
+                      ? '1px solid rgba(139,92,246,0.40)'
+                      : '1px solid var(--border-chip)',
+                    color: activeHashtags.includes(tag)
+                      ? 'var(--label-violet)'
+                      : 'var(--text-chip)',
+                  }}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <section className="max-w-7xl mx-auto px-4 pt-10 pb-24 md:pb-32">
+          {/* Grid anchor */}
+          <div ref={gridRef} />
 
           {/* Grid — grouped by category in "all" view, flat otherwise */}
           {!hasAnyResults ? (
@@ -289,10 +380,11 @@ export default function VotingPageClient({
                 <motion.div
                   key={influencer.id}
                   initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={isHeaderInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: '-30px' }}
                   transition={{
                     duration: 0.5,
-                    delay: Math.min(index * 0.07, 0.8),
+                    delay: Math.min(index * 0.07, 0.5),
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                 >

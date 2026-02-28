@@ -14,7 +14,7 @@ export default function DatenschutzPage() {
       <header className="bg-weleda-green py-6 px-4">
         <div className="max-w-4xl mx-auto">
           <Link href="/">
-            <Image src="/weleda-logo-white.svg" alt="WELEDA" width={120} height={34} className="w-28" />
+            <Image src="/img/weleda-logo-white.svg" alt="WELEDA" width={120} height={34} className="w-28" />
           </Link>
         </div>
       </header>

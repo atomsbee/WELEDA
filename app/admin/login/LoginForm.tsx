@@ -50,7 +50,7 @@ export default function AdminLoginForm() {
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <Image
-            src="/weleda-logo-white.svg"
+            src="/img/weleda-logo-white.svg"
             alt="WELEDA"
             width={160}
             height={46}

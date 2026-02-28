@@ -21,18 +21,18 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/img/favicon.ico' },
+      { url: '/img/favicon.svg', type: 'image/svg+xml' },
+      { url: '/img/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: '/img/apple-touch-icon.png',
   },
   openGraph: {
     title: 'WELEDA Summer Vote 2026',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
     images: [
       {
-        url: '/weleda-logo.svg',
+        url: '/img/weleda-logo.svg',
         width: 1200,
         height: 630,
         alt: 'WELEDA Community Voting',

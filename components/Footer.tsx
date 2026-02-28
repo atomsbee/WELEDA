@@ -66,7 +66,7 @@ export default function Footer() {
         <div className="flex items-center justify-between py-6">
           <Link href="/" aria-label="WELEDA home" className="flex-shrink-0">
             <Image
-              src="/weleda-logo-white.svg"
+              src="/img/weleda-logo-white.svg"
               alt="WELEDA"
               width={120}
               height={40}
