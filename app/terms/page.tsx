@@ -84,7 +84,7 @@ export default function TermsPage() {
                 Familienangehörige sind von der Teilnahme ausgeschlossen.
               </p>
               <p className="mt-3">
-                Jede Person darf pro Duftrichtung (Vanilla Cloud, Mystic Aura, Tropical Crush) genau eine (1)
+                Jede Person darf pro Duftrichtung (Gourmand, Floriental, Fruity) genau eine (1)
                 Stimme abgeben, insgesamt also maximal drei (3) Stimmen während des gesamten Kampagnenzeitraums.
                 Die Überprüfung der Stimmen erfolgt anhand der E-Mail-Adresse. Mehrfachstimmabgaben sowie die
                 Nutzung automatisierter Systeme oder sonstiger Manipulationen sind nicht zulässig und führen zum

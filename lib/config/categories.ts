@@ -24,32 +24,12 @@ export interface CategoryConfig {
 }
 
 export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
-  // ── Vanilla Cloud ── Soft pink tones
-  'vanilla-cloud': {
-    key: 'vanilla-cloud',
-    label: 'Vanilla Cloud',
-    hashtag: '#VanillaCloud',
-    tagline: 'Soft · Warm · Sensual',
-    primary: '#F472B6',
-    secondary: '#FBCFE8',
-    accent: '#FCE7F3',
-    bg: '#FDF2F8',
-    border: '#FBCFE8',
-    glow: 'rgba(244,114,182,0.25)',
-    buttonBg: '#F472B6',
-    buttonText: '#fff',
-    badgeBg: '#FCE7F3',
-    badgeText: '#9D174D',
-    gradient: 'linear-gradient(135deg, #DB2777 0%, #F472B6 50%, #FBCFE8 100%)',
-    gradientSubtle: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
-    modelImage: '/img/Vanilla_Ausschnitt.jpg',
-  },
-  // ── Mystic Aura ── Warm golden / amber tones
+  // ── Gourmand (1) ── Warm golden / amber tones
   'mystic-aura': {
     key: 'mystic-aura',
-    label: 'Mystic Aura',
-    hashtag: '#MysticAura',
-    tagline: 'Bold · Mysterious · Enchanting',
+    label: 'Gourmand',
+    hashtag: '#Gourmand',
+    tagline: 'Soft · Warm · Sensual',
     primary: '#FBBF24',
     secondary: '#FDE68A',
     accent: '#FEF3C7',
@@ -64,12 +44,12 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     gradientSubtle: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
     modelImage: '/img/Mystic_Ausschnitt.jpg',
   },
-  // ── Tropical Crush ── Cool blue tones
+  // ── Floriental (2) ── Cool blue tones
   'tropical-crush': {
     key: 'tropical-crush',
-    label: 'Tropical Crush',
-    hashtag: '#TropicalCrush',
-    tagline: 'Fresh · Vibrant · Energizing',
+    label: 'Floriental',
+    hashtag: '#Floriental',
+    tagline: 'Bold · Mysterious · Oriental',
     primary: '#60A5FA',
     secondary: '#BAE6FD',
     accent: '#E0F2FE',
@@ -83,6 +63,26 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     gradient: 'linear-gradient(135deg, #2563EB 0%, #60A5FA 50%, #BAE6FD 100%)',
     gradientSubtle: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
     modelImage: '/img/Tropical_Ausschnitt.jpg',
+  },
+  // ── Fruity (3) ── Soft pink tones
+  'vanilla-cloud': {
+    key: 'vanilla-cloud',
+    label: 'Fruity',
+    hashtag: '#Fruity',
+    tagline: 'Sweet · Tropical · Vibrant',
+    primary: '#F472B6',
+    secondary: '#FBCFE8',
+    accent: '#FCE7F3',
+    bg: '#FDF2F8',
+    border: '#FBCFE8',
+    glow: 'rgba(244,114,182,0.25)',
+    buttonBg: '#F472B6',
+    buttonText: '#fff',
+    badgeBg: '#FCE7F3',
+    badgeText: '#9D174D',
+    gradient: 'linear-gradient(135deg, #DB2777 0%, #F472B6 50%, #FBCFE8 100%)',
+    gradientSubtle: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
+    modelImage: '/img/Vanilla_Ausschnitt.jpg',
   },
 }
 
@@ -101,11 +101,11 @@ export const PRODUCT_IMAGE =
 
 export const MARQUEE_ITEMS = [
   '✦ Community Vote 13.–17.03.2026',
-  '✦ Vanilla Cloud · Mystic Aura · Tropical Crush',
+  '✦ Gourmand · Floriental · Fruity',
   '✦ 3 neue Kampagnengesichter gesucht',
   '✦ Jetzt für deinen Fave voten',
   '✦ Live-Casting auf Teneriffa 22.–25.03.',
-  '✦ #weledacasting #fragrancemists',
+  '✦ #weledacasting #weledafragrancemists',
   '✦ 1× täglich abstimmen',
   '✦ Werde das Gesicht der WELEDA Fragrance Campaign',
 ]

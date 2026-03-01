@@ -175,7 +175,7 @@ export default function VideoModal({
                   className="hidden sm:flex px-4 py-2 rounded-full text-white text-sm font-bold"
                   style={{ background: cat?.gradient ?? 'linear-gradient(135deg, #B478FF, #FFD700)' }}
                 >
-                  Vote Now
+                  JETZT ABSTIMMEN
                 </motion.button>
               )}
               <button

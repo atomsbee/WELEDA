@@ -1,6 +1,6 @@
 'use client'
 
-import { memo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
@@ -23,7 +23,10 @@ function InfluencerCard({
   onVideoClick,
 }: InfluencerCardProps) {
   const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme !== 'light'
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  // Before mount, default to dark so SSR and first client render match
+  const isDark = !mounted || resolvedTheme !== 'light'
 
   const cat = getCategoryConfig(influencer.category)
 
@@ -144,23 +147,18 @@ function InfluencerCard({
           </p>
         </div>
 
-        {/* Hashtags */}
-        {influencer.hashtags && influencer.hashtags.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {influencer.hashtags.slice(0, 2).map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2 py-0.5 rounded-full"
-                style={{
-                  color: 'var(--text-chip)',
-                  background: 'var(--bg-chip)',
-                  border: '1px solid var(--border-chip)',
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        {/* Category hashtag — decorative pill, not clickable */}
+        {cat && (
+          <span
+            className="text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none select-none self-start"
+            style={{
+              background: `${cat.primary}18`,
+              border: `1px solid ${cat.primary}30`,
+              color: cat.primary,
+            }}
+          >
+            #weledafragrancemists
+          </span>
         )}
 
         {/* Vote counter */}
@@ -186,17 +184,18 @@ function InfluencerCard({
           whileTap={{ scale: 0.97 }}
           onClick={() => campaignActive && onVoteClick(influencer)}
           disabled={!campaignActive}
-          className="mt-auto w-full py-2.5 rounded-full font-bold text-sm transition-shadow duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-white"
+          className="mt-auto w-full py-2.5 rounded-full font-bold text-sm transition-shadow duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           style={
             campaignActive
               ? {
                 background: btnGradient ?? btnBg,
                 boxShadow: cat ? `0 4px 14px ${cat.primary}35` : undefined,
+                color: '#ffffff',
               }
-              : { background: 'var(--bg-chip)' }
+              : { background: 'var(--bg-chip)', color: 'var(--text-chip)' }
           }
         >
-          {campaignActive ? 'Vote Now' : 'Voting Ended'}
+          {campaignActive ? 'JETZT ABSTIMMEN' : 'Voting Ended'}
         </motion.button>
       </div>
     </motion.div>

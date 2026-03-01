@@ -54,7 +54,7 @@ function AdminSidebar() {
         >
           <div className="w-7 h-7 flex-shrink-0 flex items-center justify-center">
             <Image
-              src="/favicon.svg"
+              src="/img/favicon.svg"
               alt="WELEDA"
               width={28}
               height={28}

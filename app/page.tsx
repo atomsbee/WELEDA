@@ -35,15 +35,9 @@ export default async function HomePage() {
     Promise.resolve(formatCampaignEndDate()),
   ])
 
-  // Extract all unique hashtags from influencers
-  const allHashtags = Array.from(
-    new Set(influencers.flatMap((inf) => inf.hashtags ?? []))
-  ).sort()
-
   return (
     <VotingPageClient
       initialInfluencers={influencers}
-      allHashtags={allHashtags}
       campaignActive={campaignActive}
       endDate={endDate}
     />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import { CATEGORIES, PRODUCT_IMAGE, MARQUEE_ITEMS, CATEGORY_KEYS } from '@/lib/config/categories'
@@ -28,23 +28,23 @@ const heroVariants = {
 
 const STEPS = [
   {
-    chip: '02.03.–12.03',
+    chip: '02.03–12.03.2026',
     chipColor: '#F59E0B',
     title: 'Bewerbungsphase',
-    body: 'Poste dein Video auf TikTok oder Instagram (mind. 30\u00a0Sek., max. 5\u00a0Min.).',
-    tags: ['#weledacasting', '#fragrancemists'],
+    body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram.',
+    tags: ['#weledafragrancemists'],
     highlight: false,
   },
   {
     chip: 'TOP 10',
     chipColor: '#8B5CF6',
     title: 'Vorauswahl',
-    body: 'Wir w\u00e4hlen 10 Creator nach Kreativit\u00e4t, Vibe, Brand Fit & Authentizit\u00e4t.',
+    body: 'Wir wählen die Top-Creators aus. Wenn du dabei bist bekommst du eine DM von uns. Überzeuge uns mit:',
     tags: ['DM-Benachrichtigung'],
     highlight: false,
   },
   {
-    chip: '13.03–17.03',
+    chip: '13.03–17.03.2026',
     chipColor: '#EC4899',
     title: 'Voting-Phase',
     body: '1\u00d7 t\u00e4glich abstimmen, 5 Tage lang. Mach ordentlich Werbung f\u00fcr dich!',
@@ -52,15 +52,21 @@ const STEPS = [
     highlight: false,
   },
   {
-    chip: '2 TICKETS',
+    chip: '9 TICKETS',
     chipColor: '#10B981',
     title: 'Finale-Tickets',
-    body: '1\u00d7 Wildcard von WELEDA \u00b7 1\u00d7 Community-Gewinner:in. Best\u00e4tigung in 24h.',
+    body: (
+      <>
+        6 x Top-Votes Category “Creator”<br />
+        1 x Category “Community”<br />
+        2 x Wildcard von WELEDA
+      </>
+    ),
     tags: ['Wildcard', 'Community Vote'],
     highlight: false,
   },
   {
-    chip: '22.03–25.03',
+    chip: '22.03–25.03.2026',
     chipColor: '#F59E0B',
     title: 'Teneriffa \uD83C\uDF34',
     body: 'Live-Casting. WELEDA \u00fcbernimmt Reise, Unterkunft & Verpflegung.',
@@ -78,13 +84,13 @@ const STEPS = [
 ]
 
 const REQUIREMENTS_LEFT = [
-  '18\u201335 Jahre alt',
+  '18–35 Jahre alt',
   'Wohnsitz in DE, AT oder CH',
-  '\u00d6ffentliches Instagram oder TikTok Profil',
+  'Öffentliches Instagram oder TikTok Profil',
   'Video als Feed-Post oder Reel (keine Story)',
   '@weleda markieren',
-  '#weledacasting #fragrancemists nutzen',
-  'Vom 22.\u201326.03. verf\u00fcgbar sein',
+  '#weledacasting, #weledafragrancemists nutzen',
+  'Vom 22.03.2026–26.03.2026 verfügbar sein',
 ]
 
 const BENEFITS = [
@@ -153,7 +159,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 max-w-xl">
 
             {/* Campaign badge */}
-            <motion.div custom={1} variants={heroVariants} initial="hidden" animate="visible" className="mb-5">
+            {/* <motion.div custom={1} variants={heroVariants} initial="hidden" animate="visible" className="mb-5">
               <motion.span
                 animate={shouldReduceMotion ? {} : { opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -169,7 +175,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 ✦ COMMUNITY VOTE · 13–17.03.2026 ✦
                 <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--campaign-badge-dot)' }} />
               </motion.span>
-            </motion.div>
+            </motion.div> */}
 
             {/* Gradient headline — 3 lines */}
             <motion.h1
@@ -180,7 +186,6 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               className="font-black leading-none mb-3"
               style={{ fontSize: 'clamp(2.6rem, 7vw, 5rem)', letterSpacing: '-0.02em' }}
             >
-              <span style={{ color: 'var(--text-primary)' }}>DEIN</span>
               <br />
               <span
                 style={{
@@ -191,7 +196,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   backgroundClip: 'text',
                 }}
               >
-                WELEDA
+                Dein Duft.<br />Dein Face.
               </span>
               <br />
               <span
@@ -203,7 +208,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   backgroundClip: 'text',
                 }}
               >
-                SUMMER ✦
+                Dein WELEDA Sommer ✦
               </span>
             </motion.h1>
 
@@ -215,11 +220,12 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               animate="visible"
               className="text-sm md:text-base font-bold mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 justify-center lg:justify-start"
             >
-              <span style={{ color: CATEGORIES['vanilla-cloud'].primary }}>Vanilla Cloud</span>
-              <span style={{ color: 'var(--text-faint)' }}>·</span>
-              <span style={{ color: CATEGORIES['mystic-aura'].primary }}>Mystic Aura</span>
-              <span style={{ color: 'var(--text-faint)' }}>·</span>
-              <span style={{ color: CATEGORIES['tropical-crush'].primary }}>Tropical Crush</span>
+              {CATEGORY_KEYS.map((key, i) => (
+                <Fragment key={key}>
+                  {i > 0 && <span style={{ color: 'var(--text-faint)' }}>·</span>}
+                  <span style={{ color: CATEGORIES[key].primary }}>{CATEGORIES[key].label}</span>
+                </Fragment>
+              ))}
             </motion.p>
 
             {/* Subhead */}
@@ -231,19 +237,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               className="text-base leading-relaxed mb-2 max-w-md"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Drei Fragrances. Drei Gesichter. Bist du dabei? Vote f&uuml;r deinen Favoriten&nbsp;&mdash; 1&times; pro Kategorie.
-            </motion.p>
-
-            {/* Fixed body */}
-            <motion.p
-              custom={5}
-              variants={heroVariants}
-              initial="hidden"
-              animate="visible"
-              className="text-sm leading-relaxed mb-3 max-w-md"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              Bist du zwischen 18 und 35 Jahre alt? Dann werde Teil unserer &bdquo;Weleda Summer Campaign&ldquo;! Du hast die einmalige Chance eines von drei neuen Kampagnengesichtern zu werden.
+              Poste dein Casting-Video, lass die Community für dich voten und werde eines der neuen Fragrance-Faces der Weleda Summer Campaign.
             </motion.p>
 
             {/* Voting phase */}
@@ -252,10 +246,11 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               variants={heroVariants}
               initial="hidden"
               animate="visible"
-              className="text-sm mb-8"
-              style={{ color: 'var(--text-faint)' }}
+              className="text-base leading-relaxed mb-8"
+              style={{ color: 'var(--text-secondary)' }}
             >
-              Voting-Phase: 13.03. – 17.03.2026
+              Bewerbungsphase: 2.3.2026 - 12.3.2026<br />
+              Voting Phase: 13.3.2026 - 17.3.2026
             </motion.p>
 
             {/* CTA */}
@@ -264,9 +259,10 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 whileHover={shouldReduceMotion ? {} : { scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={scrollToGrid}
-                className="relative px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase text-white"
+                className="relative px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase"
                 style={{
                   background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 33%, #FF6EB4 66%, #B478FF 100%)',
+                  color: '#ffffff',
                 }}
               >
                 <span className="flex items-center gap-2">
@@ -381,18 +377,20 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center text-2xl md:text-3xl font-black mb-2 text-white"
+          className="text-center text-2xl md:text-3xl font-black mb-2"
+          style={{ color: 'var(--text-primary)' }}
         >
-          Choose Your Fragrance World
+          Wähle deine Duftwelt
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-center text-sm mb-10 text-white/60"
+          className="text-center text-sm mb-10"
+          style={{ color: 'var(--text-muted)' }}
         >
-          One vote per category — discover all three and vote for your favourites.
+          Eine Stimme pro Kategorie - Entdecke alle Drei und vote für deinen Favoriten
         </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -435,17 +433,11 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-2"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-black text-md leading-tight mb-2"
                     style={{ background: cat.gradient, color: 'white' }}
                   >
                     {cat.hashtag}
                   </div>
-                  <p
-                    className="font-black text-xl leading-tight"
-                    style={{ color: 'white', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
-                  >
-                    {cat.label}
-                  </p>
                   <p
                     className="text-xs mt-0.5"
                     style={{ color: 'rgba(255,255,255,0.70)', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
@@ -498,7 +490,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 }}
               />
 
-              <div className="grid grid-cols-6 gap-2 xl:gap-3 pt-6">
+              <div className="grid grid-cols-6 gap-2 xl:gap-3 pt-8">
                 {STEPS.map((step, i) => (
                   <motion.div
                     key={i}

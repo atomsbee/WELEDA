@@ -47,10 +47,11 @@ export default function PublicHeader() {
           >
             <Link
               href="/#influencer-grid"
-              className="relative block px-5 py-2 text-sm font-bold text-white rounded-full"
+              className="relative block px-5 py-2 text-sm font-bold rounded-full"
               style={{
                 background: 'linear-gradient(135deg, #F59E0B 0%, #B478FF 50%, #FF6EB4 100%)',
                 boxShadow: '0 4px 20px rgba(180,120,255,0.35)',
+                color: '#ffffff',
               }}
             >
               {/* Shimmer sweep */}
@@ -62,7 +63,7 @@ export default function PublicHeader() {
                   animation: 'shimmerSweep 2.8s ease infinite',
                 }}
               />
-              <span className="relative z-10">Vote Now</span>
+              <span className="relative z-10">JETZT ABSTIMMEN</span>
             </Link>
           </motion.div>
         </div>
