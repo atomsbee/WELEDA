@@ -152,7 +152,8 @@ export default function FloatingPetals() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
 
-  if (!mounted || resolvedTheme !== 'light') return null
+  if (!mounted) return <div className="fixed inset-0 pointer-events-none" aria-hidden="true" />
+  if (resolvedTheme !== 'light') return null
 
   return (
     <div

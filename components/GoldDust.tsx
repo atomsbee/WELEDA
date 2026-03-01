@@ -123,7 +123,8 @@ export default function GoldDust() {
     }
   }, [mounted, resolvedTheme])
 
-  if (!mounted || resolvedTheme !== 'dark') return null
+  if (!mounted) return <div className="fixed inset-0 pointer-events-none" aria-hidden="true" />
+  if (resolvedTheme !== 'dark') return null
 
   return (
     <canvas

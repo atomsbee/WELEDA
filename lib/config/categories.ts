@@ -62,7 +62,7 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     badgeText: '#1E40AF',
     gradient: 'linear-gradient(135deg, #2563EB 0%, #60A5FA 50%, #BAE6FD 100%)',
     gradientSubtle: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
-    modelImage: '/img/Tropical_Ausschnitt.jpg',
+    modelImage: '/img/Vanilla_Ausschnitt.jpg',
   },
   // ── Fruity (3) ── Soft pink tones
   'vanilla-cloud': {
@@ -82,7 +82,7 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     badgeText: '#9D174D',
     gradient: 'linear-gradient(135deg, #DB2777 0%, #F472B6 50%, #FBCFE8 100%)',
     gradientSubtle: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
-    modelImage: '/img/Vanilla_Ausschnitt.jpg',
+    modelImage: '/img/Tropical_Ausschnitt.jpg',
   },
 }
 
