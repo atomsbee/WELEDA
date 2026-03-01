@@ -155,8 +155,8 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 max-w-6xl mx-auto w-full">
 
-          {/* Text block */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 max-w-xl">
+          {/* Text block — below image on mobile, left on desktop */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 max-w-xl order-2 lg:order-1">
 
             {/* Campaign badge */}
             {/* <motion.div custom={1} variants={heroVariants} initial="hidden" animate="visible" className="mb-5">
@@ -258,13 +258,21 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 whileHover={shouldReduceMotion ? {} : { scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={scrollToGrid}
-                className="relative px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase"
+                className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase"
                 style={{
-                  background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 33%, #FF6EB4 66%, #B478FF 100%)',
+                  background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 0%, #FF6EB4 66%, #B478FF 100%)',
                   color: '#ffffff',
                 }}
               >
-                <span className="flex items-center gap-2">
+                {/* Shimmer sweep */}
+                <span
+                  className="pointer-events-none absolute inset-0 rounded-full"
+                  style={{
+                    background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%)',
+                    animation: 'shimmerSweep 2.8s ease infinite',
+                  }}
+                />
+                <span className="relative z-10 flex items-center gap-2">
                   JETZT ABSTIMMEN
                   <span>→</span>
                 </span>
@@ -272,18 +280,16 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
             </motion.div>
           </div>
 
-          {/* Product image */}
+          {/* Product image — top on mobile, right on desktop */}
           <motion.div
             custom={5}
             variants={heroVariants}
             initial="hidden"
             animate="visible"
-            className="relative flex-shrink-0 hidden lg:block"
+            className="relative flex-shrink-0 order-1 lg:order-2 w-full flex justify-center lg:block lg:w-auto"
           >
-            <motion.div
-              animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative w-[28rem] h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-3xl overflow-hidden"
+            <div
+              className="relative w-full aspect-square lg:aspect-auto lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-3xl overflow-hidden"
               style={{
                 background: 'var(--bg-card)',
                 backdropFilter: 'blur(20px)',
@@ -296,10 +302,10 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 alt="WELEDA Summer Collection"
                 fill
                 className="object-cover"
-                sizes="(min-width: 1280px) 672px, 544px"
+                sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 448px, 512px"
                 priority
               />
-            </motion.div>
+            </div>
             <div
               className="absolute -inset-8 rounded-3xl pointer-events-none"
               style={{

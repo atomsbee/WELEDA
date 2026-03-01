@@ -49,7 +49,7 @@ export default function PublicHeader() {
               href="/#influencer-grid"
               className="relative block px-5 py-2 text-sm font-bold rounded-full"
               style={{
-                background: 'linear-gradient(135deg, #F59E0B 0%, #B478FF 50%, #FF6EB4 100%)',
+                background: 'linear-gradient(135deg, #B478FF 0%, #FFD700 0%, #FF6EB4 66%, #B478FF 100%)',
                 boxShadow: '0 4px 20px rgba(180,120,255,0.35)',
                 color: '#ffffff',
               }}
