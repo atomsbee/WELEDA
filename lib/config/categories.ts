@@ -42,7 +42,7 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     badgeText: '#92400E',
     gradient: 'linear-gradient(135deg, #D97706 0%, #FBBF24 50%, #FDE68A 100%)',
     gradientSubtle: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-    modelImage: '/img/Mystic_Ausschnitt.jpg',
+    modelImage: '/img/Vanilla_Ausschnitt.jpg',
   },
   // ── Floriental (2) ── Cool blue tones
   'tropical-crush': {
@@ -62,7 +62,7 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     badgeText: '#1E40AF',
     gradient: 'linear-gradient(135deg, #2563EB 0%, #60A5FA 50%, #BAE6FD 100%)',
     gradientSubtle: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
-    modelImage: '/img/Vanilla_Ausschnitt.jpg',
+    modelImage: '/img/Mystic_Ausschnitt.jpg',
   },
   // ── Fruity (3) ── Soft pink tones
   'vanilla-cloud': {
