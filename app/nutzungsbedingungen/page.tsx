@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Teilnahmebedingungen | WELEDA Community Voting',
+  title: 'Nutzungsbedingungen | WELEDA Summer Vote 2026',
   robots: { index: false },
 }
 
-export default function TermsPage() {
+export default function NutzungsbedingungenPage() {
   return (
     <main className="min-h-screen pt-24 pb-16 px-4">
       <div className="max-w-3xl mx-auto">
@@ -158,7 +158,7 @@ export default function TermsPage() {
               </p>
               <p className="mt-3">
                 Weitere Informationen finden Sie in unserer{' '}
-                <Link href="/privacy" className="underline" style={{ color: '#B478FF' }}>
+                <Link href="/datenschutz" className="underline" style={{ color: '#B478FF' }}>
                   Datenschutzerklärung
                 </Link>.
               </p>

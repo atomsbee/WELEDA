@@ -105,11 +105,11 @@ export default function Footer() {
             © {year} WELEDA AG. Alle Rechte vorbehalten.
           </p>
           <nav className="flex items-center gap-4 text-xs">
-            <Link href="/privacy" className="footer-nav-link">Datenschutz</Link>
+            <Link href="/datenschutz" className="footer-nav-link">Datenschutzerklärung</Link>
             <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
-            <Link href="/terms" className="footer-nav-link">Teilnahmebedingungen</Link>
+            <Link href="/nutzungsbedingungen" className="footer-nav-link">Nutzungsbedingungen</Link>
             <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
-            <Link href="/imprint" className="footer-nav-link">Impressum</Link>
+            <Link href="/impressum" className="footer-nav-link">Impressum</Link>
           </nav>
         </div>
 

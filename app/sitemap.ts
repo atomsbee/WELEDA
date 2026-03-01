@@ -1,23 +1,29 @@
 import type { MetadataRoute } from 'next'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+const BASE_URL = 'https://www.weleda-casting.de'
 
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: baseUrl,
+      url: BASE_URL,
       lastModified: new Date(),
-      changeFrequency: 'hourly',
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: `${baseUrl}/privacy`,
+      url: `${BASE_URL}/impressum`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/imprint`,
+      url: `${BASE_URL}/datenschutz`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
+    {
+      url: `${BASE_URL}/nutzungsbedingungen`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.3,

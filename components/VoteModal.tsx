@@ -275,7 +275,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                         />
                         <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                           Ich stimme der Verarbeitung meiner Daten gemäß der{' '}
-                          <a href="/privacy" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
+                          <a href="/datenschutz" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
                             Datenschutzerklärung
                           </a>{' '}
                           zu.
@@ -309,7 +309,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                     {/* Confirmation note */}
                     <p className="text-center text-xs leading-relaxed" style={{ color: 'var(--text-faint)' }}>
                       Mit deiner Stimmabgabe stimmst du unseren{' '}
-                      <a href="/terms" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
+                      <a href="/nutzungsbedingungen" target="_blank" className="underline hover:no-underline" style={{ color: accentColor }}>
                         Teilnahmebedingungen
                       </a>{' '}
                       zu. 1 Vote pro Kategorie.

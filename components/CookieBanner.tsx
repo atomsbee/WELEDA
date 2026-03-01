@@ -45,7 +45,7 @@ export default function CookieBanner() {
       <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <p className="text-sm leading-relaxed flex-1" style={{ color: 'var(--text-secondary)' }}>
           This website uses cookies for anonymous analytics.{' '}
-          <a href="/privacy" className="text-[#B478FF] underline hover:no-underline">
+          <a href="/datenschutz" className="text-[#B478FF] underline hover:no-underline">
             Learn more
           </a>
         </p>
@@ -63,8 +63,8 @@ export default function CookieBanner() {
           </button>
           <button
             onClick={handleAccept}
-            className="px-5 py-2.5 rounded-full text-white text-sm font-bold transition-all hover:opacity-90"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #B478FF)' }}
+            className="px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #7C3AED, #B478FF)', color: '#ffffff' }}
           >
             Accept
           </button>

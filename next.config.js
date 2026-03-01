@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
+  async redirects() {
+    return [
+      { source: '/imprint', destination: '/impressum', permanent: true },
+      { source: '/privacy', destination: '/datenschutz', permanent: true },
+      { source: '/terms', destination: '/nutzungsbedingungen', permanent: true },
+    ]
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
