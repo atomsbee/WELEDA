@@ -186,7 +186,6 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               className="font-black leading-none mb-3"
               style={{ fontSize: 'clamp(2.6rem, 7vw, 5rem)', letterSpacing: '-0.02em' }}
             >
-              <br />
               <span
                 style={{
                   display: 'inline-block',
@@ -213,7 +212,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
             </motion.h1>
 
             {/* Category pills */}
-            <motion.p
+            {/* <motion.p
               custom={3}
               variants={heroVariants}
               initial="hidden"
@@ -226,7 +225,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   <span style={{ color: CATEGORIES[key].primary }}>{CATEGORIES[key].label}</span>
                 </Fragment>
               ))}
-            </motion.p>
+            </motion.p> */}
 
             {/* Subhead */}
             <motion.p
