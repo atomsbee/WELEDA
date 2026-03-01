@@ -55,6 +55,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: import('react').ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Blocking script — runs before first paint; prevents dark→light flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('theme');var t=s||'dark';if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.add('light');}}catch(e){document.documentElement.classList.add('dark');}}())`,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
           {/* Instant base gradient — eliminates flash on load */}

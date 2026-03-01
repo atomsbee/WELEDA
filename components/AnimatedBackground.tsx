@@ -187,15 +187,11 @@ export default function AnimatedBackground() {
         </div>
       </div>
 
-      {/* Layer 2: Inner page reading scrim */}
+      {/* Layer 2: Inner page reading scrim — uses CSS var so it's correct on SSR */}
       {isInnerPage && (
         <div
           className="fixed inset-0 -z-10 pointer-events-none"
-          style={{
-            background: mounted && isDark
-              ? 'rgba(6,0,12,0.60)'
-              : 'rgba(255,250,255,0.45)',
-          }}
+          style={{ background: 'var(--bg-inner-scrim)' }}
         />
       )}
     </>
