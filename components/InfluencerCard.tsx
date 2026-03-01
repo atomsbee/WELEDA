@@ -24,6 +24,8 @@ function InfluencerCard({
 }: InfluencerCardProps) {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
   useEffect(() => { setMounted(true) }, [])
   // Before mount, default to dark so SSR and first client render match
   const isDark = !mounted || resolvedTheme !== 'light'
@@ -64,15 +66,53 @@ function InfluencerCard({
           variants={{ rest: { scale: 1 }, hover: { scale: 1.08 } }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <Image
-            src={influencer.photo_url}
-            alt={influencer.name}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover"
-            priority={priority}
-            loading={priority ? 'eager' : 'lazy'}
-          />
+          {/* Shimmer placeholder — fades out when image loads */}
+          {!imageLoaded && (
+            <div
+              className="absolute inset-0 z-10"
+              style={{
+                background: `linear-gradient(135deg, ${cat?.primary ?? '#B478FF'}1A 0%, ${cat?.primary ?? '#B478FF'}08 50%, ${cat?.primary ?? '#B478FF'}1A 100%)`,
+                backgroundSize: '200% 200%',
+                animation: 'wSkeletonShimmer 1.6s ease-in-out infinite',
+              }}
+            />
+          )}
+
+          {imageError ? (
+            /* Branded fallback — shows "W" in category color */
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+              style={{ background: `linear-gradient(135deg, ${cat?.primary ?? '#B478FF'}18, ${cat?.primary ?? '#B478FF'}30)` }}
+            >
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center font-black text-xl"
+                style={{
+                  background: `${cat?.primary ?? '#B478FF'}30`,
+                  color: cat?.primary ?? '#B478FF',
+                  border: `2px solid ${cat?.primary ?? '#B478FF'}60`,
+                }}
+              >
+                W
+              </div>
+              <p className="text-xs font-semibold" style={{ color: cat?.primary ?? '#B478FF' }}>
+                WELEDA
+              </p>
+            </div>
+          ) : (
+            <Image
+              src={influencer.photo_url}
+              alt={influencer.name}
+              fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className={`object-cover transition-opacity duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmM2UyZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmUyZjMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPjwvc3ZnPg=="
+              priority={priority}
+              loading={priority ? 'eager' : 'lazy'}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => { setImageLoaded(true); setImageError(true) }}
+            />
+          )}
         </motion.div>
 
         {/* Hover dark overlay */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useCallback } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import { CATEGORIES, PRODUCT_IMAGE, MARQUEE_ITEMS, CATEGORY_KEYS } from '@/lib/config/categories'
@@ -131,6 +131,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
   void campaignActive
   void endDate
   const shouldReduceMotion = useReducedMotion()
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false)
 
   const scrollToGrid = useCallback(() => {
     document.getElementById('influencer-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -296,13 +297,27 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 border: '1px solid var(--border-card)',
               }}
             >
+              {/* Shimmer placeholder — fades out when image loads */}
+              {!heroImageLoaded && (
+                <div
+                  className="absolute inset-0 z-10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(180,120,255,0.12) 0%, rgba(180,120,255,0.06) 50%, rgba(180,120,255,0.12) 100%)',
+                    backgroundSize: '200% 200%',
+                    animation: 'wSkeletonShimmer 1.6s ease-in-out infinite',
+                  }}
+                />
+              )}
               <Image
                 src={PRODUCT_IMAGE}
                 alt="WELEDA Summer Collection"
                 fill
-                className="object-cover"
+                className={`object-cover transition-opacity duration-700 ${heroImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                 sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 448px, 512px"
                 priority
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmY2U3ZjMiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2VkZTlmZSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2RiZWFmZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+PC9zdmc+"
+                onLoad={() => setHeroImageLoaded(true)}
               />
             </div>
             <div
