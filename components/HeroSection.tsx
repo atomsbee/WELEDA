@@ -259,8 +259,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                     color: '#FBBF24',
                   }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FBBF24] flex-shrink-0" />
-                  Bewerbungsphase · 2.3.2026 – 12.3.2026
+                  Bewerbungsphase: 2.3.2026 – 12.3.2026
                 </div>
 
                 {/* Badge 2 — Voting-Phase */}
@@ -272,8 +271,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                     color: '#F472B6',
                   }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#F472B6] flex-shrink-0" />
-                  Voting-Phase · 13.3.2026 – 17.3.2026
+                  Voting-Phase: 13.3.2026 – 17.3.2026
                 </div>
               </div>
             </motion.div>
