@@ -240,18 +240,43 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               Poste dein Casting-Video, lass die Community für dich voten und werde eines der neuen Fragrance-Faces der Weleda Summer Campaign.
             </motion.p>
 
-            {/* Voting phase */}
-            <motion.p
+            {/* Divider + Date badges */}
+            <motion.div
               custom={6}
               variants={heroVariants}
               initial="hidden"
               animate="visible"
-              className="text-base leading-relaxed mb-8"
-              style={{ color: 'var(--text-secondary)' }}
             >
-              Bewerbungsphase: 2.3.2026 - 12.3.2026<br />
-              Voting Phase: 13.3.2026 - 17.3.2026
-            </motion.p>
+
+              {/* Date badges */}
+              <div className="flex flex-col sm:flex-row gap-2 mb-8">
+                {/* Badge 1 — Bewerbungsphase */}
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit"
+                  style={{
+                    background: 'rgba(251,191,36,0.15)',
+                    border: '1px solid rgba(251,191,36,0.35)',
+                    color: '#FBBF24',
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FBBF24] flex-shrink-0" />
+                  Bewerbungsphase · 2.3.2026 – 12.3.2026
+                </div>
+
+                {/* Badge 2 — Voting-Phase */}
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit"
+                  style={{
+                    background: 'rgba(244,114,182,0.15)',
+                    border: '1px solid rgba(244,114,182,0.35)',
+                    color: '#F472B6',
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F472B6] flex-shrink-0" />
+                  Voting-Phase · 13.3.2026 – 17.3.2026
+                </div>
+              </div>
+            </motion.div>
 
             {/* CTA */}
             <motion.div custom={7} variants={heroVariants} initial="hidden" animate="visible">
@@ -302,12 +327,29 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 <div
                   className="absolute inset-0 z-10"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(180,120,255,0.12) 0%, rgba(180,120,255,0.06) 50%, rgba(180,120,255,0.12) 100%)',
+                    background: `linear-gradient(
+                      135deg,
+                      rgba(244,114,182,0.25) 0%,
+                      rgba(139,92,246,0.20) 50%,
+                      rgba(96,165,250,0.20) 100%
+                    )`,
                     backgroundSize: '200% 200%',
-                    animation: 'wSkeletonShimmer 1.6s ease-in-out infinite',
+                    animation: 'wSkeletonShimmer 2s ease-in-out infinite',
                   }}
                 />
               )}
+              {/* Subtle inner border glow */}
+              <div
+                className="absolute inset-0 rounded-2xl md:rounded-3xl pointer-events-none z-10"
+                style={{
+                  boxShadow: `
+                    inset 0 0 0 1px rgba(255,255,255,0.12),
+                    0 0 40px rgba(139,92,246,0.25),
+                    0 0 80px rgba(244,114,182,0.15)
+                  `,
+                }}
+              />
+
               <Image
                 src={PRODUCT_IMAGE}
                 alt="WELEDA Summer Collection"
@@ -320,10 +362,17 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 onLoad={() => setHeroImageLoaded(true)}
               />
             </div>
+
+            {/* Glow behind image — tri-color gradient bleeding around the frame */}
             <div
-              className="absolute -inset-8 rounded-3xl pointer-events-none"
+              className="absolute inset-0 -z-10 scale-110 blur-3xl opacity-50 rounded-3xl pointer-events-none"
               style={{
-                background: 'radial-gradient(circle, rgba(180,120,255,0.25) 0%, rgba(212,168,83,0.1) 50%, transparent 70%)',
+                background: `linear-gradient(
+                  135deg,
+                  rgba(244,114,182,0.6) 0%,
+                  rgba(139,92,246,0.5) 40%,
+                  rgba(96,165,250,0.4) 100%
+                )`,
               }}
             />
           </motion.div>
@@ -415,50 +464,50 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 className={`w-reveal w-d${i + 1}`}
                 data-animation="fade-up"
               >
-              <motion.div
-                whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
-                className="relative rounded-2xl overflow-hidden cursor-pointer group"
-                onClick={scrollToGrid}
-                style={{
-                  background: 'var(--bg-card)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid var(--border-card)',
-                  boxShadow: `0 0 40px ${cat.glow}`,
-                  transition: 'box-shadow 0.3s',
-                }}
-              >
-                <div className="relative aspect-[3/4] w-full">
-                  <Image
-                    src={cat.modelImage}
-                    alt={cat.label}
-                    fill
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 90vw, 30vw"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.88) 100%)' }}
-                  />
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500"
-                    style={{ background: cat.gradient, mixBlendMode: 'screen' }}
-                  />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-black text-md leading-tight mb-2"
-                    style={{ background: cat.gradient, color: 'white' }}
-                  >
-                    {cat.hashtag}
+                <motion.div
+                  whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
+                  className="relative rounded-2xl overflow-hidden cursor-pointer group"
+                  onClick={scrollToGrid}
+                  style={{
+                    background: 'var(--bg-card)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid var(--border-card)',
+                    boxShadow: `0 0 40px ${cat.glow}`,
+                    transition: 'box-shadow 0.3s',
+                  }}
+                >
+                  <div className="relative aspect-[3/4] w-full">
+                    <Image
+                      src={cat.modelImage}
+                      alt={cat.label}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 90vw, 30vw"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.88) 100%)' }}
+                    />
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+                      style={{ background: cat.gradient, mixBlendMode: 'screen' }}
+                    />
                   </div>
-                  <p
-                    className="text-xs mt-0.5"
-                    style={{ color: 'rgba(255,255,255,0.70)', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
-                  >
-                    {cat.tagline}
-                  </p>
-                </div>
-              </motion.div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-black text-md leading-tight mb-2"
+                      style={{ background: cat.gradient, color: 'white' }}
+                    >
+                      {cat.hashtag}
+                    </div>
+                    <p
+                      className="text-xs mt-0.5"
+                      style={{ color: 'rgba(255,255,255,0.70)', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
+                    >
+                      {cat.tagline}
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             )
           })}
