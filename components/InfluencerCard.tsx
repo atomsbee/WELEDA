@@ -101,12 +101,6 @@ function InfluencerCard({
         {/* Play button — glass */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="relative w-12 h-12 md:w-14 md:h-14">
-            <motion.div
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{ background: 'rgba(255,255,255,0.15)' }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
             <div
               className="w-full h-full rounded-full flex items-center justify-center"
               style={{

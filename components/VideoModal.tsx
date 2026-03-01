@@ -146,7 +146,7 @@ export default function VideoModal({
                 >
                   {influencer.name}
                 </p>
-                <p className="text-xs truncate" style={{ color: cat?.secondary ?? '#A78BFA' }}>
+                <p className="text-xs truncate" style={{ color: isDark ? (cat?.secondary ?? '#A78BFA') : (cat?.primary ?? '#7C3AED') }}>
                   {influencer.handle}
                 </p>
               </div>
@@ -164,20 +164,6 @@ export default function VideoModal({
 
             {/* Header actions */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              {campaignActive && (
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => {
-                    onClose()
-                    setTimeout(() => onVoteClick(influencer), 100)
-                  }}
-                  className="hidden sm:flex px-4 py-2 rounded-full text-white text-sm font-bold"
-                  style={{ background: cat?.gradient ?? 'linear-gradient(135deg, #B478FF, #FFD700)' }}
-                >
-                  JETZT ABSTIMMEN
-                </motion.button>
-              )}
               <button
                 onClick={onClose}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
@@ -263,7 +249,7 @@ export default function VideoModal({
                   boxShadow: cat ? `0 4px 20px ${cat.primary}40` : '0 4px 20px rgba(180,120,255,0.3)',
                 }}
               >
-                Vote for {influencer.name.split(' ')[0]}
+                JETZT ABSTIMMEN
               </motion.button>
             ) : (
               influencer.bio && (

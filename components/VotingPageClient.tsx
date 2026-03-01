@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useMemo, useCallback, useRef } from 'react'
-import { motion } from 'framer-motion'
 import HeroSection from '@/components/HeroSection'
 import InfluencerCard from '@/components/InfluencerCard'
+import { InfluencerGridSkeleton } from '@/components/InfluencerCardSkeleton'
 import VideoModal from '@/components/VideoModal'
 import dynamic from 'next/dynamic'
+import { useRevealAnimation } from '@/hooks/useRevealAnimation'
 
 const VoteModal = dynamic(() => import('@/components/VoteModal'), { ssr: false })
 import type { Influencer } from '@/types'
@@ -30,6 +31,7 @@ export default function VotingPageClient({
   const [searchFocused, setSearchFocused] = useState(false)
 
   const gridRef = useRef<HTMLDivElement>(null)
+  useRevealAnimation()
 
   const filteredInfluencers = useMemo(() => {
     let result = [...influencers]
@@ -170,21 +172,14 @@ export default function VotingPageClient({
           <div ref={gridRef} />
 
           {/* Grid — grouped by category in "all" view, flat otherwise */}
-          {!hasAnyResults ? (
+          {influencers.length === 0 ? (
+            // SSR fetch returned empty — show skeleton until data loads
+            <InfluencerGridSkeleton />
+          ) : !hasAnyResults ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-                style={{
-                  background: 'var(--bg-chip)',
-                  border: '1px solid var(--border-chip)',
-                }}
-              >
-                <svg className="w-7 h-7" style={{ color: 'var(--text-muted)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>No creators found</p>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Try different search terms or filters.</p>
+              <p className="text-4xl mb-4">🔍</p>
+              <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>Keine Creator gefunden</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Versuche andere Suchbegriffe oder Filter.</p>
             </div>
           ) : groupedByCategory ? (
             // Grouped layout
@@ -194,20 +189,12 @@ export default function VotingPageClient({
                 return (
                   <div key={group.key}>
                     {/* Section header — gradient divider with glass center pill */}
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4 }}
-                      className="mb-8 md:mb-10"
-                    >
+                    <div className="w-reveal w-d0 mb-8 md:mb-10" data-animation="fade-up">
                       <div className="flex items-center gap-4 mb-1.5">
-                        {/* Left gradient fade line */}
                         <div
                           className="flex-1 h-px"
                           style={{ background: `linear-gradient(to right, transparent, ${cat.primary}55)` }}
                         />
-                        {/* Center glass pill */}
                         <div
                           className="flex items-center gap-2 px-1 py-1 rounded-full flex-shrink-0"
                           style={{
@@ -221,7 +208,6 @@ export default function VotingPageClient({
                             {cat.hashtag}
                           </h3>
                         </div>
-                        {/* Right gradient fade line */}
                         <div
                           className="flex-1 h-px"
                           style={{ background: `linear-gradient(to left, transparent, ${cat.primary}55)` }}
@@ -230,21 +216,14 @@ export default function VotingPageClient({
                       <p className="text-center text-xs" style={{ color: 'var(--text-faint)' }}>
                         {cat.tagline}
                       </p>
-                    </motion.div>
+                    </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7">
+                    <div
+                      className="w-reveal w-d1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7"
+                      data-animation="fade-up"
+                    >
                       {group.items.map((influencer, index) => (
-                        <motion.div
-                          key={influencer.id}
-                          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                          viewport={{ once: true, margin: '-30px' }}
-                          transition={{
-                            duration: 0.45,
-                            delay: Math.min(index * 0.06, 0.5),
-                            ease: [0.25, 0.46, 0.45, 0.94],
-                          }}
-                        >
+                        <div key={influencer.id}>
                           <InfluencerCard
                             influencer={influencer}
                             priority={groupIndex === 0 && index < 4}
@@ -252,7 +231,7 @@ export default function VotingPageClient({
                             onVoteClick={(inf) => setVoteInfluencer(inf)}
                             onVideoClick={(inf) => setVideoInfluencer(inf)}
                           />
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -260,20 +239,14 @@ export default function VotingPageClient({
               })}
             </div>
           ) : (
-            // Flat layout (single category selected)
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7">
+            // Flat layout (single category or search active)
+            <div
+              key={activeCategory + search}
+              className="w-reveal w-d0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7"
+              data-animation="fade-up"
+            >
               {filteredInfluencers.map((influencer, index) => (
-                <motion.div
-                  key={influencer.id}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: '-30px' }}
-                  transition={{
-                    duration: 0.5,
-                    delay: Math.min(index * 0.07, 0.5),
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
+                <div key={influencer.id}>
                   <InfluencerCard
                     influencer={influencer}
                     priority={index < 8}
@@ -281,7 +254,7 @@ export default function VotingPageClient({
                     onVoteClick={(inf) => setVoteInfluencer(inf)}
                     onVideoClick={(inf) => setVideoInfluencer(inf)}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}

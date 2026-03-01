@@ -376,37 +376,31 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
       {/* ── CATEGORY MODEL CARDS ─────────────────────────────────────── */}
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center text-2xl md:text-3xl font-black mb-2"
+        <h2
+          className="w-reveal w-d0 text-center text-2xl md:text-3xl font-black mb-2"
+          data-animation="fade-up"
           style={{ color: 'var(--text-primary)' }}
         >
           Wähle Deine Duftwelt
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-center text-sm mb-10"
+        </h2>
+        <p
+          className="w-reveal w-d1 text-center text-sm mb-10"
+          data-animation="fade-up"
           style={{ color: 'var(--text-muted)' }}
         >
           Eine Stimme pro Kategorie - Entdecke alle Drei und vote für deinen Favoriten
-        </motion.p>
+        </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {CATEGORY_KEYS.map((key, i) => {
             const cat = CATEGORIES[key]
             return (
-              <motion.div
+              <div
                 key={key}
-                initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className={`w-reveal w-d${i + 1}`}
+                data-animation="fade-up"
+              >
+              <motion.div
                 whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
                 className="relative rounded-2xl overflow-hidden cursor-pointer group"
                 onClick={scrollToGrid}
@@ -415,7 +409,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   backdropFilter: 'blur(20px)',
                   border: '1px solid var(--border-card)',
                   boxShadow: `0 0 40px ${cat.glow}`,
-                  transition: 'box-shadow 0.3s, transform 0.3s',
+                  transition: 'box-shadow 0.3s',
                 }}
               >
                 <div className="relative aspect-[3/4] w-full">
@@ -450,6 +444,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   </p>
                 </div>
               </motion.div>
+              </div>
             )
           })}
         </div>
@@ -466,16 +461,13 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
           >
             Deine Reise
           </p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.4 }}
-            className="text-3xl md:text-5xl font-black"
+          <h2
+            className="w-reveal w-d0 text-3xl md:text-5xl font-black"
+            data-animation="fade-up"
             style={{ color: 'var(--text-primary)' }}
           >
-            So l&auml;uft das Casting ab
-          </motion.h2>
+            So läuft das Casting ab
+          </h2>
           <p className="text-base mt-3" style={{ color: 'var(--text-muted)' }}>
             Von der Bewerbung bis zum Shooting &mdash; alle Schritte auf einen Blick.
           </p>
@@ -496,12 +488,10 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
               <div className="grid grid-cols-6 gap-2 xl:gap-3 pt-8">
                 {STEPS.map((step, i) => (
-                  <motion.div
+                  <div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-60px' }}
-                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className={`w-reveal w-d${i + 1}`}
+                    data-animation="fade-up"
                   >
                     {/* pt-6 on grid creates clearance for badge above card */}
                     <div className="relative h-full">
@@ -570,7 +560,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -580,13 +570,10 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         {/* Mobile: compact vertical list */}
         <div className="md:hidden max-w-lg mx-auto">
           {STEPS.map((step, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, x: -16 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="flex gap-4 pb-6 relative"
+              className={`w-reveal w-d${i + 1} flex gap-4 pb-6 relative`}
+              data-animation="fade-up"
             >
               {/* Dot + vertical line */}
               <div className="flex flex-col items-center flex-shrink-0">
@@ -643,7 +630,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -655,26 +642,20 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
           >
             Auf einen Blick
           </p>
-          <motion.h3
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.4 }}
-            className="text-center text-3xl font-black mb-10"
+          <h3
+            className="w-reveal w-d0 text-center text-3xl font-black mb-10"
+            data-animation="fade-up"
             style={{ color: 'var(--text-primary)' }}
           >
             Was du wissen musst
-          </motion.h3>
+          </h3>
 
           <div className="grid md:grid-cols-2 gap-5">
 
             {/* LEFT CARD — clean checklist */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.5 }}
-              className="rounded-3xl p-7"
+            <div
+              className="w-reveal w-d1 rounded-3xl p-7"
+              data-animation="fade-left"
               style={{
                 background: 'var(--wissen-left-bg)',
                 border: '1px solid var(--wissen-left-border)',
@@ -716,15 +697,12 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
             {/* RIGHT CARD — premium benefits */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="rounded-3xl p-7 relative overflow-hidden"
+            <div
+              className="w-reveal w-d2 rounded-3xl p-7 relative overflow-hidden"
+              data-animation="fade-right"
               style={{
                 background: 'var(--wissen-right-bg)',
                 border: '1px solid rgba(139,92,246,0.25)',
@@ -779,7 +757,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </div>

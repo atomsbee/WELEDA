@@ -560,6 +560,98 @@ html.light ::-webkit-scrollbar-thumb:hover {
   background: rgba(140, 80, 220, 0.55);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   WELEDA Animation System — IntersectionObserver-driven
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes wFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes wFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes wFadeLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+@keyframes wFadeRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes wSlideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+@keyframes wSkeletonShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+/* Base: hidden until .is-visible is added by IntersectionObserver */
+.w-reveal {
+  opacity: 0;
+  transition: none;
+}
+.w-reveal.is-visible {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-duration: 0.6s;
+}
+
+/* Animation types via data-animation attribute */
+.w-reveal[data-animation="fade-up"].is-visible    { animation-name: wFadeUp;    }
+.w-reveal[data-animation="fade-in"].is-visible    { animation-name: wFadeIn;    }
+.w-reveal[data-animation="fade-left"].is-visible  { animation-name: wFadeLeft;  }
+.w-reveal[data-animation="fade-right"].is-visible { animation-name: wFadeRight; }
+.w-reveal[data-animation="slide-down"].is-visible { animation-name: wSlideDown; }
+
+/* Stagger delay utilities */
+.w-d0 { animation-delay:   0ms; }
+.w-d1 { animation-delay: 100ms; }
+.w-d2 { animation-delay: 200ms; }
+.w-d3 { animation-delay: 300ms; }
+.w-d4 { animation-delay: 400ms; }
+.w-d5 { animation-delay: 500ms; }
+.w-d6 { animation-delay: 600ms; }
+
+/* Skeleton shimmer — theme-aware */
+.w-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base)  25%,
+    var(--skeleton-shine) 50%,
+    var(--skeleton-base)  75%
+  );
+  background-size: 800px 100%;
+  animation: wSkeletonShimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+:root,
+html.dark {
+  --skeleton-base:  rgba(255, 255, 255, 0.08);
+  --skeleton-shine: rgba(255, 255, 255, 0.15);
+}
+html.light {
+  --skeleton-base:  rgba(0, 0, 0, 0.06);
+  --skeleton-shine: rgba(0, 0, 0, 0.03);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .w-reveal,
+  .w-reveal.is-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .w-skeleton {
+    animation: none !important;
+  }
+}
+
 /* ── Focus styles ─────────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid rgba(180, 120, 255, 0.8);
