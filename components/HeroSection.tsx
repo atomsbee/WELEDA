@@ -294,7 +294,6 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
                 background: 'var(--bg-card)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid var(--border-card)',
-                boxShadow: '0 0 60px rgba(180,120,255,0.3), 0 0 120px rgba(212,168,83,0.15)',
               }}
             >
               <Image
