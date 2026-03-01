@@ -168,7 +168,6 @@ html.dark {
   --card-bg-subtle:        rgba(255, 255, 255, 0.03);
   --card-border-subtle:    rgba(255, 255, 255, 0.06);
   --section-bg:            rgba(255, 255, 255, 0.02);
-  --skeleton-bg:           rgba(255, 255, 255, 0.08);
 }
 
 html.light {
@@ -222,7 +221,6 @@ html.light {
   --card-bg-subtle:        rgba(255, 255, 255, 0.60);
   --card-border-subtle:    rgba(140, 80, 220, 0.10);
   --section-bg:            rgba(255, 255, 255, 0.40);
-  --skeleton-bg:           rgba(0, 0, 0, 0.06);
 }
 
 /* ── Light mode: Tailwind text-white overrides ────────────────── */
@@ -762,19 +760,3 @@ iframe[src*='supabase'] {
   }
 }
 
-/* ── Skeleton loading shimmer ─────────────────────────────────── */
-@keyframes shimmer {
-  0%   { opacity: 0.5; }
-  50%  { opacity: 1;   }
-  100% { opacity: 0.5; }
-}
-
-.skeleton-shimmer {
-  animation: shimmer 1.8s ease-in-out infinite;
-}
-
-/* ── Branded loader bounce dots ───────────────────────────────── */
-@keyframes loaderBounce {
-  0%, 80%, 100% { transform: translateY(0);     opacity: 0.4; }
-  40%           { transform: translateY(-10px);  opacity: 1;   }
-}

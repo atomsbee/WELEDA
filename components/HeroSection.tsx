@@ -31,7 +31,7 @@ const STEPS = [
     chip: '02.03–12.03.2026',
     chipColor: '#F59E0B',
     title: 'Bewerbungsphase',
-    body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram.',
+    body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram. Markiere @weleda und nutze die Hashtags',
     tags: ['#weledafragrancemists'],
     highlight: false,
   },
@@ -40,7 +40,7 @@ const STEPS = [
     chipColor: '#8B5CF6',
     title: 'Vorauswahl',
     body: 'Wir wählen die Top-Creators aus. Wenn du dabei bist bekommst du eine DM von uns. Überzeuge uns mit:',
-    tags: ['DM-Benachrichtigung'],
+    tags: ['Kreativität', 'Vibe', 'Know-How', 'Authentizität'],
     highlight: false,
   },
   {
@@ -69,7 +69,7 @@ const STEPS = [
     chip: '22.03–25.03.2026',
     chipColor: '#F59E0B',
     title: 'Teneriffa \uD83C\uDF34',
-    body: 'Live-Casting. WELEDA \u00fcbernimmt Reise, Unterkunft & Verpflegung.',
+    body: 'Spannende Challenges, kreativer Content und echte Summer Vibes. Am Ende entscheidet die Jury, wer die drei Gesichter unserer neuen Fragrance Body & Hair Mists werden',
     tags: ['\u2708\uFE0F All inclusive'],
     highlight: true,
   },
@@ -385,7 +385,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
           className="text-center text-2xl md:text-3xl font-black mb-2"
           style={{ color: 'var(--text-primary)' }}
         >
-          Wähle deine Duftwelt
+          Wähle Deine Duftwelt
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
