@@ -220,7 +220,7 @@ export default function VotingSection({
                     </div>
 
                     <div
-                      className="w-reveal w-d1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6 lg:gap-7"
+                      className="w-reveal w-d1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 w-full"
                       data-animation="fade-up"
                     >
                       {group.items.map((influencer, index) => (
@@ -242,7 +242,7 @@ export default function VotingSection({
           ) : (
             <div
               key={activeCategory + search}
-              className="w-reveal w-d0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7"
+              className="w-reveal w-d0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 w-full"
               data-animation="fade-up"
             >
               {filteredInfluencers.map((influencer, index) => (

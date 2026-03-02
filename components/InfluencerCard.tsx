@@ -26,9 +26,6 @@ function InfluencerCard({
 
   const cat = getCategoryConfig(influencer.category)
 
-  const btnGradient = cat?.gradient
-  const btnBg = cat?.primary ?? '#64748B'
-
   return (
     <motion.div
       initial="rest"
@@ -188,22 +185,25 @@ function InfluencerCard({
           </span>
         )}
 
-        {/* Vote counter */}
-        <div className="flex items-center gap-1.5 text-sm">
-          <svg className="w-4 h-4 flex-shrink-0" fill="#ef4444" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-          <motion.span
-            key={influencer.vote_count}
-            initial={{ scale: 1.4, color: 'var(--text-primary)' }}
-            animate={{ scale: 1, color: 'var(--text-primary)' }}
-            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            className="font-bold"
-          >
-            {influencer.vote_count.toLocaleString('en-US')}
-          </motion.span>
-          <span className="text-xs" style={{ color: 'var(--text-faint)' }}>votes</span>
-        </div>
+        {/* Vote counter — only show when votes exist */}
+        {influencer.vote_count > 0 && (
+          <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+            <svg className="w-3.5 h-3.5 flex-shrink-0" fill="#ef4444" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <motion.span
+              key={influencer.vote_count}
+              initial={{ scale: 1.4 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              className="font-semibold"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {influencer.vote_count.toLocaleString('de-DE')}
+            </motion.span>
+            <span>Stimmen</span>
+          </div>
+        )}
 
         {/* Vote button */}
         <motion.button
@@ -211,12 +211,11 @@ function InfluencerCard({
           whileTap={{ scale: 0.97 }}
           onClick={() => campaignActive && onVoteClick(influencer)}
           disabled={!campaignActive}
-          className="mt-auto w-full py-2.5 rounded-full font-bold text-xs md:text-sm transition-shadow duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-auto w-full py-2.5 rounded-xl font-black text-xs tracking-wider transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
           style={
             campaignActive
               ? {
-                background: btnGradient ?? btnBg,
-                boxShadow: cat ? `0 4px 14px ${cat.primary}35` : undefined,
+                background: cat?.primary ?? '#64748B',
                 color: '#ffffff',
               }
               : { background: 'var(--bg-chip)', color: 'var(--text-chip)' }

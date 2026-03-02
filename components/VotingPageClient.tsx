@@ -76,7 +76,7 @@ export default function VotingPageClient({
 
   return (
     <>
-      <HeroSection campaignActive={campaignActive} endDate={endDate} />
+      <HeroSection campaignActive={campaignActive} />
 
       <div id="influencer-grid" className="">
 

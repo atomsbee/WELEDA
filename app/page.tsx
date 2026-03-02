@@ -45,7 +45,9 @@ export default async function HomePage() {
       <MarqueeSection />
       <HowToSection />
       <CategorySection />
+      <div className="section-divider" />
       <CastingTimeline />
+      <div className="section-divider" />
       <WasduWissenmussSection />
       <VotingSection initialInfluencers={influencers} campaignActive={campaignActive} />
     </main>

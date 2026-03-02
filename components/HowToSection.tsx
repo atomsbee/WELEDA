@@ -110,7 +110,7 @@ export default function HowToSection() {
   }, [isMuted])
 
   return (
-    <section id="how-to-section" className="w-section">
+    <section id="how-to-section" className="w-section w-section-flush-top">
       <div className="w-container space-y-12 md:space-y-16">
 
         {/* ── STEP CARDS ────────────────────────────────────── */}
@@ -254,7 +254,21 @@ export default function HowToSection() {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 1200px"
               />
-              <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.28)' }} />
+              {/* Brand color tint */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(244,114,182,0.25), rgba(124,58,237,0.20))',
+                  mixBlendMode: 'multiply',
+                }}
+              />
+              {/* Bottom fade for text readability */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.15) 40%, transparent 65%)',
+                }}
+              />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div
                   className="md:w-20 md:h-20 w-14 h-14 rounded-full flex items-center justify-center

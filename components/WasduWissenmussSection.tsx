@@ -59,7 +59,7 @@ export default function WasduWissenmussSection() {
 
           {/* LEFT CARD — clean checklist */}
           <div
-            className="w-reveal w-d1 rounded-3xl p-7"
+            className="w-reveal w-d1 rounded-3xl p-6 md:p-8 h-full"
             data-animation="fade-left"
             style={{
               background: 'var(--wissen-left-bg)',
@@ -101,7 +101,10 @@ export default function WasduWissenmussSection() {
               ))}
             </ul>
 
-            <p className="text-xs mt-6 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+            <p
+              className="text-xs mt-6 pt-5 leading-relaxed"
+              style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--wissen-left-border)' }}
+            >
               Mit der Teilnahme stimmst du unseren{' '}
               <a
                 href="/nutzungsbedingungen"
@@ -116,7 +119,7 @@ export default function WasduWissenmussSection() {
 
           {/* RIGHT CARD — premium benefits */}
           <div
-            className="w-reveal w-d2 rounded-3xl p-7 relative overflow-hidden"
+            className="w-reveal w-d2 rounded-3xl p-6 md:p-8 h-full relative overflow-hidden"
             data-animation="fade-right"
             style={{
               background: 'var(--wissen-right-bg)',

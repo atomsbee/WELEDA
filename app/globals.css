@@ -504,6 +504,23 @@ html.light {
   }
 }
 
+/* ── Section divider ──────────────────────────────────────────── */
+.section-divider {
+  width: 4rem;
+  height: 2px;
+  background: linear-gradient(90deg, #F472B6, #7C3AED);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* ── HowToSection: reduce top gap below marquee ─────────────── */
+.w-section-flush-top {
+  padding-top: 3rem !important;
+}
+@media (min-width: 768px) {
+  .w-section-flush-top { padding-top: 4rem !important; }
+}
+
 /* ── Focus styles ─────────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid rgba(180, 120, 255, 0.8);
