@@ -369,9 +369,8 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
                 e.preventDefault()
                 if (!isBusy) handlePhotoChange(e.dataTransfer.files[0] ?? null)
               }}
-              className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-4 transition-colors ${
-                isBusy ? 'opacity-60 cursor-not-allowed border-gray-200' : 'cursor-pointer hover:border-weleda-green border-gray-200'
-              }`}
+              className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-4 transition-colors ${isBusy ? 'opacity-60 cursor-not-allowed border-gray-200' : 'cursor-pointer hover:border-weleda-green border-gray-200'
+                }`}
             >
               {photoPreview ? (
                 <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
@@ -431,9 +430,8 @@ export default function InfluencerForm({ influencer, onSave, onCancel }: Props) 
                 e.preventDefault()
                 if (!isBusy) handleVideoChange(e.dataTransfer.files[0] ?? null)
               }}
-              className={`border-2 border-dashed rounded-xl p-4 transition-colors ${
-                isBusy ? 'opacity-60 cursor-not-allowed border-gray-200' : 'cursor-pointer hover:border-weleda-green border-gray-200'
-              }`}
+              className={`border-2 border-dashed rounded-xl p-4 transition-colors ${isBusy ? 'opacity-60 cursor-not-allowed border-gray-200' : 'cursor-pointer hover:border-weleda-green border-gray-200'
+                }`}
             >
               {videoPreview && videoFile ? (
                 <div className="space-y-2">
@@ -521,11 +519,10 @@ function StoragePill({ storage }: { storage: 's3' | 'supabase' }) {
   const isS3 = storage === 's3'
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-        isS3
+      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${isS3
           ? 'bg-amber-50 text-amber-700 border border-amber-200'
           : 'bg-blue-50 text-blue-700 border border-blue-200'
-      }`}
+        }`}
     >
       {isS3 ? 'AWS S3' : 'Supabase'}
     </span>
