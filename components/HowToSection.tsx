@@ -110,7 +110,7 @@ export default function HowToSection() {
   }, [isMuted])
 
   return (
-    <section id="how-to-section" className="w-section">
+    <section id="how-to-section" className="w-section" style={{ scrollMarginTop: '80px' }}>
       <div className="w-container space-y-12 md:space-y-16">
 
         {/* ── STEP CARDS ────────────────────────────────────── */}

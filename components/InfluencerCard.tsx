@@ -4,12 +4,13 @@ import { memo, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { Influencer } from '@/types'
+import type { CampaignPhase } from '@/lib/campaign'
 import { getCategoryConfig } from '@/lib/config/categories'
 
 interface InfluencerCardProps {
   influencer: Influencer
   priority?: boolean
-  campaignActive: boolean
+  campaignPhase: CampaignPhase
   onVoteClick: (influencer: Influencer) => void
   onVideoClick: (influencer: Influencer) => void
 }
@@ -17,7 +18,7 @@ interface InfluencerCardProps {
 function InfluencerCard({
   influencer,
   priority = false,
-  campaignActive,
+  campaignPhase,
   onVoteClick,
   onVideoClick,
 }: InfluencerCardProps) {
@@ -205,23 +206,24 @@ function InfluencerCard({
           </div>
         )}
 
-        {/* Vote button */}
+        {/* Vote button — 3 states */}
         <motion.button
-          whileHover={campaignActive ? { y: -1, filter: 'brightness(1.10)' } : {}}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => campaignActive && onVoteClick(influencer)}
-          disabled={!campaignActive}
-          className="mt-auto w-full py-2.5 rounded-xl font-black text-xs tracking-wider transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+          whileHover={campaignPhase === 'voting' ? { y: -1, filter: 'brightness(1.10)' } : {}}
+          whileTap={campaignPhase === 'voting' ? { scale: 0.97 } : {}}
+          onClick={() => campaignPhase === 'voting' && onVoteClick(influencer)}
+          disabled={campaignPhase !== 'voting'}
+          className="mt-auto w-full py-2.5 rounded-xl font-black text-xs tracking-wider transition-opacity duration-200 hover:opacity-90 disabled:cursor-not-allowed"
           style={
-            campaignActive
-              ? {
-                background: cat?.primary ?? '#64748B',
-                color: '#ffffff',
-              }
-              : { background: 'var(--bg-chip)', color: 'var(--text-chip)' }
+            campaignPhase === 'voting'
+              ? { background: cat?.primary ?? '#64748B', color: '#ffffff' }
+              : { background: 'var(--bg-chip)', color: 'var(--text-muted)', opacity: 0.55 }
           }
         >
-          {campaignActive ? 'JETZT ABSTIMMEN' : 'Voting Ended'}
+          {campaignPhase === 'voting'
+            ? 'JETZT ABSTIMMEN'
+            : campaignPhase === 'ended'
+              ? 'Voting beendet'
+              : 'Voting startet bald'}
         </motion.button>
       </div>
     </motion.div>

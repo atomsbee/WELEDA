@@ -4,13 +4,14 @@ import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import type { Influencer } from '@/types'
+import type { CampaignPhase } from '@/lib/campaign'
 import { getCategoryConfig } from '@/lib/config/categories'
 
 interface VideoModalProps {
   influencer: Influencer | null
   onClose: () => void
   onVoteClick: (influencer: Influencer) => void
-  campaignActive: boolean
+  campaignPhase: CampaignPhase
 }
 
 function getEmbedUrl(url: string): { type: 'iframe' | 'video'; embedUrl: string } {
@@ -45,7 +46,7 @@ export default function VideoModal({
   influencer,
   onClose,
   onVoteClick,
-  campaignActive,
+  campaignPhase,
 }: VideoModalProps) {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -231,7 +232,7 @@ export default function VideoModal({
             </div>
 
             {/* Vote CTA — shown when active */}
-            {campaignActive ? (
+            {campaignPhase === 'voting' ? (
               <motion.button
                 whileHover={{ scale: 1.04, filter: 'brightness(1.08)' }}
                 whileTap={{ scale: 0.97 }}

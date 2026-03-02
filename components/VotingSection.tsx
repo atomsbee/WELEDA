@@ -9,16 +9,17 @@ import { useRevealAnimation } from '@/hooks/useRevealAnimation'
 
 const VoteModal = dynamic(() => import('@/components/VoteModal'), { ssr: false })
 import type { Influencer } from '@/types'
+import type { CampaignPhase } from '@/lib/campaign'
 import { CATEGORIES, CATEGORY_KEYS, type CategoryKey } from '@/lib/config/categories'
 
 interface VotingSectionProps {
   initialInfluencers: Influencer[]
-  campaignActive: boolean
+  campaignPhase: CampaignPhase
 }
 
 export default function VotingSection({
   initialInfluencers,
-  campaignActive,
+  campaignPhase,
 }: VotingSectionProps) {
   const [influencers, setInfluencers] = useState<Influencer[]>(initialInfluencers)
   const [search, setSearch] = useState('')
@@ -73,7 +74,7 @@ export default function VotingSection({
 
   return (
     <>
-      <div id="influencer-grid">
+      <div id="influencer-grid" style={{ scrollMarginTop: '80px' }}>
 
         {/* Section heading */}
         {/* <div className="w-section pb-0">
@@ -228,7 +229,7 @@ export default function VotingSection({
                           <InfluencerCard
                             influencer={influencer}
                             priority={groupIndex === 0 && index < 4}
-                            campaignActive={campaignActive}
+                            campaignPhase={campaignPhase}
                             onVoteClick={(inf) => setVoteInfluencer(inf)}
                             onVideoClick={(inf) => setVideoInfluencer(inf)}
                           />
@@ -250,7 +251,7 @@ export default function VotingSection({
                   <InfluencerCard
                     influencer={influencer}
                     priority={index < 8}
-                    campaignActive={campaignActive}
+                    campaignPhase={campaignPhase}
                     onVoteClick={(inf) => setVoteInfluencer(inf)}
                     onVideoClick={(inf) => setVideoInfluencer(inf)}
                   />
@@ -269,7 +270,7 @@ export default function VotingSection({
             setVideoInfluencer(null)
             setTimeout(() => setVoteInfluencer(inf), 100)
           }}
-          campaignActive={campaignActive}
+          campaignPhase={campaignPhase}
         />
       )}
 

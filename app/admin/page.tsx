@@ -1,5 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/server'
-import { isCampaignActive } from '@/lib/campaign'
+import { getCampaignPhase } from '@/lib/campaign'
+import CampaignToggle from '@/components/admin/CampaignToggle'
 import type { Influencer } from '@/types'
 
 export const dynamic = 'force-dynamic'
@@ -43,7 +44,7 @@ async function getDashboardData() {
 
 export default async function AdminDashboard() {
   const { influencers, totalVotes, recentVotes } = await getDashboardData()
-  const campaignActive = await isCampaignActive()
+  const campaignPhase = await getCampaignPhase()
   const activeCount = influencers.filter((i) => i.is_active).length
   const top5 = influencers.slice(0, 5)
   const maxVotes = top5[0]?.vote_count ?? 1
@@ -80,25 +81,7 @@ export default async function AdminDashboard() {
           value={influencers.length.toString()}
           icon="🌿"
         />
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-gray-500">Campaign Status</p>
-            <span className="text-xl">📅</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span
-              className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${
-                campaignActive ? 'bg-green-500' : 'bg-gray-400'
-              }`}
-            />
-            <p className="text-xl font-bold text-gray-900">
-              {campaignActive ? 'Active' : 'Ended'}
-            </p>
-          </div>
-          <p className="text-sm text-gray-400 mt-1">
-            Managed via Supabase Dashboard
-          </p>
-        </div>
+        <CampaignToggle initialPhase={campaignPhase} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

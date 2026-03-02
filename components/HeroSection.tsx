@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import { PRODUCT_IMAGE } from '@/lib/config/categories'
+import type { CampaignPhase } from '@/lib/campaign'
 
 // Spec-defined stagger sequence
 const HERO_DELAYS = [0, 0.2, 0.4, 0.7, 0.85, 0.9, 1.1, 1.2]
@@ -22,17 +23,17 @@ const heroVariants = {
 }
 
 interface HeroSectionProps {
-  campaignActive?: boolean
+  campaignPhase?: CampaignPhase
 }
 
-export default function HeroSection({ campaignActive = false }: HeroSectionProps) {
+export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps) {
   const shouldReduceMotion = useReducedMotion()
   const [heroImageLoaded, setHeroImageLoaded] = useState(false)
 
   const handleCta = useCallback(() => {
-    const targetId = campaignActive ? 'influencer-grid' : 'how-to-section'
+    const targetId = campaignPhase === 'voting' ? 'influencer-grid' : 'how-to-section'
     document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [campaignActive])
+  }, [campaignPhase])
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-24">
@@ -151,7 +152,7 @@ export default function HeroSection({ campaignActive = false }: HeroSectionProps
                 }}
               />
               <span className="relative z-10 flex items-center gap-2">
-                {campaignActive ? 'JETZT ABSTIMMEN' : 'JETZT BEWERBEN'}
+                {campaignPhase === 'voting' ? 'JETZT ABSTIMMEN' : campaignPhase === 'ended' ? 'VOTING BEENDET' : 'JETZT BEWERBEN'}
                 <span>→</span>
               </span>
             </motion.button>

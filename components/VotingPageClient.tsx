@@ -10,17 +10,18 @@ import { useRevealAnimation } from '@/hooks/useRevealAnimation'
 
 const VoteModal = dynamic(() => import('@/components/VoteModal'), { ssr: false })
 import type { Influencer } from '@/types'
+import type { CampaignPhase } from '@/lib/campaign'
 import { CATEGORIES, CATEGORY_KEYS, type CategoryKey } from '@/lib/config/categories'
 
 interface VotingPageClientProps {
   initialInfluencers: Influencer[]
-  campaignActive: boolean
+  campaignPhase: CampaignPhase
   endDate: string | null
 }
 
 export default function VotingPageClient({
   initialInfluencers,
-  campaignActive,
+  campaignPhase,
   endDate,
 }: VotingPageClientProps) {
   const [influencers, setInfluencers] = useState<Influencer[]>(initialInfluencers)
@@ -76,7 +77,7 @@ export default function VotingPageClient({
 
   return (
     <>
-      <HeroSection campaignActive={campaignActive} />
+      <HeroSection campaignPhase={campaignPhase} />
 
       <div id="influencer-grid" className="">
 
@@ -228,7 +229,7 @@ export default function VotingPageClient({
                           <InfluencerCard
                             influencer={influencer}
                             priority={groupIndex === 0 && index < 4}
-                            campaignActive={campaignActive}
+                            campaignPhase={campaignPhase}
                             onVoteClick={(inf) => setVoteInfluencer(inf)}
                             onVideoClick={(inf) => setVideoInfluencer(inf)}
                           />
@@ -251,7 +252,7 @@ export default function VotingPageClient({
                   <InfluencerCard
                     influencer={influencer}
                     priority={index < 8}
-                    campaignActive={campaignActive}
+                    campaignPhase={campaignPhase}
                     onVoteClick={(inf) => setVoteInfluencer(inf)}
                     onVideoClick={(inf) => setVideoInfluencer(inf)}
                   />
@@ -270,7 +271,7 @@ export default function VotingPageClient({
             setVideoInfluencer(null)
             setTimeout(() => setVoteInfluencer(inf), 100)
           }}
-          campaignActive={campaignActive}
+          campaignPhase={campaignPhase}
         />
       )}
 

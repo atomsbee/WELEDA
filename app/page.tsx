@@ -5,7 +5,7 @@ import CategorySection from '@/components/CategorySection'
 import CastingTimeline from '@/components/CastingTimeline'
 import WasduWissenmussSection from '@/components/WasduWissenmussSection'
 import VotingSection from '@/components/VotingSection'
-import { isCampaignActive } from '@/lib/campaign'
+import { getCampaignPhase } from '@/lib/campaign'
 import type { Influencer } from '@/types'
 
 async function getInfluencers(): Promise<Influencer[]> {
@@ -34,20 +34,20 @@ async function getInfluencers(): Promise<Influencer[]> {
 }
 
 export default async function HomePage() {
-  const [influencers, campaignActive] = await Promise.all([
+  const [influencers, campaignPhase] = await Promise.all([
     getInfluencers(),
-    isCampaignActive(),
+    getCampaignPhase(),
   ])
 
   return (
     <main>
-      <HeroSection campaignActive={campaignActive} />
+      <HeroSection campaignPhase={campaignPhase} />
       <MarqueeSection />
       <HowToSection />
       <CategorySection />
       <CastingTimeline />
       <WasduWissenmussSection />
-      <VotingSection initialInfluencers={influencers} campaignActive={campaignActive} />
+      <VotingSection initialInfluencers={influencers} campaignPhase={campaignPhase} />
     </main>
   )
 }
