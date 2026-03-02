@@ -1,6 +1,4 @@
 'use client'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
 
 /*
   Each petal is coloured to match one of the 3 fragrance categories:
@@ -148,13 +146,6 @@ const PETALS = [
 ]
 
 export default function FloatingPetals() {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
-
-  if (!mounted) return <div className="fixed inset-0 pointer-events-none" aria-hidden="true" />
-  if (resolvedTheme !== 'light') return null
-
   return (
     <div
       className="petal-el fixed inset-0 pointer-events-none overflow-hidden"
@@ -180,8 +171,7 @@ export default function FloatingPetals() {
               inset 0 1px 3px rgba(255,255,255,0.65),
               inset 0 -1px 2px rgba(0,0,0,0.04)
             `,
-            backdropFilter: 'blur(1.5px)',
-            WebkitBackdropFilter: 'blur(1.5px)',
+
           } as React.CSSProperties}
         />
       ))}

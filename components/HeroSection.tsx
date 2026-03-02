@@ -237,7 +237,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
               className="text-base leading-relaxed mb-2 max-w-md"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Poste dein Casting-Video, lass die Community für dich voten und werde eines der neuen Fragrance-Faces der Weleda Summer Campaign.
+              Poste jetzt dein Casting-Video, sammle die Votes der Community, flieg mit uns ins große Finale nach Teneriffa und werde von der Jury Bene Schulz, Celine Bethmann und WoistLena zum neuen Gesicht der Weleda Sommerkampagne gekürt.
             </motion.p>
 
             {/* Divider + Date badges */}
@@ -363,7 +363,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
 
             {/* Glow behind image — tri-color gradient bleeding around the frame */}
             <div
-              className="absolute inset-0 -z-10 scale-110 blur-3xl opacity-50 rounded-3xl pointer-events-none"
+              className="absolute inset-0 -z-10 opacity-50 rounded-3xl pointer-events-none"
               style={{
                 background: `linear-gradient(
                   135deg,

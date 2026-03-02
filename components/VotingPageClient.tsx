@@ -2,6 +2,8 @@
 
 import { useState, useMemo, useCallback, useRef } from 'react'
 import HeroSection from '@/components/HeroSection'
+import HowToSection from '@/components/HowToSection'
+import VideoEmbedSection from '@/components/VideoEmbedSection'
 import InfluencerCard from '@/components/InfluencerCard'
 import { InfluencerGridSkeleton } from '@/components/InfluencerCardSkeleton'
 import VideoModal from '@/components/VideoModal'
@@ -77,6 +79,8 @@ export default function VotingPageClient({
   return (
     <>
       <HeroSection campaignActive={campaignActive} endDate={endDate} />
+      <HowToSection />
+      <VideoEmbedSection />
 
       <div id="influencer-grid" className="">
 

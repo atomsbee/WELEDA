@@ -4,8 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ThemeToggle } from '@/components/ThemeToggle'
-
 export default function PublicHeader() {
   const pathname = usePathname()
 
@@ -22,24 +20,20 @@ export default function PublicHeader() {
         borderBottom: '1px solid var(--border-nav)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-center gap-3">
         {/* Logo */}
         <Link href="/" aria-label="WELEDA home" className="flex-shrink-0">
           <Image
-            src="/img/weleda-logo-white.svg"
+            src="/img/weleda-logo.svg"
             alt="WELEDA"
             width={100}
             height={32}
-            className="w-[100px] sm:w-[120px] weleda-logo"
+            className="w-[130px] sm:w-[130px] weleda-logo"
             priority
           />
         </Link>
 
-        <div className="flex items-center gap-3">
-          {/* Theme toggle */}
-          <ThemeToggle />
-
-          {/* Vote Now CTA — hidden on mobile */}
+        {/* <div className="flex items-center gap-3">
           <motion.div
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
@@ -54,7 +48,6 @@ export default function PublicHeader() {
                 color: '#ffffff',
               }}
             >
-              {/* Shimmer sweep */}
               <span
                 className="pointer-events-none absolute inset-0 rounded-full"
                 style={{
@@ -66,7 +59,7 @@ export default function PublicHeader() {
               <span className="relative z-10">JETZT ABSTIMMEN</span>
             </Link>
           </motion.div>
-        </div>
+        </div> */}
       </div>
     </header>
   )

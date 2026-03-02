@@ -3,7 +3,6 @@
 import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import type { Influencer } from '@/types'
 import { getCategoryConfig } from '@/lib/config/categories'
 
@@ -48,9 +47,6 @@ export default function VideoModal({
   onVoteClick,
   campaignActive,
 }: VideoModalProps) {
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme !== 'light'
-
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -102,9 +98,9 @@ export default function VideoModal({
           transition={{ type: 'spring', stiffness: 280, damping: 26 }}
           className="w-full sm:max-w-3xl sm:rounded-2xl rounded-t-2xl overflow-hidden"
           style={{
-            background: isDark ? 'rgba(12,0,22,0.94)' : 'rgba(255,255,255,0.94)',
+            background: 'rgba(255,255,255,0.94)',
             backdropFilter: 'blur(28px)',
-            border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'}`,
+            border: '1px solid rgba(0,0,0,0.07)',
             boxShadow: cat
               ? `0 32px 80px rgba(0,0,0,0.55), 0 0 80px ${cat.primary}28`
               : '0 32px 80px rgba(0,0,0,0.55)',
@@ -120,7 +116,7 @@ export default function VideoModal({
           <div
             className="flex items-center justify-between p-4"
             style={{
-              borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'}`,
+              borderBottom: '1px solid rgba(0,0,0,0.07)',
             }}
           >
             <div className="flex items-center gap-3 min-w-0">
@@ -142,11 +138,11 @@ export default function VideoModal({
               <div className="min-w-0">
                 <p
                   className="font-bold text-sm leading-tight truncate"
-                  style={{ color: isDark ? '#fff' : '#1a0a2e' }}
+                  style={{ color: '#1a0a2e' }}
                 >
                   {influencer.name}
                 </p>
-                <p className="text-xs truncate" style={{ color: isDark ? (cat?.secondary ?? '#A78BFA') : (cat?.primary ?? '#7C3AED') }}>
+                <p className="text-xs truncate" style={{ color: cat?.primary ?? '#7C3AED' }}>
                   {influencer.handle}
                 </p>
               </div>
@@ -168,14 +164,14 @@ export default function VideoModal({
                 onClick={onClose}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
                 style={{
-                  background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.10)'}`,
+                  background: 'rgba(0,0,0,0.06)',
+                  border: '1px solid rgba(0,0,0,0.10)',
                 }}
                 aria-label="Close"
               >
                 <svg
                   className="w-4 h-4"
-                  style={{ color: isDark ? '#fff' : '#1a0a2e' }}
+                  style={{ color: '#1a0a2e' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -212,7 +208,7 @@ export default function VideoModal({
           <div
             className="p-4 flex items-center justify-between gap-4"
             style={{
-              borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'}`,
+              borderTop: '1px solid rgba(0,0,0,0.07)',
             }}
           >
             {/* Vote count */}
@@ -222,13 +218,13 @@ export default function VideoModal({
               </svg>
               <span
                 className="text-sm font-bold"
-                style={{ color: isDark ? '#fff' : '#1a0a2e' }}
+                style={{ color: '#1a0a2e' }}
               >
                 {influencer.vote_count.toLocaleString('en-US')}
               </span>
               <span
                 className="text-xs"
-                style={{ color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(26,10,46,0.45)' }}
+                style={{ color: 'rgba(26,10,46,0.45)' }}
               >
                 votes
               </span>
@@ -255,7 +251,7 @@ export default function VideoModal({
               influencer.bio && (
                 <p
                   className="text-xs leading-relaxed line-clamp-2 text-right"
-                  style={{ color: isDark ? 'rgba(255,255,255,0.48)' : 'rgba(26,10,46,0.50)' }}
+                  style={{ color: 'rgba(26,10,46,0.50)' }}
                 >
                   {influencer.bio}
                 </p>

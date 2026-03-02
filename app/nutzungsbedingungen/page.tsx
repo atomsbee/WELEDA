@@ -48,7 +48,7 @@ export default function NutzungsbedingungenPage() {
           {/* Campaign intro — official client text */}
           <div className="mb-8 pb-8 space-y-4" style={{ borderBottom: '1px solid var(--border-nav)' }}>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              Bist du zwischen 18 und 35 Jahre alt? Dann werde Teil unserer „Weleda Summer Campaign"! Du hast die einmalige Chance eines von drei neuen Kampagnengesichtern für unsere neuen „Weleda Fragrance Body &amp; Hair Mist Campaign" zu werden.
+              Bist du mind. 18 Jahre alt? Dann werde Teil unserer „Weleda Summer Campaign"! Du hast die einmalige Chance eines von drei neuen Kampagnengesichtern für unsere neuen „Weleda Fragrance Body &amp; Hair Mist Campaign" zu werden.
             </p>
             <div>
               <p className="text-sm font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Und so geht&apos;s:</p>

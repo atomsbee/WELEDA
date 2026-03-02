@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import type { Influencer } from '@/types'
 import { getCategoryConfig, CATEGORIES, CATEGORY_KEYS } from '@/lib/config/categories'
 
@@ -36,8 +35,6 @@ const slideVariants = {
 export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteModalProps) {
   const [modalState, setModalState] = useState<ModalState>('form')
   const [submittedName, setSubmittedName] = useState('')
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === 'dark'
 
   const cat = getCategoryConfig(influencer?.category ?? null)
 
@@ -124,9 +121,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
             background: 'var(--bg-modal)',
             backdropFilter: 'blur(40px)',
             border: '1px solid var(--border-modal)',
-            boxShadow: isDark
-              ? '0 25px 80px rgba(0,0,0,0.7), 0 0 40px rgba(180,120,255,0.1)'
-              : '0 25px 80px rgba(90,60,130,0.18), 0 0 40px rgba(140,80,220,0.08)',
+            boxShadow: '0 25px 80px rgba(90,60,130,0.18), 0 0 40px rgba(140,80,220,0.08)',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -157,10 +152,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
                 {cat ? (
                   <span
                     className="text-xs px-2 py-0.5 rounded-full font-semibold"
-                    style={isDark
-                      ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff' }
-                      : { background: 'var(--bg-chip)', border: '1px solid var(--border-chip)', color: 'var(--text-chip)' }
-                    }
+                    style={{ background: 'var(--bg-chip)', border: '1px solid var(--border-chip)', color: 'var(--text-chip)' }}
                   >
                     {cat.hashtag}
                   </span>

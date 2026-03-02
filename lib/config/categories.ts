@@ -100,11 +100,11 @@ export const PRODUCT_IMAGE =
   '/img/hero-product-image.jpg'
 
 export const MARQUEE_ITEMS = [
-  '✦ Community Vote 13.–17.03.2026',
+  '✦ Community Vote 13.03.2026 – 17.03.2026',
   '✦ Gourmand · Floriental · Fruity',
   '✦ 3 neue Kampagnengesichter gesucht',
   '✦ Jetzt für deinen Fave voten',
-  '✦ Live-Casting auf Teneriffa 22.–25.03.',
+  '✦ Live-Casting Teneriffa 22.03.2026 – 25.03.2026',
   '✦ #weledacasting #weledafragrancemists',
   '✦ 1× täglich abstimmen',
   '✦ Werde das Gesicht der WELEDA Fragrance Campaign',

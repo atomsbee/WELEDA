@@ -62,11 +62,11 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
 
-        {/* Top row: logo left, social icons right */}
+        {/* Top row: logo left, webshop center, social icons right */}
         <div className="flex items-center justify-between py-6">
           <Link href="/" aria-label="WELEDA home" className="flex-shrink-0">
             <Image
-              src="/img/weleda-logo-white.svg"
+              src="/img/weleda-logo.svg"
               alt="WELEDA"
               width={120}
               height={40}
@@ -98,6 +98,16 @@ export default function Footer() {
 
         {/* Divider */}
         <div style={{ borderTop: '1px solid var(--border-footer)' }} />
+
+        <a
+          href="https://www.weleda.de/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-bold tracking-wide transition-opacity duration-200 hover:opacity-80 flex justify-center pt-5"
+          style={{ color: 'var(--weleda-green)' }}
+        >
+          WELEDA Webshop
+        </a>
 
         {/* Bottom: copyright + legal */}
         <div className="py-5 flex flex-col items-center gap-3">

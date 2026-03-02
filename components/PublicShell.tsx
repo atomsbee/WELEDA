@@ -3,9 +3,6 @@
 import { usePathname } from 'next/navigation'
 import AnimatedBackground from './AnimatedBackground'
 import FloatingPetals from './FloatingPetals'
-import MistDroplets from './MistDroplets'
-import AuroraCurtain from './AuroraCurtain'
-import GoldDust from './GoldDust'
 import PublicHeader from './PublicHeader'
 import Footer from './Footer'
 import CookieBanner from './CookieBanner'
@@ -18,9 +15,6 @@ export default function PublicShell({ children }: { children: React.ReactNode })
     <>
       <AnimatedBackground />
       <FloatingPetals />
-      <MistDroplets />
-      <AuroraCurtain />
-      <GoldDust />
       <PublicHeader />
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>

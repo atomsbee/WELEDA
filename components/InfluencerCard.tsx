@@ -1,9 +1,8 @@
 'use client'
 
-import { memo, useState, useEffect } from 'react'
+import { memo, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { useTheme } from 'next-themes'
 import type { Influencer } from '@/types'
 import { getCategoryConfig } from '@/lib/config/categories'
 
@@ -22,13 +21,8 @@ function InfluencerCard({
   onVoteClick,
   onVideoClick,
 }: InfluencerCardProps) {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
-  // Before mount, default to dark so SSR and first client render match
-  const isDark = !mounted || resolvedTheme !== 'light'
 
   const cat = getCategoryConfig(influencer.category)
 
@@ -123,14 +117,14 @@ function InfluencerCard({
           transition={{ duration: 0.2 }}
         />
 
-        {/* Category badge — glass, theme-aware */}
+        {/* Category badge — glass */}
         {cat && (
           <div
             className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold leading-none"
             style={{
-              background: isDark ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.45)',
+              background: 'rgba(0,0,0,0.45)',
               backdropFilter: 'blur(8px)',
-              border: `1px solid ${isDark ? `${cat.primary}40` : `${cat.primary}60`}`,
+              border: `1px solid ${cat.primary}60`,
               color: '#fff',
             }}
           >
@@ -144,16 +138,14 @@ function InfluencerCard({
             <div
               className="w-full h-full rounded-full flex items-center justify-center"
               style={{
-                background: isDark ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.85)',
+                background: 'rgba(255,255,255,0.85)',
                 backdropFilter: 'blur(8px)',
-                border: isDark
-                  ? '1px solid rgba(255,255,255,0.5)'
-                  : `1px solid ${cat?.primary ?? '#64748B'}40`,
+                border: `1px solid ${cat?.primary ?? '#64748B'}40`,
               }}
             >
               <svg
                 className="w-5 h-5 md:w-6 md:h-6 ml-0.5"
-                fill={isDark ? 'white' : (cat?.primary ?? '#64748B')}
+                fill={cat?.primary ?? '#64748B'}
                 viewBox="0 0 24 24"
               >
                 <path d="M8 5v14l11-7z" />
@@ -172,7 +164,8 @@ function InfluencerCard({
         <div>
           <button
             onClick={() => onVideoClick(influencer)}
-            className="font-bold text-sm md:text-base hover:opacity-75 transition-opacity text-left line-clamp-1 w-full text-[#1a0a2e] dark:text-white"
+            className="font-bold text-sm md:text-base hover:opacity-75 transition-opacity text-left line-clamp-1 w-full"
+            style={{ color: 'var(--text-primary)' }}
           >
             {influencer.name}
           </button>

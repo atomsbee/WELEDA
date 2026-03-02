@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import PublicShell from '@/components/PublicShell'
 
 export const metadata: Metadata = {
-  title: 'WELEDA Summer Vote 2026 | Wähle dein Kampagnengesicht',
+  title: 'Weleda® Sommerkampagne 2026 ändern',
   description:
     'Vote für deinen Favoriten! Die Community wählt 3 neue Gesichter der Weleda Fragrance Body & Hair Mist Campaign. Voting-Phase: 13.–17. März 2026.',
   keywords: [
@@ -28,14 +27,14 @@ export const metadata: Metadata = {
     apple: '/img/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'WELEDA Summer Vote 2026',
+    title: 'Weleda® Sommerkampagne 2026 ändern',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
     images: [
       {
         url: '/img/weleda-logo.svg',
         width: 1200,
         height: 630,
-        alt: 'WELEDA Community Voting',
+        alt: 'Weleda® Community Voting',
       },
     ],
     locale: 'de_DE',
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WELEDA Summer Vote 2026',
+    title: 'Weleda® Sommerkampagne 2026 ändern',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
   },
   robots: {
@@ -54,24 +53,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: import('react').ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Blocking script — runs before first paint; prevents dark→light flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('theme');var t=s||'dark';if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.add('light');}}catch(e){document.documentElement.classList.add('dark');}}())`,
-          }}
-        />
-      </head>
+    <html lang="en" className="light">
       <body className="min-h-screen flex flex-col antialiased">
-        <ThemeProvider>
-          {/* Instant base gradient — eliminates flash on load */}
-          <div
-            className="fixed inset-0 pointer-events-none"
-            style={{ zIndex: -30, background: 'var(--bg-gradient)' }}
-          />
-          <PublicShell>{children}</PublicShell>
-        </ThemeProvider>
+        {/* Instant base gradient — eliminates flash on load */}
+        <div
+          className="fixed inset-0 pointer-events-none"
+          style={{ zIndex: -30, background: 'var(--bg-gradient)' }}
+        />
+        <PublicShell>{children}</PublicShell>
       </body>
     </html>
   )

@@ -1,6 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { useTheme } from 'next-themes'
+import { useEffect, useRef } from 'react'
 
 const BRAND_HUES = [270, 320, 42, 162, 200, 340, 30]
 
@@ -114,14 +113,8 @@ export default function MistDroplets() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const drops     = useRef<Drop[]>([])
   const animRef   = useRef<number>(0)
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
-    if (!mounted || resolvedTheme !== 'light') return
-
     // Respect prefers-reduced-motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
@@ -178,10 +171,7 @@ export default function MistDroplets() {
       window.removeEventListener('resize', resize)
       drops.current = []
     }
-  }, [mounted, resolvedTheme])
-
-  if (!mounted) return <div className="fixed inset-0 pointer-events-none" aria-hidden="true" />
-  if (resolvedTheme !== 'light') return null
+  }, [])
 
   return (
     <canvas
