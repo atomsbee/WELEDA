@@ -249,7 +249,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
             >
 
               {/* Date badges */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-8">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 mb-8">
                 {/* Badge 1 — Bewerbungsphase */}
                 <div
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit"
@@ -536,7 +536,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         </div>
 
         {/* Desktop / Tablet: always 6 cols, horizontal scroll on narrow md */}
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <div className="overflow-x-auto scrollbar-hide pb-4">
             <div className="relative min-w-[820px] max-w-[1380px] mx-auto px-4 md:px-10">
               {/* Gradient connecting line through badge centers */}
@@ -630,7 +630,7 @@ export default function HeroSection({ campaignActive, endDate }: HeroSectionProp
         </div>
 
         {/* Mobile: compact vertical list */}
-        <div className="md:hidden max-w-lg mx-auto">
+        <div className="lg:hidden max-w-lg mx-auto">
           {STEPS.map((step, i) => (
             <div
               key={i}
