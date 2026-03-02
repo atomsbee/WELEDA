@@ -89,11 +89,12 @@ export default function VotingPageClient({
             borderColor: 'var(--border-nav)',
           }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">
-            <div className="flex items-center gap-2">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2">
+            {/* Mobile: pills row + search row stacked; sm+: single row side-by-side */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
 
-              {/* Category pills — scrollable horizontal strip */}
-              <div className="flex-1 overflow-x-auto scrollbar-hide">
+              {/* Category pills — scrollable strip */}
+              <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0">
                 <div className="flex items-center gap-1.5 min-w-max">
                   <button
                     onClick={() => setActiveCategory('all')}
@@ -133,8 +134,8 @@ export default function VotingPageClient({
                 </div>
               </div>
 
-              {/* Search — full width on right */}
-              <div className="relative flex-shrink-0 w-36 md:w-56">
+              {/* Search — full width on mobile, constrained on sm+ */}
+              <div className="relative w-full sm:flex-shrink-0 sm:w-52 md:w-64">
                 <svg
                   className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
                   style={{ color: searchFocused ? 'rgba(139,92,246,0.7)' : 'var(--text-muted)' }}
@@ -219,7 +220,7 @@ export default function VotingPageClient({
                     </div>
 
                     <div
-                      className="w-reveal w-d1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-7"
+                      className="w-reveal w-d1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6 lg:gap-7"
                       data-animation="fade-up"
                     >
                       {group.items.map((influencer, index) => (

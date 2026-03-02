@@ -30,7 +30,7 @@ export default function PublicHeader() {
             alt="WELEDA"
             width={100}
             height={32}
-            className="h-7 w-auto weleda-logo"
+            className="w-[100px] sm:w-[120px] weleda-logo"
             priority
           />
         </Link>

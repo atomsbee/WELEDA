@@ -140,7 +140,7 @@ function InfluencerCard({
 
         {/* Play button — glass */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-12 h-12 md:w-14 md:h-14">
+          <div className="relative w-10 h-10 md:w-14 md:h-14">
             <div
               className="w-full h-full rounded-full flex items-center justify-center"
               style={{
@@ -184,7 +184,7 @@ function InfluencerCard({
         {/* Category hashtag — decorative pill, not clickable */}
         {cat && (
           <span
-            className="text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none select-none self-start"
+            className="text-[10px] sm:text-[11px] font-semibold px-2.5 py-1 rounded-full pointer-events-none select-none self-start"
             style={{
               background: `${cat.primary}18`,
               border: `1px solid ${cat.primary}30`,
@@ -218,7 +218,7 @@ function InfluencerCard({
           whileTap={{ scale: 0.97 }}
           onClick={() => campaignActive && onVoteClick(influencer)}
           disabled={!campaignActive}
-          className="mt-auto w-full py-2.5 rounded-full font-bold text-sm transition-shadow duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-auto w-full py-2.5 rounded-full font-bold text-xs md:text-sm transition-shadow duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           style={
             campaignActive
               ? {

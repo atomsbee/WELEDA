@@ -70,7 +70,7 @@ export default function Footer() {
               alt="WELEDA"
               width={120}
               height={40}
-              className="h-8 w-auto weleda-logo"
+              className=" w-[100px] sm:w-[120px] weleda-logo"
             />
           </Link>
 
@@ -104,11 +104,11 @@ export default function Footer() {
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
             © {year} WELEDA AG. Alle Rechte vorbehalten.
           </p>
-          <nav className="flex items-center gap-4 text-xs">
+          <nav className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs">
             <Link href="/datenschutz" className="footer-nav-link">Datenschutzerklärung</Link>
-            <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
+            <span aria-hidden="true" className="hidden sm:inline" style={{ color: 'var(--text-faint)' }}>|</span>
             <Link href="/nutzungsbedingungen" className="footer-nav-link">Nutzungsbedingungen</Link>
-            <span aria-hidden="true" style={{ color: 'var(--text-faint)' }}>|</span>
+            <span aria-hidden="true" className="hidden sm:inline" style={{ color: 'var(--text-faint)' }}>|</span>
             <Link href="/impressum" className="footer-nav-link">Impressum</Link>
           </nav>
         </div>
