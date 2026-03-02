@@ -5,6 +5,7 @@ import CategorySection from '@/components/CategorySection'
 import CastingTimeline from '@/components/CastingTimeline'
 import WasduWissenmussSection from '@/components/WasduWissenmussSection'
 import VotingSection from '@/components/VotingSection'
+import AtmosphericBanner from '@/components/AtmosphericBanner'
 import { getCampaignPhase } from '@/lib/campaign'
 import type { Influencer } from '@/types'
 
@@ -48,6 +49,7 @@ export default async function HomePage() {
       <CastingTimeline />
       <WasduWissenmussSection />
       <VotingSection initialInfluencers={influencers} campaignPhase={campaignPhase} />
+      <AtmosphericBanner />
     </main>
   )
 }
