@@ -107,7 +107,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
         style={{ background: 'var(--bg-modal-overlay)', backdropFilter: 'blur(12px)' }}
         onClick={onClose}
       >
@@ -116,7 +116,7 @@ export default function VoteModal({ influencer, onClose, onVoteSuccess }: VoteMo
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 20 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
+          className="w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
           style={{
             background: 'var(--bg-modal)',
             backdropFilter: 'blur(40px)',

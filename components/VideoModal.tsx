@@ -74,7 +74,7 @@ export default function VideoModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
         style={{ background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(14px)' }}
         onClick={onClose}
       >
@@ -96,7 +96,7 @@ export default function VideoModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.93, y: 48 }}
           transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-          className="w-full sm:max-w-3xl sm:rounded-2xl rounded-t-2xl overflow-hidden"
+          className="w-full max-w-3xl rounded-2xl overflow-hidden"
           style={{
             background: 'rgba(255,255,255,0.94)',
             backdropFilter: 'blur(28px)',

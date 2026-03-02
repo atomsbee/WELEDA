@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams): Promis
     const displayOrder = parseInt(String(formData.get('display_order') ?? '0'), 10)
     const isActive = String(formData.get('is_active')) === 'true'
     const categoryRaw = String(formData.get('category') ?? '').trim()
-    const category = ['vanilla-cloud', 'mystic-aura', 'tropical-crush'].includes(categoryRaw)
+    const category = ['vanilla-cloud', 'mystic-aura', 'tropical-crush', 'community'].includes(categoryRaw)
       ? categoryRaw
       : null
 

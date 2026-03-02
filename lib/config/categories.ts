@@ -1,4 +1,4 @@
-export type CategoryKey = 'vanilla-cloud' | 'mystic-aura' | 'tropical-crush'
+export type CategoryKey = 'vanilla-cloud' | 'mystic-aura' | 'tropical-crush' | 'community'
 
 export interface CategoryConfig {
   key: CategoryKey
@@ -84,6 +84,26 @@ export const CATEGORIES: Record<CategoryKey, CategoryConfig> = {
     gradientSubtle: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
     modelImage: '/img/Tropical_Ausschnitt.jpg',
   },
+  // ── Community (4) ── Teal / green tones
+  'community': {
+    key: 'community',
+    label: 'Community',
+    hashtag: '#Community',
+    tagline: 'Creative · Authentic · Connected',
+    primary: '#14B8A6',
+    secondary: '#5EEAD4',
+    accent: '#CCFBF1',
+    bg: '#F0FDFA',
+    border: '#99F6E4',
+    glow: 'rgba(20,184,166,0.25)',
+    buttonBg: '#14B8A6',
+    buttonText: '#fff',
+    badgeBg: '#CCFBF1',
+    badgeText: '#115E59',
+    gradient: 'linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #5EEAD4 100%)',
+    gradientSubtle: 'linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%)',
+    modelImage: '/img/community.jpg',
+  },
 }
 
 export const CATEGORY_KEYS = Object.keys(CATEGORIES) as CategoryKey[]
@@ -97,11 +117,11 @@ export const HERO_BG_IMAGE =
   '/img/Weleda_ApplicationShot_Tropical%20Crush_768x1344px_BG%201.png'
 
 export const PRODUCT_IMAGE =
-  '/img/hero-product-image.jpg'
+  '/img/hero-product-image_v1.jpg'
 
 export const MARQUEE_ITEMS = [
   '✦ Community Vote 13.03.2026 – 17.03.2026',
-  '✦ Gourmand · Floriental · Fruity',
+  '✦ Gourmand · Floriental · Fruity · Community',
   '✦ 3 neue Kampagnengesichter gesucht',
   '✦ Jetzt für deinen Fave voten',
   '✦ Live-Casting Teneriffa 22.03.2026 – 25.03.2026',
