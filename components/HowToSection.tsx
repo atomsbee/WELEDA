@@ -110,7 +110,7 @@ export default function HowToSection() {
   }, [isMuted])
 
   return (
-    <section id="how-to-section" className="w-section w-section-flush-top">
+    <section id="how-to-section" className="w-section">
       <div className="w-container space-y-12 md:space-y-16">
 
         {/* ── STEP CARDS ────────────────────────────────────── */}

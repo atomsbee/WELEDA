@@ -1,33 +1,32 @@
 /**
- * Returns true if today is before the campaign end date.
- * Reads CAMPAIGN_END_DATE env var (format: YYYY-MM-DD).
+ * Reads campaign active state from the Supabase `campaign_settings` table.
+ * Toggle is_active in the Supabase dashboard to control the campaign.
  */
-export function isCampaignActive(): boolean {
-  const endDateStr = process.env.CAMPAIGN_END_DATE
-  if (!endDateStr) return true // default active if not set
+export async function isCampaignActive(): Promise<boolean> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  const endDate = new Date(endDateStr)
-  if (isNaN(endDate.getTime())) return true
+  if (!supabaseUrl || !supabaseKey) return false
 
-  // Set end date to end of day
-  endDate.setHours(23, 59, 59, 999)
-  return new Date() <= endDate
-}
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/campaign_settings?id=eq.1&select=is_active`,
+      {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+        next: { revalidate: 30 },
+      }
+    )
 
-export function getCampaignEndDate(): string | null {
-  return process.env.CAMPAIGN_END_DATE ?? null
-}
+    if (!res.ok) return false
 
-export function formatCampaignEndDate(): string | null {
-  const endDateStr = process.env.CAMPAIGN_END_DATE
-  if (!endDateStr) return null
+    const rows = await res.json()
+    if (!Array.isArray(rows) || rows.length === 0) return false
 
-  const endDate = new Date(endDateStr)
-  if (isNaN(endDate.getTime())) return null
-
-  return endDate.toLocaleDateString('de-DE', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
+    return rows[0].is_active === true
+  } catch {
+    return false
+  }
 }

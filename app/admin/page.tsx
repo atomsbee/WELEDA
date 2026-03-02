@@ -1,5 +1,5 @@
 import { createServiceClient } from '@/lib/supabase/server'
-import { isCampaignActive, formatCampaignEndDate } from '@/lib/campaign'
+import { isCampaignActive } from '@/lib/campaign'
 import type { Influencer } from '@/types'
 
 export const dynamic = 'force-dynamic'
@@ -43,8 +43,7 @@ async function getDashboardData() {
 
 export default async function AdminDashboard() {
   const { influencers, totalVotes, recentVotes } = await getDashboardData()
-  const campaignActive = isCampaignActive()
-  const endDate = formatCampaignEndDate()
+  const campaignActive = await isCampaignActive()
   const activeCount = influencers.filter((i) => i.is_active).length
   const top5 = influencers.slice(0, 5)
   const maxVotes = top5[0]?.vote_count ?? 1
@@ -96,11 +95,9 @@ export default async function AdminDashboard() {
               {campaignActive ? 'Active' : 'Ended'}
             </p>
           </div>
-          {endDate && (
-            <p className="text-sm text-gray-400 mt-1">
-              {campaignActive ? `Ends on ${endDate}` : `Ended on ${endDate}`}
-            </p>
-          )}
+          <p className="text-sm text-gray-400 mt-1">
+            Managed via Supabase Dashboard
+          </p>
         </div>
       </div>
 
