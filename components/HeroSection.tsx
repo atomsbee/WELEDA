@@ -83,7 +83,7 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
             initial="hidden"
             animate="visible"
             className="font-black leading-none mb-3"
-            style={{ fontSize: 'clamp(2.6rem, 7vw, 5rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2.6rem, 5.5vw, 3.8rem)', letterSpacing: '-0.02em' }}
           >
             <span
               style={{
@@ -183,9 +183,9 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
                       <Image
                         src={member.image}
                         alt={member.name}
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-full object-cover"
+                        width={72}
+                        height={72}
+                        className="w-[72px] h-[72px] rounded-full object-cover"
                       />
                     </a>
                   ))}
