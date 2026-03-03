@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Weleda® Sommerkampagne 2026',
-    description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
+    description: 'Wähle die 3 neuen Gesichter der WELEDA Summer Campaign. Jetzt voten!',
     images: [
       {
         url: '/img/weleda-logo.svg',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Weleda® Sommerkampagne 2026',
-    description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
+    description: 'Wähle die 3 neuen Gesichter der WELEDA Summer Campaign. Jetzt voten!',
   },
   robots: {
     index: true,

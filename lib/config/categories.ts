@@ -127,5 +127,5 @@ export const MARQUEE_ITEMS = [
   '✦ Live-Casting Teneriffa 22.03.2026 – 25.03.2026',
   '✦ #weledacasting',
   '✦ 1× täglich abstimmen',
-  '✦ Werde das Gesicht der WELEDA Fragrance Campaign',
+  '✦ Werde das Gesicht der WELEDA Summer Campaign',
 ]
