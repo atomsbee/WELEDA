@@ -32,7 +32,7 @@ const STEP_CARDS: StepCard[] = [
     title: 'Produkt vorstellen',
     body: (
       <>
-        Stell uns deine liebsten <strong>WELEDA Serum Booster Drops und/oder das UV Glow Fluid</strong> vor. Was feierst du daran? Wann benutzt du es? Warum passt es perfekt zu dir?
+        Stell uns im Video deine liebsten <strong>WELEDA Serum Booster Drops und/oder das UV Glow Fluid</strong> vor. Was feierst du daran? Wann benutzt du es? Warum passt es perfekt zu dir?
       </>
     ),
   },

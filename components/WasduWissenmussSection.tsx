@@ -14,7 +14,7 @@ const BENEFITS = [
   {
     icon: '🌟',
     title: 'Kampagnen-Face',
-    sub: 'Eines von 3 neuen Gesichtern der WELEDA Campaign',
+    sub: 'Mit etwas Glück eines von 3 neuen Gesichtern der WELEDA Campaign',
     color: '#F59E0B',
   },
   {
@@ -26,7 +26,7 @@ const BENEFITS = [
   {
     icon: '📸',
     title: 'Kampagnen-Shooting',
-    sub: 'Professionelles Foto + Video für die Fragrance Campaign',
+    sub: 'Professioneller Foto- und Video-Content für die Summer Campaign',
     color: '#EC4899',
   },
   {
