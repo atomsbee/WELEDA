@@ -2,7 +2,7 @@
 
 const STEPS = [
   {
-    chip: '03.03–12.03.2026',
+    chip: '03.03.–12.03.2026',
     chipColor: '#F59E0B',
     title: 'Bewerbungsphase',
     body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram. Tagge @weleda und nutze den Hashtag',
