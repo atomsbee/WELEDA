@@ -43,7 +43,7 @@ const STEP_CARDS: StepCard[] = [
     items: [
       { icon: '🎬', text: <>Lade dein Video als <strong>Feed-Post oder Reel auf TikTok oder Instagram</strong> hoch (keine Story)</> },
       { icon: '📍', text: 'Folge und tagge @weleda (IG & TikTok)' },
-      { icon: '#️⃣', text: <><strong>#weledacasting #weledafragrancemists</strong></> },
+      { icon: '#️⃣', text: <><strong>#weledafragrancemists</strong></> },
     ],
   },
 ]

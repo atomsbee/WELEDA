@@ -160,61 +160,80 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
             initial="hidden"
             animate="visible"
           >
-            <div className="mt-6 mb-6">
-              <p
-                className="text-[10px] font-black uppercase tracking-[0.2em] mb-3"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                Deine Jury
-              </p>
+            <div
+              className="mt-6 mb-6 rounded-2xl px-6 py-3"
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-card)',
+                backdropFilter: 'blur(16px)',
+              }}
+            >
+              {/* Label row */}
+              <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
+                <svg
+                  className="w-4 h-4 flex-shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
+                </svg>
+                <p
+                  className="text-[11px] font-black uppercase tracking-[0.18em]"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  Deine Jury
+                </p>
+              </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-3">
-                <div className="flex -space-x-2.5">
-                  {JURY.map((member, i) => (
-                    <a
-                      key={member.name}
-                      href={member.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={member.name}
-                      className="relative block rounded-full ring-2 ring-white/80 hover:scale-110 hover:z-10 transition-transform duration-200"
-                      style={{ zIndex: JURY.length - i }}
-                    >
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        width={72}
-                        height={72}
-                        className="w-[72px] h-[72px] rounded-full object-cover"
-                      />
-                    </a>
-                  ))}
-                </div>
-
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <svg
-                      className="w-3 h-3 flex-shrink-0"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
-                    </svg>
-                    <p
-                      className="text-xs font-bold leading-tight"
-                      style={{ color: 'var(--text-primary)' }}
-                    >
-                      Bene Schulz, Celine Bethmann & WoistLena
-                    </p>
-                  </div>
-                  <p
-                    className="text-[11px]"
-                    style={{ color: 'var(--text-muted)' }}
+              {/* Jury profiles */}
+              <div className="flex items-start justify-center lg:justify-start gap-6">
+                {JURY.map((member) => (
+                  <a
+                    key={member.name}
+                    href={member.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex flex-col items-center gap-2.5 text-center"
                   >
-                    Jury der WELEDA Summer Campaign
-                  </p>
-                </div>
+                    {/* Gradient ring wrapper */}
+                    <div
+                      className="relative rounded-full p-[2.5px] transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        background: 'linear-gradient(135deg, #FFB6E8 0%, #B478FF 40%, #FFD700 70%, #FF6EB4 100%)',
+                      }}
+                    >
+                      <div
+                        className="rounded-full p-[2px]"
+                        style={{ background: 'var(--bg-card)' }}
+                      >
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          width={96}
+                          height={96}
+                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Name + handle */}
+                    <div className="flex flex-col items-center gap-0.5">
+                      <span
+                        className="text-xs sm:text-sm font-bold leading-tight"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
+                        {member.name}
+                      </span>
+                      <span
+                        className="text-[10px] sm:text-[11px]"
+                        style={{ color: 'var(--text-muted)' }}
+                      >
+                        {member.handle}
+                      </span>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>
