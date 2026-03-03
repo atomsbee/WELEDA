@@ -31,10 +31,10 @@ export const metadata: Metadata = {
     description: 'Wähle die 3 neuen Gesichter der WELEDA Summer Campaign. Jetzt voten!',
     images: [
       {
-        url: '/img/weleda-logo.svg',
+        url: '/img/WELEDA-sommer-meta.jpg',
         width: 1200,
         height: 630,
-        alt: 'Weleda® Community Voting',
+        alt: 'Weleda® Sommerkampagne 2026',
       },
     ],
     locale: 'de_DE',
@@ -44,6 +44,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Weleda® Sommerkampagne 2026',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Summer Campaign. Jetzt voten!',
+    images: ['/img/WELEDA-sommer-meta.jpg'],
   },
   robots: {
     index: true,
