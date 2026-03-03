@@ -23,7 +23,7 @@ export default function AnimatedBackground() {
       <div
         className="fixed inset-0 -z-20 pointer-events-none overflow-hidden"
         style={{
-          opacity: isInnerPage ? 0.4 : 0.65,
+          opacity: 0.65,
           transition: 'opacity 1.5s ease-in-out',
           willChange: 'opacity',
           transform: 'translateZ(0)',
