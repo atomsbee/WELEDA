@@ -26,6 +26,27 @@ interface HeroSectionProps {
   campaignPhase?: CampaignPhase
 }
 
+const JURY = [
+  {
+    name: 'Bene Schulz',
+    handle: '@bene.schulz',
+    image: '/img/bene-schulz.jpg',
+    url: 'https://www.tiktok.com/@bene.schulz',
+  },
+  {
+    name: 'Celine Bethmann',
+    handle: '@celinebethmann',
+    image: '/img/celine-bethmann.jpg',
+    url: 'https://www.tiktok.com/@.celinebethmann',
+  },
+  {
+    name: 'WoistLena',
+    handle: '@woistlena',
+    image: '/img/woistlena.jpg',
+    url: 'https://www.tiktok.com/@woistlena',
+  },
+]
+
 export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps) {
   const shouldReduceMotion = useReducedMotion()
   const [heroImageLoaded, setHeroImageLoaded] = useState(false)
@@ -108,7 +129,7 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
             initial="hidden"
             animate="visible"
           >
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 mb-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit"
                 style={{
@@ -128,6 +149,72 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
                 }}
               >
                 Voting-Phase: 13.3.2026 – 17.3.2026
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── Jury Section ── */}
+          <motion.div
+            custom={6.5}
+            variants={heroVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="mt-6 mb-6">
+              <p
+                className="text-[10px] font-black uppercase tracking-[0.2em] mb-3"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                Deine Jury
+              </p>
+
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2.5">
+                  {JURY.map((member, i) => (
+                    <a
+                      key={member.name}
+                      href={member.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={member.name}
+                      className="relative block rounded-full ring-2 ring-white/80 hover:scale-110 hover:z-10 transition-transform duration-200"
+                      style={{ zIndex: JURY.length - i }}
+                    >
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    </a>
+                  ))}
+                </div>
+
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <svg
+                      className="w-3 h-3 flex-shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
+                    </svg>
+                    <p
+                      className="text-xs font-bold leading-tight"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
+                      Bene Schulz, Celine Bethmann & WoistLena
+                    </p>
+                  </div>
+                  <p
+                    className="text-[11px]"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    Jury der WELEDA Summer Campaign
+                  </p>
+                </div>
               </div>
             </div>
           </motion.div>
