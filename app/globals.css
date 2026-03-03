@@ -121,6 +121,10 @@
     --weleda-bg: #FAFAF8;
     --weleda-card-border: #E8E8E4;
 
+    /* Fallback bg — matches html.light so body never renders transparent */
+    --bg-page: #fdf6ff;
+    --bg-gradient: linear-gradient(135deg, #fdf6ff 0%, #fff5f8 45%, #f5fff8 100%);
+
     /* Animated gradient bg */
     --color-bg: #0a0010;
     --first-color: 180, 120, 255;

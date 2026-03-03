@@ -55,11 +55,6 @@ export default function RootLayout({ children }: { children: import('react').Rea
   return (
     <html lang="en" className="light">
       <body className="min-h-screen flex flex-col antialiased">
-        {/* Instant base gradient — eliminates flash on load */}
-        <div
-          className="fixed inset-0 pointer-events-none"
-          style={{ zIndex: -30, background: 'var(--bg-gradient)' }}
-        />
         <PublicShell>{children}</PublicShell>
       </body>
     </html>
