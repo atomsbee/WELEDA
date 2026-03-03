@@ -43,7 +43,7 @@ const STEPS = [
     chip: '22.03–25.03.2026',
     chipColor: '#F59E0B',
     title: 'Final Casting auf Teneriffa 🌴',
-    body: 'Spannende Challenges, kreativer Content und echte Summer Vibes. Am Ende entscheidet die Jury bestehend aus Bene Schulz, Celine Bethmann & WoistLena, wer die drei Gesichter unserer neuen Fragrance Body & Hair Mists werden.',
+    body: 'Spannende Challenges, kreativer Content und echte Summer Vibes. Am Ende entscheidet die Jury bestehend aus Bene Schulz, Celine Bethmann & WoistLena, wer die drei Gesichter unserer neuen WELEDA Summer Campaign werden.',
     tags: ['✈️ All inclusive'],
     highlight: true,
   },
