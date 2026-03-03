@@ -168,7 +168,7 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
                 Deine Jury
               </p>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-3">
                 <div className="flex -space-x-2.5">
                   {JURY.map((member, i) => (
                     <a
