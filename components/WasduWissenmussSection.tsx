@@ -6,7 +6,7 @@ const REQUIREMENTS_LEFT = [
   'Öffentliches Instagram oder TikTok Profil',
   'Video als Reel / TikTok hochladen (keine Story)',
   '@WELEDA taggen',
-  '#weledacasting, #weledafragrancemists nutzen',
+  '#weledafragrancemists nutzen',
   'Vom 22.03.2026–26.03.2026 verfügbar sein',
 ]
 
@@ -14,7 +14,7 @@ const BENEFITS = [
   {
     icon: '🌟',
     title: 'Kampagnen-Face',
-    sub: 'Mit etwas Glück eines von 3 neuen Gesichtern der WELEDA Campaign',
+    sub: 'Mit etwas Glück wirst du eines von 3 neuen Gesichtern der WELEDA Campaign',
     color: '#F59E0B',
   },
   {

@@ -138,7 +138,7 @@ export default function HeroSection({ campaignPhase = 'pre' }: HeroSectionProps)
                   color: '#FBBF24',
                 }}
               >
-                Bewerbungsphase: 2.3.2026 – 12.3.2026
+                Bewerbungsphase: 3.3.2026 – 12.3.2026
               </div>
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit"
