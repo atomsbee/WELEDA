@@ -70,9 +70,9 @@ export default function CategorySection() {
                       style={{ background: cat.gradient, mixBlendMode: 'screen' }}
                     />
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 px-4 py-6 flex flex-col items-center text-center">
+                  <div className="absolute bottom-0 left-0 right-0 px-2 md:px-4 py-4 md:py-6 flex flex-col items-center text-center">
                     <div
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-black text-md leading-tight mb-2"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-black text-xs md:text-md leading-tight mb-2"
                       style={{ background: cat.gradient, color: 'white' }}
                     >
                       {cat.hashtag}
@@ -84,7 +84,7 @@ export default function CategorySection() {
                       {cat.tagline}
                     </p>
                     <span
-                      className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
+                      className="text-[10px] md:text-xs font-bold tracking-widest uppercase px-2 md:px-4 py-1 md:py-1.5 rounded-full"
                       style={{
                         background: 'rgba(255,255,255,0.15)',
                         border: '1px solid rgba(255,255,255,0.30)',
