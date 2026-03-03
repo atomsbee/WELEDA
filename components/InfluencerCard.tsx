@@ -182,7 +182,7 @@ function InfluencerCard({
               color: cat.primary,
             }}
           >
-            #weledafragrancemists
+            #weledacasting
           </span>
         )}
 

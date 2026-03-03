@@ -6,7 +6,7 @@ const STEPS = [
     chipColor: '#F59E0B',
     title: 'Bewerbungsphase',
     body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram. Tagge @weleda und nutze den Hashtag',
-    tags: ['#weledafragrancemists'],
+    tags: ['#weledacasting'],
     highlight: false,
   },
   {
@@ -51,7 +51,7 @@ const STEPS = [
     chip: 'TOP 3',
     chipColor: '#8B5CF6',
     title: 'Kampagnen-Shooting • 25.03.2026',
-    body: 'Foto + Video für die WELEDA Fragrance Body & Hair Mist Campaign.',
+    body: 'Foto + Video für die WELEDA Summer Campaign.',
     tags: ['📸 Foto', '🎬 Video'],
     highlight: false,
   },

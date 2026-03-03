@@ -22,7 +22,7 @@ const STEP_CARDS: StepCard[] = [
     title: 'Video erstellen',
     body: (
       <>
-        Bewirb dich mit einem <strong>Video auf TikTok oder Instagram</strong> (mind. 30 Sek, max. 5 Min). Zeig, warum <strong>genau DU</strong> eines der drei neuen Faces unserer <strong>WELEDA Summer Body & Hair Mist Campaign</strong> werden solltest.
+        Bewirb dich mit einem <strong>Video auf TikTok oder Instagram</strong> (mind. 30 Sek, max. 5 Min). Zeig, warum <strong>genau DU</strong> eines der drei neuen Faces unserer <strong>WELEDA Summer Campaign</strong> werden solltest.
       </>
     ),
   },
@@ -43,7 +43,7 @@ const STEP_CARDS: StepCard[] = [
     items: [
       { icon: '🎬', text: <>Lade dein Video als <strong>Feed-Post oder Reel auf TikTok oder Instagram</strong> hoch (keine Story)</> },
       { icon: '📍', text: 'Folge und tagge @weleda (IG & TikTok)' },
-      { icon: '#️⃣', text: <><strong>#weledafragrancemists</strong></> },
+      { icon: '#️⃣', text: <><strong>#weledacasting</strong></> },
     ],
   },
 ]

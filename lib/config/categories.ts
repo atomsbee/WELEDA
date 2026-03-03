@@ -125,7 +125,7 @@ export const MARQUEE_ITEMS = [
   '✦ 3 neue Kampagnengesichter gesucht',
   '✦ Jetzt für deinen Fave voten',
   '✦ Live-Casting Teneriffa 22.03.2026 – 25.03.2026',
-  '✦ #weledafragrancemists',
+  '✦ #weledacasting',
   '✦ 1× täglich abstimmen',
   '✦ Werde das Gesicht der WELEDA Fragrance Campaign',
 ]
