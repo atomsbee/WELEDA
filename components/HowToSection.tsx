@@ -230,7 +230,7 @@ export default function HowToSection() {
                 if (playerRef.current) setDuration(playerRef.current.duration)
               }}
               onEnded={() => { setIsPlaying(false); setHasEnded(true); setPlayed(0) }}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           </div>
 
