@@ -23,7 +23,7 @@ export default function AnimatedBackground() {
       <div
         className="fixed inset-0 -z-20 pointer-events-none overflow-hidden"
         style={{
-          opacity: isInnerPage ? 0.25 : 0.55,
+          opacity: isInnerPage ? 0.4 : 0.85,
           transition: 'opacity 1.5s ease-in-out',
           willChange: 'opacity',
           transform: 'translateZ(0)',
@@ -59,48 +59,42 @@ export default function AnimatedBackground() {
             position: 'absolute', top: '5vh', left: '5vw',
             width: '45vw', height: '45vw', maxWidth: '600px', maxHeight: '600px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 40% 40%, rgba(180,120,255,0.55) 0%, rgba(160,80,240,0.2) 45%, transparent 70%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 40% 40%, rgba(180,120,255,0.70) 0%, rgba(160,80,240,0.35) 45%, transparent 70%)',
           }} />
           {/* Orb 2 — Magenta — top right */}
           <div style={{
             position: 'absolute', top: '0vh', right: '0vw',
             width: '40vw', height: '50vh', maxWidth: '550px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 60% 35%, rgba(255,140,200,0.60) 0%, rgba(240,100,180,0.25) 50%, transparent 72%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 60% 35%, rgba(255,140,200,0.75) 0%, rgba(240,100,180,0.38) 50%, transparent 72%)',
           }} />
           {/* Orb 3 — Amber — bottom left */}
           <div style={{
             position: 'absolute', bottom: '5vh', left: '8vw',
             width: '38vw', height: '38vw', maxWidth: '480px', maxHeight: '480px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 45% 55%, rgba(255,200,100,0.55) 0%, rgba(240,160,40,0.22) 50%, transparent 72%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 45% 55%, rgba(255,200,100,0.70) 0%, rgba(240,160,40,0.35) 50%, transparent 72%)',
           }} />
           {/* Orb 4 — Teal — bottom right */}
           <div style={{
             position: 'absolute', bottom: '0vh', right: '5vw',
             width: '42vw', height: '42vw', maxWidth: '520px', maxHeight: '520px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 55% 60%, rgba(80,220,180,0.50) 0%, rgba(40,180,140,0.20) 50%, transparent 72%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 55% 60%, rgba(80,220,180,0.65) 0%, rgba(40,180,140,0.32) 50%, transparent 72%)',
           }} />
           {/* Orb 5 — Rose — center right */}
           <div style={{
             position: 'absolute', top: '35vh', right: '10vw',
             width: '35vw', height: '35vw', maxWidth: '440px', maxHeight: '440px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 50% 50%, rgba(255,160,180,0.45) 0%, rgba(240,120,150,0.18) 50%, transparent 70%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 50% 50%, rgba(255,160,180,0.60) 0%, rgba(240,120,150,0.30) 50%, transparent 70%)',
           }} />
           {/* Orb 6 — Indigo — center left */}
           <div style={{
             position: 'absolute', top: '40vh', left: '15vw',
             width: '30vw', height: '30vw', maxWidth: '380px', maxHeight: '380px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 50% 50%, rgba(140,160,255,0.45) 0%, rgba(100,100,240,0.18) 50%, transparent 70%)',
-            mixBlendMode: 'multiply',
+            background: 'radial-gradient(circle at 50% 50%, rgba(140,160,255,0.60) 0%, rgba(100,100,240,0.30) 50%, transparent 70%)',
           }} />
         </div>
       </div>
