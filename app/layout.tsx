@@ -3,7 +3,7 @@ import './globals.css'
 import PublicShell from '@/components/PublicShell'
 
 export const metadata: Metadata = {
-  title: 'Weleda® Sommerkampagne 2026 ändern',
+  title: 'Weleda® Sommerkampagne 2026',
   description:
     'Vote für deinen Favoriten! Die Community wählt 3 neue Gesichter der Weleda Fragrance Body & Hair Mist Campaign. Voting-Phase: 13.–17. März 2026.',
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     apple: '/img/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Weleda® Sommerkampagne 2026 ändern',
+    title: 'Weleda® Sommerkampagne 2026',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
     images: [
       {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Weleda® Sommerkampagne 2026 ändern',
+    title: 'Weleda® Sommerkampagne 2026',
     description: 'Wähle die 3 neuen Gesichter der WELEDA Fragrance Campaign. Jetzt voten!',
   },
   robots: {

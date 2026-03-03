@@ -48,8 +48,8 @@ export default async function HomePage() {
       <CastingTimeline />
       <AtmosphericBanner />
       <WasduWissenmussSection />
-      <CategorySection />
-      <VotingSection initialInfluencers={influencers} campaignPhase={campaignPhase} />
+      {/* <CategorySection /> */}
+      {/* <VotingSection initialInfluencers={influencers} campaignPhase={campaignPhase} /> */}
     </main>
   )
 }

@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const VIDEO_SRC = 'https://weleda-voting-videos.s3.eu-central-1.amazonaws.com/video/videoplayback.mp4'
-const VIDEO_POSTER = '/img/maxresdefault.jpg'
+const VIDEO_SRC = 'https://weleda-voting-videos.s3.eu-central-1.amazonaws.com/videos/Teaser_V1.mp4'
+const VIDEO_POSTER = '/img/video_placeholder.jpg'
 
 interface StepCard {
   num: number

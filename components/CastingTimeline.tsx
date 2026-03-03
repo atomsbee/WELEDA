@@ -50,7 +50,7 @@ const STEPS = [
   {
     chip: 'TOP 3',
     chipColor: '#8B5CF6',
-    title: 'Kampagnen-Shooting',
+    title: 'Kampagnen-Shooting • 25.03.2026',
     body: 'Foto + Video für die WELEDA Fragrance Body & Hair Mist Campaign.',
     tags: ['📸 Foto', '🎬 Video'],
     highlight: false,

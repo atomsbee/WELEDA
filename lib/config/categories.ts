@@ -117,7 +117,7 @@ export const HERO_BG_IMAGE =
   '/img/Weleda_ApplicationShot_Tropical%20Crush_768x1344px_BG%201.png'
 
 export const PRODUCT_IMAGE =
-  '/img/hero-product-image_v1.jpg'
+  '/img/hero-product-image_v2.jpg'
 
 export const MARQUEE_ITEMS = [
   '✦ Community Vote 13.03.2026 – 17.03.2026',

@@ -7,9 +7,11 @@ import PublicHeader from './PublicHeader'
 import Footer from './Footer'
 import CookieBanner from './CookieBanner'
 import PageTransition from './PageTransition'
+import { useRevealAnimation } from '@/hooks/useRevealAnimation'
 
 export default function PublicShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  useRevealAnimation()
   if (pathname?.startsWith('/admin')) return <>{children}</>
   return (
     <>
