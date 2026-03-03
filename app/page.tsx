@@ -45,9 +45,9 @@ export default async function HomePage() {
       <HeroSection campaignPhase={campaignPhase} />
       <MarqueeSection />
       <HowToSection />
-      <CategorySection />
       <CastingTimeline />
       <WasduWissenmussSection />
+      <CategorySection />
       <VotingSection initialInfluencers={influencers} campaignPhase={campaignPhase} />
       <AtmosphericBanner />
     </main>

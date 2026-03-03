@@ -42,7 +42,7 @@ const STEP_CARDS: StepCard[] = [
     title: 'Wichtige Regeln',
     items: [
       { icon: '🎬', text: <>Lade dein Video als <strong>Feed-Post oder Reel auf TikTok oder Instagram</strong> hoch (keine Story)</> },
-      { icon: '📍', text: 'Folge und markiere @weleda (IG & TikTok)' },
+      { icon: '📍', text: 'Folge und tagge @weleda (IG & TikTok)' },
       { icon: '#️⃣', text: <><strong>#weledacasting #weledafragrancemists</strong></> },
     ],
   },
@@ -116,7 +116,7 @@ export default function HowToSection() {
         {/* ── STEP CARDS ────────────────────────────────────── */}
         <div>
           <div className="w-reveal w-d0 flex flex-col items-center justify-center mb-10 md:mb-14" data-animation="fade-up">
-            <p className="w-eyebrow">SO FUNKTIONIERT ES</p>
+            {/* <p className="w-eyebrow">SO FUNKTIONIERT ES</p> */}
             <h2 className="w-h2">
               Und so{' '}
               <span className="w-gradient-text">geht&apos;s.</span>

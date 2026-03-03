@@ -1,11 +1,11 @@
 'use client'
 
 const REQUIREMENTS_LEFT = [
-  '18–35 Jahre alt',
+  'Du bist mind. 18 Jahre alt',
   'Wohnsitz in DE, AT oder CH',
   'Öffentliches Instagram oder TikTok Profil',
   'Video als Reel / TikTok hochladen (keine Story)',
-  '@@WELEDA taggen',
+  '@WELEDA taggen',
   '#weledacasting, #weledafragrancemists nutzen',
   'Vom 22.03.2026–26.03.2026 verfügbar sein',
 ]
@@ -48,7 +48,7 @@ export default function WasduWissenmussSection() {
     <section className="w-section">
       <div className="w-container">
         <div className="text-center mb-10">
-          <p className="w-eyebrow">GUT ZU WISSEN</p>
+          {/* <p className="w-eyebrow">GUT ZU WISSEN</p> */}
           <h2 className="w-h2">
             Was du wissen{' '}
             <span className="w-gradient-text">musst.</span>

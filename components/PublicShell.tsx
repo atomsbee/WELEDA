@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import AnimatedBackground from './AnimatedBackground'
-import FloatingPetals from './FloatingPetals'
+// import FloatingPetals from './FloatingPetals'
 import PublicHeader from './PublicHeader'
 import Footer from './Footer'
 import CookieBanner from './CookieBanner'
@@ -14,7 +14,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
   return (
     <>
       <AnimatedBackground />
-      <FloatingPetals />
+      {/* <FloatingPetals /> */}
       <PublicHeader />
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>

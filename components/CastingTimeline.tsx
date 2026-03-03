@@ -5,8 +5,8 @@ const STEPS = [
     chip: '02.03–12.03.2026',
     chipColor: '#F59E0B',
     title: 'Bewerbungsphase',
-    body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram. Markiere @weleda und nutze den Hashtag',
-    tags: ['#weledafragrancemists', '#weledacasting'],
+    body: 'Poste dein Bewerbungsvideo bis zum 12.3.2026 (24:00 Uhr) auf TikTok oder Instagram. Tagge @weleda und nutze den Hashtag',
+    tags: ['#weledafragrancemists'],
     highlight: false,
   },
   {
